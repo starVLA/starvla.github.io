@@ -1,0 +1,16 @@
+---
+interface Props {
+  en: string;
+  zh: string;
+  tag?: keyof HTMLElementTagNameMap;
+  class?: string;
+}
+
+const { en, zh, tag = 'span', class: className = '' } = Astro.props;
+const Tag = tag;
+---
+
+<Tag class={className}>
+  <span data-locale-content="en">{en}</span>
+  <span data-locale-content="zh">{zh}</span>
+</Tag>

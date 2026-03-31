@@ -1,17 +1,627 @@
 ---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import BiText from '../components/BiText.astro';
+import { landingContent } from '../data/landingContent';
 
+const featureIconMap: Record<string, string> = {
+  puzzle: '◧',
+  chart: '▦',
+  server: '⌁',
+};
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout title={landingContent.meta.title} description={landingContent.meta.description}>
+  <div class="page-shell">
+    <header class="top-nav">
+      <div class="container top-nav__inner">
+        <a class="brand" href="#overview">
+          <span class="brand__star">✦</span>
+          <span>starVLA</span>
+        </a>
+
+        <nav class="nav-links" aria-label="Primary">
+          {
+            landingContent.nav.map((item) => (
+              <a class="nav-link" href={`#${item.id}`}>
+                <BiText en={item.en} zh={item.zh} />
+              </a>
+            ))
+          }
+        </nav>
+
+        <div class="nav-actions">
+          <a class="action-btn" href={landingContent.community.github} target="_blank" rel="noopener noreferrer">
+            GitHub
+          </a>
+          <button id="localeToggle" class="action-btn" aria-label="Toggle language">
+            <span data-locale-content="en">中文</span>
+            <span data-locale-content="zh">EN</span>
+          </button>
+          <button id="themeToggle" class="action-btn" aria-label="Toggle theme">
+            <span id="themeToggleText">Theme</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section id="overview" class="section section--compact reveal">
+        <div class="container hero hero--single">
+          <div>
+            <div class="hero-badge">
+              <BiText en={landingContent.hero.badge.en} zh={landingContent.hero.badge.zh} />
+            </div>
+            <h1 class="hero-title">
+              <span class="hero-highlight">starVLA</span>
+              <br />
+              <BiText en={landingContent.hero.title.en} zh={landingContent.hero.title.zh} />
+            </h1>
+            <p class="hero-subtitle">
+              <BiText en={landingContent.hero.subtitle.en} zh={landingContent.hero.subtitle.zh} />
+            </p>
+            <div class="hero-cta-group">
+              <a class="cta cta--primary" href={landingContent.hero.primaryCta.href} target="_blank" rel="noopener noreferrer">
+                <BiText en={landingContent.hero.primaryCta.en} zh={landingContent.hero.primaryCta.zh} />
+              </a>
+              <a class="cta cta--secondary" href={landingContent.hero.secondaryCta.href} target="_blank" rel="noopener noreferrer">
+                <BiText en={landingContent.hero.secondaryCta.en} zh={landingContent.hero.secondaryCta.zh} />
+              </a>
+              <a class="cta cta--secondary" href={landingContent.hero.tertiaryCta.href} target="_blank" rel="noopener noreferrer">
+                <BiText en={landingContent.hero.tertiaryCta.en} zh={landingContent.hero.tertiaryCta.zh} />
+              </a>
+            </div>
+
+            <div class="metrics-grid">
+              {
+                landingContent.metrics.map((metric) => (
+                  <a
+                    class="metric-card"
+                    href={metric.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    data-badge-url={metric.badgeUrl}
+                  >
+                    <span class="metric-label">
+                      <BiText en={metric.label.en} zh={metric.label.zh} />
+                    </span>
+                    <strong class="metric-value" data-metric-value data-fallback={metric.fallback}>
+                      {metric.fallback}
+                    </strong>
+                  </a>
+                ))
+              }
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section reveal">
+        <div class="container">
+          <h2 class="section-title">
+            <BiText en="Design for fast iteration" zh="为快速迭代而设计" />
+          </h2>
+          <p class="section-lead">
+            <BiText
+              en="The page structure follows vLLM's clear engineering rhythm: concise hero, capability blocks, executable quick start, benchmark evidence, and open community pathways."
+              zh="页面节奏借鉴 vLLM 的工程化表达：简洁主视觉、能力模块、可执行 quick start、可追溯基准证据与开放社区入口。"
+            />
+          </p>
+
+          <div class="feature-grid">
+            {
+              landingContent.features.map((feature) => (
+                <article class="card">
+                  <div class="feature-icon">{featureIconMap[feature.icon] ?? '•'}</div>
+                  <h3>
+                    <BiText en={feature.enTitle} zh={feature.zhTitle} />
+                  </h3>
+                  <p>
+                    <BiText en={feature.enBody} zh={feature.zhBody} />
+                  </p>
+                </article>
+              ))
+            }
+          </div>
+        </div>
+      </section>
+
+      <section id="quick-start" class="section reveal">
+        <div class="container quick-start">
+          <h2 class="section-title">
+            <BiText en={landingContent.quickStart.title.en} zh={landingContent.quickStart.title.zh} />
+          </h2>
+          <p class="section-lead">
+            <BiText en={landingContent.quickStart.intro.en} zh={landingContent.quickStart.intro.zh} />
+          </p>
+
+          <div class="quick-controls" id="goalControls">
+            {
+              landingContent.quickStart.goals.map((goal, idx) => (
+                <button class={`pill ${idx === 0 ? 'is-active' : ''}`} type="button" data-goal={goal.key}>
+                  <BiText en={goal.en} zh={goal.zh} />
+                </button>
+              ))
+            }
+          </div>
+
+          <div class="quick-controls" id="benchmarkControls" hidden>
+            {
+              landingContent.quickStart.benchmarks.map((benchmark, idx) => (
+                <button class={`pill ${idx === 0 ? 'is-active' : ''}`} type="button" data-benchmark={benchmark.key}>
+                  <BiText en={benchmark.en} zh={benchmark.zh} />
+                </button>
+              ))
+            }
+          </div>
+
+          <div class="quick-command-grid">
+            <article class="code-card">
+              <header class="code-head">
+                <span id="terminalATitle">Terminal A</span>
+                <button class="copy-btn" type="button" data-copy-target="commandA">
+                  <BiText en="Copy" zh="复制" />
+                </button>
+              </header>
+              <pre class="code-block" id="commandA"></pre>
+            </article>
+
+            <article class="code-card" id="terminalBCard">
+              <header class="code-head">
+                <span id="terminalBTitle">Terminal B</span>
+                <button class="copy-btn" type="button" data-copy-target="commandB">
+                  <BiText en="Copy" zh="复制" />
+                </button>
+              </header>
+              <pre class="code-block" id="commandB"></pre>
+            </article>
+          </div>
+
+          <p class="quick-note" id="quickNote"></p>
+        </div>
+      </section>
+
+      <section id="benchmarks" class="section reveal">
+        <div class="container">
+          <h2 class="section-title">
+            <BiText en="Reported benchmark snapshots" zh="已公开基准快照" />
+          </h2>
+          <p class="section-lead">
+            <BiText
+              en="Numbers below are reported results from the official StarVLA docs and repository, with source links for verification."
+              zh="以下数字来自 StarVLA 官方文档与仓库公开结果，并附带来源链接供核对。"
+            />
+          </p>
+
+          <div class="benchmark-video-grid">
+            {
+              landingContent.benchmarkVideos.map((card) => (
+                <article class="video-card">
+                  <video class="video-card__media" autoplay muted loop playsinline preload="metadata">
+                    <source src={card.video} type="video/mp4" />
+                  </video>
+                  <div class="video-card__body">
+                    <h3 class="link-card__title">
+                      <BiText en={card.enTitle} zh={card.zhTitle} />
+                    </h3>
+                    <div class="metric-pill">
+                      <BiText en={card.metricEn} zh={card.metricZh} />
+                    </div>
+                    <div class="value-line">{card.value}</div>
+                    <a class="link-row" href={card.source} target="_blank" rel="noopener noreferrer">
+                      <BiText en="View benchmark source" zh="查看基准来源" />
+                      <span aria-hidden="true">↗</span>
+                    </a>
+                  </div>
+                </article>
+              ))
+            }
+          </div>
+
+          <div class="benchmark-info-grid">
+            <article class="card">
+              <h3 class="link-card__title">
+                <BiText
+                  en={landingContent.benchmarkInfo.libero.enTitle}
+                  zh={landingContent.benchmarkInfo.libero.zhTitle}
+                />
+              </h3>
+              <div class="metric-pill" style="margin-top: 0.7rem;">
+                <BiText
+                  en={landingContent.benchmarkInfo.libero.metricEn}
+                  zh={landingContent.benchmarkInfo.libero.metricZh}
+                />
+              </div>
+              <div class="value-line">{landingContent.benchmarkInfo.libero.value}</div>
+              <a class="link-row" href={landingContent.benchmarkInfo.libero.source} target="_blank" rel="noopener noreferrer">
+                <BiText en="View benchmark docs" zh="查看基准文档" />
+                <span aria-hidden="true">↗</span>
+              </a>
+            </article>
+
+            <article class="card">
+              <h3 class="link-card__title">
+                <BiText
+                  en={landingContent.benchmarkInfo.behavior.enTitle}
+                  zh={landingContent.benchmarkInfo.behavior.zhTitle}
+                />
+              </h3>
+              <div class="metric-pill" style="margin-top: 0.7rem;">
+                <BiText
+                  en={landingContent.benchmarkInfo.behavior.metricEn}
+                  zh={landingContent.benchmarkInfo.behavior.metricZh}
+                />
+              </div>
+              <div class="value-line">
+                <BiText
+                  en={landingContent.benchmarkInfo.behavior.valueEn}
+                  zh={landingContent.benchmarkInfo.behavior.valueZh}
+                />
+              </div>
+              <a class="link-row" href={landingContent.benchmarkInfo.behavior.source} target="_blank" rel="noopener noreferrer">
+                <BiText en="Open documentation" zh="打开文档链接" />
+                <span aria-hidden="true">↗</span>
+              </a>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="model-zoo" class="section reveal">
+        <div class="container">
+          <h2 class="section-title">
+            <BiText en="Model Zoo highlights" zh="模型库精选" />
+          </h2>
+          <p class="section-lead">
+            <BiText
+              en="Use published backbones and checkpoints to reproduce or extend StarVLA experiments quickly."
+              zh="使用已发布骨干和检查点，快速复现或扩展 StarVLA 实验。"
+            />
+          </p>
+
+          <div class="model-grid">
+            {
+              landingContent.modelZoo.map((model) => (
+                <a class="link-card" href={model.link} target="_blank" rel="noopener noreferrer">
+                  <h3 class="link-card__title">{model.name}</h3>
+                  <p class="link-card__desc">
+                    <BiText en={model.enDesc} zh={model.zhDesc} />
+                  </p>
+                </a>
+              ))
+            }
+          </div>
+
+          <div class="arch-grid">
+            <div class="arch-image">
+              <img src="/assets/starVLA_PolicyServer.png" alt="Policy server architecture" loading="lazy" />
+            </div>
+            <div class="arch-image">
+              <img src="/assets/starVLA_PolicyInterface.png" alt="Policy interface architecture" loading="lazy" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="community" class="section reveal">
+        <div class="container">
+          <h2 class="section-title">
+            <BiText en="Community and resources" zh="社区与资源" />
+          </h2>
+          <p class="section-lead">
+            <BiText
+              en="Get help, follow live progress, and collaborate with researchers and engineers in the StarVLA ecosystem."
+              zh="获取支持、跟进实时进展，并与 StarVLA 生态中的研究者和工程师协作。"
+            />
+          </p>
+
+          <div class="community-grid">
+            <a class="link-card" href={landingContent.community.docs} target="_blank" rel="noopener noreferrer">
+              <h3 class="link-card__title">Docs</h3>
+              <p class="link-card__desc">
+                <BiText en="Official setup, benchmarks, and training guides." zh="官方安装、评测与训练指南。" />
+              </p>
+            </a>
+            <a class="link-card" href={landingContent.community.github} target="_blank" rel="noopener noreferrer">
+              <h3 class="link-card__title">GitHub</h3>
+              <p class="link-card__desc">
+                <BiText en="Source code, issues, pull requests, and updates." zh="源码、issue、PR 与最新更新。" />
+              </p>
+            </a>
+            <a class="link-card" href={landingContent.community.huggingFace} target="_blank" rel="noopener noreferrer">
+              <h3 class="link-card__title">Hugging Face</h3>
+              <p class="link-card__desc">
+                <BiText en="Published models, checkpoints, and datasets." zh="已发布模型、检查点与数据集。" />
+              </p>
+            </a>
+            <button class="link-card" type="button" id="wechatOpen">
+              <h3 class="link-card__title">WeChat</h3>
+              <p class="link-card__desc">
+                <BiText en="Join the Chinese community group via QR code." zh="通过二维码加入中文交流群。" />
+              </p>
+            </button>
+          </div>
+
+          <div class="resource-grid">
+            <a class="link-card" href={landingContent.community.overleaf} target="_blank" rel="noopener noreferrer">
+              <h3 class="link-card__title">
+                <BiText en="Live Report" zh="实时报告" />
+              </h3>
+              <p class="link-card__desc">
+                <BiText en="Continuously updated experiment report and analysis." zh="持续更新的实验报告与分析。" />
+              </p>
+            </a>
+            <a class="link-card" href="https://starvla.github.io/docs/design/lego-like/" target="_blank" rel="noopener noreferrer">
+              <h3 class="link-card__title">
+                <BiText en="Lego-like Design" zh="Lego 式设计" />
+              </h3>
+              <p class="link-card__desc">
+                <BiText en="Top-down modular principles for framework extension." zh="用于框架扩展的自顶向下模块化原则。" />
+              </p>
+            </a>
+            <a class="link-card" href="https://starvla.github.io/docs/design/eval-protocol/" target="_blank" rel="noopener noreferrer">
+              <h3 class="link-card__title">
+                <BiText en="Evaluation Protocol" zh="评测协议" />
+              </h3>
+              <p class="link-card__desc">
+                <BiText en="Unified policy client-server interface for deployment." zh="用于部署的一体化策略客户端-服务端接口。" />
+              </p>
+            </a>
+          </div>
+
+          <div class="ecosystem-grid">
+            {
+              landingContent.ecosystem.map((project) => (
+                <a class="link-card" href={project.link} target="_blank" rel="noopener noreferrer">
+                  <h3 class="link-card__title">{project.name}</h3>
+                  <p class="link-card__desc">
+                    <BiText en={project.enDesc} zh={project.zhDesc} />
+                  </p>
+                </a>
+              ))
+            }
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container footer-row">
+        <div>
+          <BiText en="© 2026 starVLA. All rights reserved." zh="© 2026 starVLA。保留所有权利。" />
+        </div>
+        <div class="footer-links">
+          <a href={landingContent.community.github} target="_blank" rel="noopener noreferrer">GitHub</a>
+          <a href={landingContent.community.docs} target="_blank" rel="noopener noreferrer">Docs</a>
+          <a href={landingContent.community.huggingFace} target="_blank" rel="noopener noreferrer">Hugging Face</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <div id="wechatModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="wechatModalTitle">
+    <div class="modal">
+      <div class="modal-head">
+        <h3 class="modal-title" id="wechatModalTitle">
+          <BiText en="Join StarVLA WeChat Group" zh="加入 StarVLA 微信群" />
+        </h3>
+        <button class="modal-close" type="button" id="wechatClose" aria-label="Close">×</button>
+      </div>
+      <div class="modal-body">
+        <BiText
+          en="Scan the QR code below. If scanning fails, use the fallback issue comment link."
+          zh="请使用下方二维码加入群聊；若无法扫码，可使用备用 issue 评论链接。"
+        />
+        <img class="modal-qr" src="/assets/starVLA_wechat.jpg" alt="StarVLA WeChat QR code" />
+        <a class="link-row" href={landingContent.community.wechatIssue} target="_blank" rel="noopener noreferrer">
+          <BiText en="Fallback link" zh="备用链接" />
+          <span aria-hidden="true">↗</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script
+    is:inline
+    define:vars={{
+      metrics: landingContent.metrics,
+      quickStart: landingContent.quickStart,
+    }}
+  >
+    const html = document.documentElement;
+    const localeToggle = document.getElementById('localeToggle');
+    const themeToggle = document.getElementById('themeToggle');
+    const themeToggleText = document.getElementById('themeToggleText');
+
+    const quickNote = document.getElementById('quickNote');
+    const commandA = document.getElementById('commandA');
+    const commandB = document.getElementById('commandB');
+    const terminalATitle = document.getElementById('terminalATitle');
+    const terminalBTitle = document.getElementById('terminalBTitle');
+    const terminalBCard = document.getElementById('terminalBCard');
+    const benchmarkControls = document.getElementById('benchmarkControls');
+
+    const goalButtons = [...document.querySelectorAll('[data-goal]')];
+    const benchmarkButtons = [...document.querySelectorAll('[data-benchmark]')];
+
+    let currentLocale = html.getAttribute('data-locale') || 'en';
+    let currentThemePref = localStorage.getItem('starvla-theme') || 'system';
+    let currentGoal = 'install';
+    let currentBenchmark = 'libero';
+
+    function getLocaleText(en, zh) {
+      return currentLocale === 'zh' ? zh : en;
+    }
+
+    function resolveTheme(themePref) {
+      if (themePref === 'system') {
+        return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      }
+      return themePref;
+    }
+
+    function renderThemeLabel() {
+      const activeTheme = html.getAttribute('data-theme');
+      const map = {
+        en: activeTheme === 'dark' ? 'Dark' : 'Light',
+        zh: activeTheme === 'dark' ? '深色' : '浅色',
+      };
+      themeToggleText.textContent = map[currentLocale];
+    }
+
+    function setLocale(locale) {
+      currentLocale = locale;
+      html.setAttribute('data-locale', locale);
+      localStorage.setItem('starvla-locale', locale);
+      renderThemeLabel();
+      renderQuickStart();
+    }
+
+    function setThemePreference(themePref) {
+      currentThemePref = themePref;
+      localStorage.setItem('starvla-theme', themePref);
+      html.setAttribute('data-theme', resolveTheme(themePref));
+      renderThemeLabel();
+    }
+
+    function renderQuickStart() {
+      const isZh = currentLocale === 'zh';
+      const isEval = currentGoal === 'evaluate';
+
+      benchmarkControls.hidden = !isEval;
+
+      terminalATitle.textContent = isEval ? (isZh ? '终端 A（模型服务）' : 'Terminal A (Policy Server)') : isZh ? '终端 A' : 'Terminal A';
+      terminalBTitle.textContent = isZh ? '终端 B（评测环境）' : 'Terminal B (Simulator)';
+
+      if (!isEval) {
+        const preset = quickStart.presets[currentGoal];
+        commandA.textContent = preset.terminalA;
+        commandB.textContent = '';
+        terminalBCard.style.display = 'none';
+        quickNote.textContent = getLocaleText(
+          'Tip: run this in your starVLA environment and verify every command path locally.',
+          '提示：请在 starVLA 环境中执行，并按本地路径校正命令。'
+        );
+        return;
+      }
+
+      const benchmarkMap = quickStart.presets.evaluate.mapping;
+      const commands = benchmarkMap[currentBenchmark];
+      commandA.textContent = commands.terminalA;
+      commandB.textContent = commands.terminalB;
+      terminalBCard.style.display = 'block';
+      quickNote.textContent = getLocaleText(
+        'Evaluation uses two terminals with separate dependencies. Keep checkpoint paths and env variables explicit.',
+        '评测默认使用双终端和独立依赖环境。请显式配置 checkpoint 路径和环境变量。'
+      );
+    }
+
+    goalButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        currentGoal = button.getAttribute('data-goal');
+        goalButtons.forEach((item) => item.classList.toggle('is-active', item === button));
+        renderQuickStart();
+      });
+    });
+
+    benchmarkButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        currentBenchmark = button.getAttribute('data-benchmark');
+        benchmarkButtons.forEach((item) => item.classList.toggle('is-active', item === button));
+        renderQuickStart();
+      });
+    });
+
+    localeToggle.addEventListener('click', () => {
+      setLocale(currentLocale === 'en' ? 'zh' : 'en');
+    });
+
+    themeToggle.addEventListener('click', () => {
+      const next = resolveTheme(currentThemePref) === 'dark' ? 'light' : 'dark';
+      setThemePreference(next);
+    });
+
+    const prefersColorScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    prefersColorScheme.addEventListener('change', () => {
+      if (currentThemePref === 'system') {
+        html.setAttribute('data-theme', resolveTheme('system'));
+        renderThemeLabel();
+      }
+    });
+
+    async function hydrateMetric(card) {
+      const valueEl = card.querySelector('[data-metric-value]');
+      const badgeUrl = card.getAttribute('data-badge-url');
+      if (!valueEl || !badgeUrl) return;
+
+      try {
+        const res = await fetch(badgeUrl, { cache: 'no-store' });
+        if (!res.ok) throw new Error('Request failed');
+        const data = await res.json();
+        valueEl.textContent = data.value || data.message || valueEl.dataset.fallback || '—';
+      } catch {
+        valueEl.textContent = valueEl.dataset.fallback || '—';
+      }
+    }
+
+    document.querySelectorAll('[data-badge-url]').forEach((card) => hydrateMetric(card));
+
+    document.querySelectorAll('[data-copy-target]').forEach((button) => {
+      button.addEventListener('click', async () => {
+        const targetId = button.getAttribute('data-copy-target');
+        const target = document.getElementById(targetId);
+        if (!target) return;
+        try {
+          await navigator.clipboard.writeText(target.textContent || '');
+          const oldText = button.textContent;
+          button.textContent = getLocaleText('Copied', '已复制');
+          window.setTimeout(() => {
+            button.textContent = oldText;
+          }, 1200);
+        } catch {
+          button.textContent = getLocaleText('Copy failed', '复制失败');
+        }
+      });
+    });
+
+    const revealNodes = [...document.querySelectorAll('.reveal')];
+    const revealObserver = new IntersectionObserver(
+      (entries, obs) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            obs.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.16 }
+    );
+    revealNodes.forEach((node) => revealObserver.observe(node));
+
+    const modal = document.getElementById('wechatModal');
+    const modalOpen = document.getElementById('wechatOpen');
+    const modalClose = document.getElementById('wechatClose');
+
+    function closeModal() {
+      modal.classList.remove('is-open');
+      document.body.style.overflow = '';
+    }
+
+    modalOpen.addEventListener('click', () => {
+      modal.classList.add('is-open');
+      document.body.style.overflow = 'hidden';
+    });
+
+    modalClose.addEventListener('click', closeModal);
+    modal.addEventListener('click', (event) => {
+      if (event.target === modal) closeModal();
+    });
+
+    window.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') closeModal();
+    });
+
+    setLocale(currentLocale);
+    setThemePreference(currentThemePref);
+    renderQuickStart();
+  </script>
+</BaseLayout>
