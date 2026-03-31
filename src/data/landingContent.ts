@@ -3,9 +3,9 @@ const DOCS_BASE = 'https://starvla.github.io/docs';
 
 export const landingContent = {
   meta: {
-    title: 'starVLA | Lego-like VLM-to-VLA Development',
+    title: 'starVLA | Agile Lego-like Embodied AI Development',
     description:
-      'Build, train, and evaluate Vision-Language-Action models with modular frameworks, reproducible benchmarks, and production-ready deployment interfaces.',
+      'Accelerate embodied AI delivery with agile, lego-like engineering workflows, reproducible benchmarks, and deployment-ready interfaces.',
   },
   nav: [
     { id: 'overview', en: 'Overview', zh: '概览' },
@@ -15,14 +15,14 @@ export const landingContent = {
     { id: 'community', en: 'Community', zh: '社区' },
   ],
   hero: {
-    badge: { en: 'Open-source Robotics Foundation Stack', zh: '面向机器人基础模型的开源栈' },
+    badge: { en: 'Open-source Agile, Lego-like Robotics Stack', zh: '面向机器人敏捷与 Lego 式开发的开源栈' },
     title: {
-      en: 'A Lego-like Codebase for VLM to VLA Development',
-      zh: '面向 VLM 到 VLA 的 Lego 式开发代码库',
+      en: 'An Agile, Lego-like Codebase for Embodied AI Engineering',
+      zh: '面向具身智能敏捷与 Lego 式工程的开发代码库',
     },
     subtitle: {
-      en: 'Unify model frameworks, training recipes, benchmark evaluation, and deployment interfaces so teams can move from ideas to robot actions faster.',
-      zh: '统一模型框架、训练流程、基准评测与部署接口，让团队更快把想法落到机器人动作。',
+      en: 'Unify lego-like framework modules, training recipes, benchmark evaluation, and deployment interfaces so teams can iterate and ship faster.',
+      zh: '统一 Lego 式框架模块、训练流程、基准评测与部署接口，让团队更快迭代并交付。',
     },
     primaryCta: { en: 'Read Documentation', zh: '查看文档', href: DOCS_BASE },
     secondaryCta: { en: 'Explore GitHub', zh: '查看 GitHub', href: 'https://github.com/starVLA/starVLA' },
@@ -53,8 +53,8 @@ export const landingContent = {
   ],
   features: [
     {
-      enTitle: 'Modular Frameworks',
-      zhTitle: '模块化框架',
+      enTitle: 'Lego-like Modular Frameworks',
+      zhTitle: 'Lego 式模块化框架',
       enBody:
         'Qwen-FAST, Qwen-OFT, Qwen-PI, and Qwen-GR00T share the same trainer, dataloader, and deployment stack for plug-and-play experimentation.',
       zhBody:
@@ -71,8 +71,8 @@ export const landingContent = {
       icon: 'chart',
     },
     {
-      enTitle: 'Research to Deployment',
-      zhTitle: '研究到部署闭环',
+      enTitle: 'Agile Delivery Loop',
+      zhTitle: '敏捷交付闭环',
       enBody:
         'Use a unified WebSocket policy interface to bridge simulation and real-robot control without rewriting model serving logic.',
       zhBody: '使用统一 WebSocket 策略接口连接仿真与真机，无需重写模型服务逻辑。',
@@ -208,8 +208,8 @@ export const landingContent = {
     },
     {
       name: 'Qwen3-VL-4B-Action',
-      enDesc: 'Qwen3-VL action-ready backbone for downstream VLA training.',
-      zhDesc: '面向下游 VLA 训练的 Qwen3-VL 动作化骨干。',
+      enDesc: 'Qwen3-VL action-ready backbone for agile downstream experimentation.',
+      zhDesc: '面向下游敏捷实验迭代的 Qwen3-VL 动作化骨干。',
       link: 'https://huggingface.co/StarVLA/Qwen3-VL-4B-Instruct-Action',
     },
     {
@@ -236,8 +236,8 @@ export const landingContent = {
     {
       name: 'PhysBrain',
       link: 'https://zgc-embodyai.github.io/PhysBrain/',
-      enDesc: 'Egocentric data bridge from VLMs to physical intelligence.',
-      zhDesc: '用第一视角数据连接 VLM 与物理智能。',
+      enDesc: 'Egocentric data bridge from multimodal perception to physical intelligence.',
+      zhDesc: '用第一视角数据连接多模态感知与物理智能。',
     },
     {
       name: 'TwinBrainVLA',

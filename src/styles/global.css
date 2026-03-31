@@ -612,65 +612,6 @@ img {
   transform: translateY(0);
 }
 
-.modal-backdrop {
-  position: fixed;
-  inset: 0;
-  background: rgba(7, 13, 27, 0.7);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  z-index: 80;
-  padding: 1rem;
-}
-
-.modal-backdrop.is-open {
-  display: flex;
-}
-
-.modal {
-  width: min(460px, 100%);
-  border-radius: 1rem;
-  border: 1px solid var(--border);
-  background: var(--surface);
-  box-shadow: var(--shadow);
-  padding: 1rem;
-}
-
-.modal-head {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 0.7rem;
-}
-
-.modal-title {
-  margin: 0;
-  font-family: 'Space Grotesk', 'Noto Sans SC', sans-serif;
-  font-size: 1.1rem;
-}
-
-.modal-close {
-  border: 1px solid var(--border);
-  border-radius: 0.45rem;
-  background: var(--surface-2);
-  width: 1.95rem;
-  height: 1.95rem;
-  cursor: pointer;
-}
-
-.modal-body {
-  color: var(--text-soft);
-  font-size: 0.9rem;
-  line-height: 1.6;
-}
-
-.modal-qr {
-  margin: 0.8rem auto;
-  width: min(250px, 100%);
-  border-radius: 0.85rem;
-  border: 1px solid var(--border);
-}
-
 @media (max-width: 1024px) {
   .hero {
     grid-template-columns: 1fr;

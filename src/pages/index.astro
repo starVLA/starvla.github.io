@@ -325,12 +325,12 @@ const featureIconMap: Record<string, string> = {
                 <BiText en="Published models, checkpoints, and datasets." zh="已发布模型、检查点与数据集。" />
               </p>
             </a>
-            <button class="link-card" type="button" id="wechatOpen">
+            <a class="link-card" href={landingContent.community.wechatIssue} target="_blank" rel="noopener noreferrer">
               <h3 class="link-card__title">WeChat</h3>
               <p class="link-card__desc">
-                <BiText en="Join the Chinese community group via QR code." zh="通过二维码加入中文交流群。" />
+                <BiText en="Join via issue thread link." zh="通过 issue 链接加入中文交流群。" />
               </p>
-            </button>
+            </a>
           </div>
 
           <div class="resource-grid">
@@ -388,28 +388,6 @@ const featureIconMap: Record<string, string> = {
         </div>
       </div>
     </footer>
-  </div>
-
-  <div id="wechatModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="wechatModalTitle">
-    <div class="modal">
-      <div class="modal-head">
-        <h3 class="modal-title" id="wechatModalTitle">
-          <BiText en="Join StarVLA WeChat Group" zh="加入 StarVLA 微信群" />
-        </h3>
-        <button class="modal-close" type="button" id="wechatClose" aria-label="Close">×</button>
-      </div>
-      <div class="modal-body">
-        <BiText
-          en="Scan the QR code below. If scanning fails, use the fallback issue comment link."
-          zh="请使用下方二维码加入群聊；若无法扫码，可使用备用 issue 评论链接。"
-        />
-        <img class="modal-qr" src="/assets/starVLA_wechat.jpg" alt="StarVLA WeChat QR code" />
-        <a class="link-row" href={landingContent.community.wechatIssue} target="_blank" rel="noopener noreferrer">
-          <BiText en="Fallback link" zh="备用链接" />
-          <span aria-hidden="true">↗</span>
-        </a>
-      </div>
-    </div>
   </div>
 
   <script
@@ -588,29 +566,6 @@ const featureIconMap: Record<string, string> = {
       { threshold: 0.16 }
     );
     revealNodes.forEach((node) => revealObserver.observe(node));
-
-    const modal = document.getElementById('wechatModal');
-    const modalOpen = document.getElementById('wechatOpen');
-    const modalClose = document.getElementById('wechatClose');
-
-    function closeModal() {
-      modal.classList.remove('is-open');
-      document.body.style.overflow = '';
-    }
-
-    modalOpen.addEventListener('click', () => {
-      modal.classList.add('is-open');
-      document.body.style.overflow = 'hidden';
-    });
-
-    modalClose.addEventListener('click', closeModal);
-    modal.addEventListener('click', (event) => {
-      if (event.target === modal) closeModal();
-    });
-
-    window.addEventListener('keydown', (event) => {
-      if (event.key === 'Escape') closeModal();
-    });
 
     setLocale(currentLocale);
     setThemePreference(currentThemePref);
