@@ -4,9 +4,9 @@ import BiText from '../components/BiText.astro';
 import { landingContent } from '../data/landingContent';
 
 const featureIconMap: Record<string, string> = {
-  puzzle: '◧',
-  chart: '▦',
-  server: '⌁',
+  puzzle: 'ti ti-puzzle',
+  chart: 'ti ti-chart-bar',
+  server: 'ti ti-server',
 };
 ---
 
@@ -15,7 +15,9 @@ const featureIconMap: Record<string, string> = {
     <header class="top-nav">
       <div class="container top-nav__inner">
         <a class="brand" href="#overview">
-          <span class="brand__star">✦</span>
+          <span class="brand__star" aria-hidden="true">
+            <img src="/assets/starvla-mark.svg" alt="" />
+          </span>
           <span>starVLA</span>
         </a>
 
@@ -111,7 +113,9 @@ const featureIconMap: Record<string, string> = {
             {
               landingContent.features.map((feature) => (
                 <article class="card">
-                  <div class="feature-icon">{featureIconMap[feature.icon] ?? '•'}</div>
+                  <div class="feature-icon" aria-hidden="true">
+                    <i class={featureIconMap[feature.icon] ?? 'ti ti-circle'}></i>
+                  </div>
                   <h3>
                     <BiText en={feature.enTitle} zh={feature.zhTitle} />
                   </h3>

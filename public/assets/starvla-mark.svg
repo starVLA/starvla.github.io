@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" fill="none" role="img" aria-labelledby="title desc">
+  <title id="title">starVLA logo mark</title>
+  <desc id="desc">Rounded blue square with bright star sparkles.</desc>
+  <defs>
+    <linearGradient id="bg" x1="8" y1="6" x2="56" y2="58" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#39B6FF" />
+      <stop offset="1" stop-color="#1B84E8" />
+    </linearGradient>
+    <radialGradient id="shine" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(20 16) rotate(48) scale(30)">
+      <stop stop-color="#FFFFFF" stop-opacity="0.42" />
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+
+  <rect x="2" y="2" width="60" height="60" rx="16" fill="url(#bg)" />
+  <rect x="2" y="2" width="60" height="60" rx="16" fill="url(#shine)" />
+
+  <path d="M32 12C34.2 22.5 41.5 29.8 52 32C41.5 34.2 34.2 41.5 32 52C29.8 41.5 22.5 34.2 12 32C22.5 29.8 29.8 22.5 32 12Z" fill="#FFFFFF" />
+  <path d="M46 16C46.8 19.8 49.2 22.2 53 23C49.2 23.8 46.8 26.2 46 30C45.2 26.2 42.8 23.8 39 23C42.8 22.2 45.2 19.8 46 16Z" fill="#EAF8FF" />
+</svg>
