@@ -12,6 +12,7 @@ const featureIconMap: Record<string, string> = {
 
 <BaseLayout title={landingContent.meta.title} description={landingContent.meta.description}>
   <div class="page-shell">
+    <a class="skip-link" href="#main-content">Skip to main content</a>
     <header class="top-nav">
       <div class="container top-nav__inner">
         <a class="brand" href="#overview">
@@ -46,7 +47,7 @@ const featureIconMap: Record<string, string> = {
       </div>
     </header>
 
-    <main>
+    <main id="main-content">
       <section id="overview" class="section section--compact reveal">
         <div class="container hero hero--single">
           <div>
@@ -200,9 +201,30 @@ const featureIconMap: Record<string, string> = {
             {
               landingContent.benchmarkVideos.map((card) => (
                 <article class="video-card">
-                  <video class="video-card__media" autoplay muted loop playsinline preload="metadata">
-                    <source src={card.video} type="video/mp4" />
-                  </video>
+                  <div class="video-carousel" aria-label={`${card.enTitle} simulation demos – ${card.metricEn}: ${card.value}`}>
+                    {card.videos.map((src, i) => (
+                      <video
+                        class={`video-card__media ${i === 0 ? 'is-active' : ''}`}
+                        autoplay={i === 0}
+                        muted
+                        loop
+                        playsinline
+                        preload="metadata"
+                      >
+                        <source src={src} type="video/mp4" />
+                      </video>
+                    ))}
+                    <div class="video-carousel__dots">
+                      {card.videos.map((_, i) => (
+                        <button
+                          class={`video-carousel__dot ${i === 0 ? 'is-active' : ''}`}
+                          type="button"
+                          aria-label={`Video ${i + 1}`}
+                          data-index={i}
+                        />
+                      ))}
+                    </div>
+                  </div>
                   <div class="video-card__body">
                     <h3 class="link-card__title">
                       <BiText en={card.enTitle} zh={card.zhTitle} />
@@ -281,34 +303,38 @@ const featureIconMap: Record<string, string> = {
                 zh={landingContent.benchmarkComparison.note.zh}
               />
             </p>
-            <div class="benchmark-compare__table" role="table" aria-label="Benchmark comparison values">
-              <div class="benchmark-compare__row benchmark-compare__row--head" role="row">
-                <span role="columnheader">
-                  <BiText en="Benchmark" zh="基准" />
-                </span>
-                <span role="columnheader">
-                  <BiText
-                    en={landingContent.benchmarkComparison.currentLabel.en}
-                    zh={landingContent.benchmarkComparison.currentLabel.zh}
-                  />
-                </span>
-                <span role="columnheader">
-                  <BiText
-                    en={landingContent.benchmarkComparison.previousLabel.en}
-                    zh={landingContent.benchmarkComparison.previousLabel.zh}
-                  />
-                </span>
-              </div>
-              {
-                landingContent.benchmarkComparison.rows.map((item) => (
-                  <div class="benchmark-compare__row" role="row">
-                    <span role="cell">{item.benchmark}</span>
-                    <span role="cell" class="benchmark-compare__current">{item.value}</span>
-                    <span role="cell">{item.previous}</span>
-                  </div>
-                ))
-              }
-            </div>
+            <table class="benchmark-compare__table" aria-label="Benchmark comparison values">
+              <thead>
+                <tr class="benchmark-compare__row benchmark-compare__row--head">
+                  <th>
+                    <BiText en="Benchmark" zh="基准" />
+                  </th>
+                  <th>
+                    <BiText
+                      en={landingContent.benchmarkComparison.currentLabel.en}
+                      zh={landingContent.benchmarkComparison.currentLabel.zh}
+                    />
+                  </th>
+                  <th>
+                    <BiText
+                      en={landingContent.benchmarkComparison.previousLabel.en}
+                      zh={landingContent.benchmarkComparison.previousLabel.zh}
+                    />
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {
+                  landingContent.benchmarkComparison.rows.map((item) => (
+                    <tr class="benchmark-compare__row">
+                      <td>{item.benchmark}</td>
+                      <td class="benchmark-compare__current">{item.value}</td>
+                      <td>{item.previous}</td>
+                    </tr>
+                  ))
+                }
+              </tbody>
+            </table>
           </article>
         </div>
       </section>
@@ -488,6 +514,7 @@ const featureIconMap: Record<string, string> = {
     function setLocale(locale) {
       currentLocale = locale;
       html.setAttribute('data-locale', locale);
+      html.setAttribute('lang', locale === 'zh' ? 'zh-CN' : 'en');
       localStorage.setItem('starvla-locale', locale);
       renderThemeLabel();
       renderQuickStart();
@@ -617,5 +644,50 @@ const featureIconMap: Record<string, string> = {
     setLocale(currentLocale);
     setThemePreference(currentThemePref);
     renderQuickStart();
+
+    // Video carousel: auto-rotate + dot clicks
+    document.querySelectorAll('.video-carousel').forEach((carousel) => {
+      const videos = [...carousel.querySelectorAll('.video-card__media')];
+      const dots = [...carousel.querySelectorAll('.video-carousel__dot')];
+      let current = 0;
+      let timer = null;
+
+      function switchTo(index) {
+        videos[current].classList.remove('is-active');
+        videos[current].pause();
+        dots[current].classList.remove('is-active');
+
+        current = index;
+        const next = videos[current];
+        next.classList.add('is-active');
+        next.play();
+        dots[current].classList.add('is-active');
+      }
+
+      function advance() {
+        switchTo((current + 1) % videos.length);
+      }
+
+      function startTimer() {
+        timer = setInterval(advance, 5000);
+      }
+
+      function resetTimer() {
+        clearInterval(timer);
+        startTimer();
+      }
+
+      dots.forEach((dot) => {
+        dot.addEventListener('click', () => {
+          const idx = Number(dot.dataset.index);
+          if (idx !== current) {
+            switchTo(idx);
+            resetTimer();
+          }
+        });
+      });
+
+      if (videos.length > 1) startTimer();
+    });
   </script>
 </BaseLayout>

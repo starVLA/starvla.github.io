@@ -156,7 +156,11 @@ export const landingContent = {
       metricEn: 'WidowX Success (Qwen-GR00T-Bridge)',
       metricZh: 'WidowX 成功率（Qwen-GR00T-Bridge）',
       value: '71.4%',
-      video: '/assets/simulation_simplerenv_success_obj__0_12_0_31_n_lift_significant_57_consec_grasp_true_grasped_true_fast2x.mp4',
+      videos: [
+        '/assets/simplerenv-1.mp4',
+        '/assets/simplerenv-2.mp4',
+        '/assets/simplerenv-3.mp4',
+      ],
       source: `${DOCS_BASE}/benchmarks/simplerenv/`,
     },
     {
@@ -166,7 +170,11 @@ export const landingContent = {
       metricEn: 'Average Success (Qwen3OFT)',
       metricZh: '平均成功率（Qwen3OFT）',
       value: '48.8%',
-      video: '/assets/simulation_robocasa_gr1_1_fast2x.mp4',
+      videos: [
+        '/assets/robocasa-1.mp4',
+        '/assets/robocasa-2.mp4',
+        '/assets/robocasa-3.mp4',
+      ],
       source: `${DOCS_BASE}/benchmarks/robocasa/`,
     },
     {
@@ -176,7 +184,11 @@ export const landingContent = {
       metricEn: 'Average Hard Score (QwenOFT)',
       metricZh: 'Hard 平均分（QwenOFT）',
       value: '88.32',
-      video: '/assets/simulation_robotwin_1_fast2x.mp4',
+      videos: [
+        '/assets/robotwin-1.mp4',
+        '/assets/robotwin-2.mp4',
+        '/assets/robotwin-3.mp4',
+      ],
       source: `${DOCS_BASE}/benchmarks/robotwin/`,
     },
   ],

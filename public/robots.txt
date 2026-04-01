@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://starvla.github.io/starVLA-web/sitemap.xml
