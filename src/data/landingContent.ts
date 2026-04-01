@@ -199,6 +199,29 @@ export const landingContent = {
       source: `${DOCS_BASE}/benchmarks/behavior/`,
     },
   },
+  benchmarkComparison: {
+    title: {
+      en: 'Co-training Generalist vs Previous SOTA (Numbers Only)',
+      zh: '联合训练通用模型 vs 既有 SOTA（仅数值）',
+    },
+    note: {
+      en: 'Percent values reported in the benchmark summary chart.',
+      zh: '以下为基准对比图中给出的百分比结果。',
+    },
+    currentLabel: { en: 'starVLA Generalist', zh: 'starVLA 通用模型' },
+    previousLabel: { en: 'Previous SOTA', zh: '此前 SOTA' },
+    rows: [
+      { benchmark: 'LIBERO', value: '98.8%', previous: '97.1%' },
+      { benchmark: 'LIBERO-Plus', value: '79.7%', previous: '69.6%' },
+      { benchmark: 'SimplerEnv WidowX', value: '70.2%', previous: '62.0%' },
+      { benchmark: 'SimplerEnv Google VA', value: '73.8%', previous: '68.4%' },
+      { benchmark: 'SimplerEnv Google VM', value: '79.3%', previous: '72.7%' },
+      { benchmark: 'RoboTwin Clean*', value: '88.7%', previous: '82.7%' },
+      { benchmark: 'RoboTwin Random*', value: '88.3%', previous: '76.8%' },
+      { benchmark: 'RoboCasa-GR1', value: '57.3%', previous: '47.6%' },
+      { benchmark: 'RoboChallenge', value: '30.0%', previous: '17.7%' },
+    ],
+  },
   modelZoo: [
     {
       name: 'Qwen2.5-VL-3B-Action',

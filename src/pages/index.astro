@@ -263,6 +263,49 @@ const featureIconMap: Record<string, string> = {
               </a>
             </article>
           </div>
+
+          <article class="card benchmark-compare">
+            <h3 class="link-card__title">
+              <BiText
+                en={landingContent.benchmarkComparison.title.en}
+                zh={landingContent.benchmarkComparison.title.zh}
+              />
+            </h3>
+            <p class="benchmark-compare__note">
+              <BiText
+                en={landingContent.benchmarkComparison.note.en}
+                zh={landingContent.benchmarkComparison.note.zh}
+              />
+            </p>
+            <div class="benchmark-compare__table" role="table" aria-label="Benchmark comparison values">
+              <div class="benchmark-compare__row benchmark-compare__row--head" role="row">
+                <span role="columnheader">
+                  <BiText en="Benchmark" zh="基准" />
+                </span>
+                <span role="columnheader">
+                  <BiText
+                    en={landingContent.benchmarkComparison.currentLabel.en}
+                    zh={landingContent.benchmarkComparison.currentLabel.zh}
+                  />
+                </span>
+                <span role="columnheader">
+                  <BiText
+                    en={landingContent.benchmarkComparison.previousLabel.en}
+                    zh={landingContent.benchmarkComparison.previousLabel.zh}
+                  />
+                </span>
+              </div>
+              {
+                landingContent.benchmarkComparison.rows.map((item) => (
+                  <div class="benchmark-compare__row" role="row">
+                    <span role="cell">{item.benchmark}</span>
+                    <span role="cell">{item.value}</span>
+                    <span role="cell">{item.previous}</span>
+                  </div>
+                ))
+              }
+            </div>
+          </article>
         </div>
       </section>
 
