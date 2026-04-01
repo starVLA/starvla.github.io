@@ -201,8 +201,8 @@ export const landingContent = {
   },
   benchmarkComparison: {
     title: {
-      en: 'Co-training Generalist vs Previous SOTA (Numbers Only)',
-      zh: '联合训练通用模型 vs 既有 SOTA（仅数值）',
+      en: 'Co-training Generalist vs Previous SOTA',
+      zh: '联合训练通用模型 vs 既有 SOTA',
     },
     note: {
       en: 'Percent values reported in the benchmark summary chart.',
