@@ -577,6 +577,10 @@ img {
   font-weight: 600;
 }
 
+.benchmark-compare__row .benchmark-compare__current {
+  font-weight: 800;
+}
+
 .benchmark-compare__row--head {
   border-top: 0;
   background: color-mix(in srgb, var(--brand) 8%, var(--surface));

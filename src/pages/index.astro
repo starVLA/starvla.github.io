@@ -303,7 +303,7 @@ const featureIconMap: Record<string, string> = {
                 landingContent.benchmarkComparison.rows.map((item) => (
                   <div class="benchmark-compare__row" role="row">
                     <span role="cell">{item.benchmark}</span>
-                    <span role="cell">{item.value}</span>
+                    <span role="cell" class="benchmark-compare__current">{item.value}</span>
                     <span role="cell">{item.previous}</span>
                   </div>
                 ))
