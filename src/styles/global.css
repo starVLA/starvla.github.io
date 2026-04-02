@@ -284,19 +284,6 @@ img {
   border-color: var(--border);
 }
 
-.hero-visual {
-  border-radius: 1.2rem;
-  border: 1px solid var(--border);
-  background: linear-gradient(150deg, color-mix(in srgb, var(--surface) 80%, transparent), var(--surface-2));
-  box-shadow: var(--shadow);
-  overflow: hidden;
-}
-
-.hero-visual__image {
-  aspect-ratio: 16 / 10;
-  object-fit: cover;
-  width: 100%;
-}
 
 .metrics-grid {
   margin-top: 1.6rem;
@@ -468,35 +455,9 @@ img {
   font-size: 0.88rem;
 }
 
-.tabs {
-  margin-top: 1rem;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.55rem;
-}
 
-.tab-panel {
-  margin-top: 1rem;
-  border: 1px solid var(--border);
-  border-radius: 1rem;
-  overflow: hidden;
-  background: var(--surface);
-  box-shadow: var(--shadow);
-  display: none;
-}
-
-.tab-panel.is-active {
-  display: block;
-}
-
-.tab-panel__image {
-  aspect-ratio: 16 / 8.5;
-  width: 100%;
-  object-fit: cover;
-}
-
-.tab-panel__body {
-  padding: 1rem 1.1rem 1.2rem;
+.mt-card {
+  margin-top: 0.7rem;
 }
 
 .metric-pill {

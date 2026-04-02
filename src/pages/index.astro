@@ -251,7 +251,7 @@ const featureIconMap: Record<string, string> = {
                   zh={landingContent.benchmarkInfo.libero.zhTitle}
                 />
               </h3>
-              <div class="metric-pill" style="margin-top: 0.7rem;">
+              <div class="metric-pill" class="mt-card">
                 <BiText
                   en={landingContent.benchmarkInfo.libero.metricEn}
                   zh={landingContent.benchmarkInfo.libero.metricZh}
@@ -271,7 +271,7 @@ const featureIconMap: Record<string, string> = {
                   zh={landingContent.benchmarkInfo.behavior.zhTitle}
                 />
               </h3>
-              <div class="metric-pill" style="margin-top: 0.7rem;">
+              <div class="metric-pill" class="mt-card">
                 <BiText
                   en={landingContent.benchmarkInfo.behavior.metricEn}
                   zh={landingContent.benchmarkInfo.behavior.metricZh}
@@ -303,19 +303,19 @@ const featureIconMap: Record<string, string> = {
                 zh={landingContent.benchmarkComparison.note.zh}
               />
             </p>
-            <table class="benchmark-compare__table" aria-label="Benchmark comparison values">
-              <thead>
-                <tr class="benchmark-compare__row benchmark-compare__row--head">
-                  <th>
+            <table class="benchmark-compare__table" role="table" aria-label="Benchmark comparison values">
+              <thead role="rowgroup">
+                <tr class="benchmark-compare__row benchmark-compare__row--head" role="row">
+                  <th role="columnheader">
                     <BiText en="Benchmark" zh="基准" />
                   </th>
-                  <th>
+                  <th role="columnheader">
                     <BiText
                       en={landingContent.benchmarkComparison.currentLabel.en}
                       zh={landingContent.benchmarkComparison.currentLabel.zh}
                     />
                   </th>
-                  <th>
+                  <th role="columnheader">
                     <BiText
                       en={landingContent.benchmarkComparison.previousLabel.en}
                       zh={landingContent.benchmarkComparison.previousLabel.zh}
@@ -323,13 +323,13 @@ const featureIconMap: Record<string, string> = {
                   </th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody role="rowgroup">
                 {
                   landingContent.benchmarkComparison.rows.map((item) => (
-                    <tr class="benchmark-compare__row">
-                      <td>{item.benchmark}</td>
-                      <td class="benchmark-compare__current">{item.value}</td>
-                      <td>{item.previous}</td>
+                    <tr class="benchmark-compare__row" role="row">
+                      <td role="cell">{item.benchmark}</td>
+                      <td role="cell" class="benchmark-compare__current">{item.value}</td>
+                      <td role="cell">{item.previous}</td>
                     </tr>
                   ))
                 }
