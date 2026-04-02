@@ -1,5 +1,7 @@
 ---
 import '../styles/global.css';
+import BiText from '../components/BiText.astro';
+import { landingContent } from '../data/landingContent';
 
 interface Props {
   title: string;
@@ -77,6 +79,138 @@ const siteUrl = 'https://starvla.github.io/starVLA-web';
     </script>
   </head>
   <body>
-    <slot />
+    <div class="page-shell">
+      <a class="skip-link" href="#main-content">Skip to main content</a>
+      <header class="top-nav">
+        <div class="container top-nav__inner">
+          <a class="brand" href="/">
+            <span class="brand__star" aria-hidden="true">
+              <img src="/assets/starvla-mark.svg" alt="" />
+            </span>
+            <span>starVLA</span>
+          </a>
+
+          <nav class="nav-links" aria-label="Primary">
+            {
+              landingContent.nav.map((item) => (
+                <a class="nav-link" href={`/#${item.id}`}>
+                  <BiText en={item.en} zh={item.zh} />
+                </a>
+              ))
+            }
+            <a class="nav-link" href="/contributors">
+              <BiText en="Contributors" zh="贡献者" />
+            </a>
+          </nav>
+
+          <div class="nav-actions">
+            <a class="action-btn" href={landingContent.community.github} target="_blank" rel="noopener noreferrer">
+              GitHub
+            </a>
+            <button id="localeToggle" class="action-btn" aria-label="Toggle language">
+              <span data-locale-content="en">中文</span>
+              <span data-locale-content="zh">EN</span>
+            </button>
+            <button id="themeToggle" class="action-btn" aria-label="Toggle theme">
+              <span id="themeToggleText">Theme</span>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <main id="main-content">
+        <slot />
+      </main>
+
+      <footer class="footer">
+        <div class="container footer-row">
+          <div>
+            <BiText en="© 2026 starVLA. All rights reserved." zh="© 2026 starVLA。保留所有权利。" />
+          </div>
+          <div class="footer-links">
+            <a href={landingContent.community.github} target="_blank" rel="noopener noreferrer">GitHub</a>
+            <a href={landingContent.community.docs} target="_blank" rel="noopener noreferrer">Docs</a>
+            <a href={landingContent.community.huggingFace} target="_blank" rel="noopener noreferrer">Hugging Face</a>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <script is:inline>
+      (() => {
+        const html = document.documentElement;
+        const localeToggle = document.getElementById('localeToggle');
+        const themeToggle = document.getElementById('themeToggle');
+        const themeToggleText = document.getElementById('themeToggleText');
+
+        let currentThemePref = localStorage.getItem('starvla-theme') || 'system';
+
+        function resolveTheme(themePref) {
+          if (themePref === 'system') {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+          }
+          return themePref;
+        }
+
+        function renderThemeLabel() {
+          const activeTheme = html.getAttribute('data-theme');
+          const locale = html.getAttribute('data-locale');
+          const map = {
+            en: activeTheme === 'dark' ? 'Dark' : 'Light',
+            zh: activeTheme === 'dark' ? '深色' : '浅色',
+          };
+          themeToggleText.textContent = map[locale] || map.en;
+        }
+
+        function setLocale(locale) {
+          html.setAttribute('data-locale', locale);
+          html.setAttribute('lang', locale === 'zh' ? 'zh-CN' : 'en');
+          localStorage.setItem('starvla-locale', locale);
+          renderThemeLabel();
+          window.dispatchEvent(new CustomEvent('starvla:locale', { detail: locale }));
+        }
+
+        function setThemePreference(themePref) {
+          currentThemePref = themePref;
+          localStorage.setItem('starvla-theme', themePref);
+          html.setAttribute('data-theme', resolveTheme(themePref));
+          renderThemeLabel();
+        }
+
+        localeToggle.addEventListener('click', () => {
+          const cur = html.getAttribute('data-locale') || 'en';
+          setLocale(cur === 'en' ? 'zh' : 'en');
+        });
+
+        themeToggle.addEventListener('click', () => {
+          const next = resolveTheme(currentThemePref) === 'dark' ? 'light' : 'dark';
+          setThemePreference(next);
+        });
+
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+          if (currentThemePref === 'system') {
+            html.setAttribute('data-theme', resolveTheme('system'));
+            renderThemeLabel();
+          }
+        });
+
+        const revealNodes = [...document.querySelectorAll('.reveal')];
+        const revealObserver = new IntersectionObserver(
+          (entries, obs) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                obs.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.16 }
+        );
+        revealNodes.forEach((node) => revealObserver.observe(node));
+
+        setLocale(html.getAttribute('data-locale') || 'en');
+        setThemePreference(currentThemePref);
+      })();
+    </script>
   </body>
 </html>

@@ -1,0 +1,65 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import BiText from '../components/BiText.astro';
+import { contributors } from '../data/contributors';
+
+function getInitials(name: string): string {
+  return name
+    .split(/[\s-]+/)
+    .map((w) => w[0])
+    .join('')
+    .slice(0, 2)
+    .toUpperCase();
+}
+---
+
+<BaseLayout title="Contributors | starVLA" description="People who contribute to the starVLA project.">
+  <section class="section reveal">
+    <div class="container">
+      <h1 class="section-title">
+        <BiText en="Contributors" zh="贡献者" />
+      </h1>
+      <p class="section-lead">
+        <BiText
+          en="People who contribute to the starVLA project."
+          zh="为 starVLA 项目做出贡献的人。"
+        />
+      </p>
+
+      <div class="contributors-grid">
+        {
+          contributors.map((person) => {
+            const initials = getInitials(person.name);
+            const inner = (
+              <>
+                {person.avatar ? (
+                  <img class="contributor-avatar" src={person.avatar} alt={person.name} />
+                ) : (
+                  <span class="contributor-avatar contributor-avatar--placeholder" aria-hidden="true">
+                    {initials}
+                  </span>
+                )}
+                <span class="contributor-name">{person.name}</span>
+                {person.affiliation && (
+                  <span class="contributor-affiliation">
+                    <BiText en={person.affiliation.en} zh={person.affiliation.zh} />
+                  </span>
+                )}
+              </>
+            );
+
+            return person.link ? (
+              <a class="contributor-card" href={person.link} target="_blank" rel="noopener noreferrer">
+                {inner}
+              </a>
+            ) : (
+              <div class="contributor-card contributor-card--static">
+                {inner}
+              </div>
+            );
+          })
+        }
+      </div>
+    </div>
+  </section>
+</BaseLayout>
