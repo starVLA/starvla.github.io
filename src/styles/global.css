@@ -141,7 +141,7 @@ img {
   display: inline-block;
   border-radius: 0.42rem;
   overflow: hidden;
-  box-shadow: 0 8px 18px color-mix(in srgb, var(--brand) 35%, transparent);
+  box-shadow: none;
 }
 
 .brand__star img {
