@@ -56,9 +56,9 @@ export const landingContent = {
       enTitle: 'Lego-like Modular Frameworks',
       zhTitle: 'Lego 式模块化框架',
       enBody:
-        'Qwen-FAST, Qwen-OFT, Qwen-PI, and Qwen-GR00T share the same trainer, dataloader, and deployment stack for plug-and-play experimentation.',
+        'StarVLA-FAST, StarVLA-OFT, StarVLA-PI, and StarVLA-GR00T share the same trainer, dataloader, and deployment stack for plug-and-play experimentation.',
       zhBody:
-        'Qwen-FAST、Qwen-OFT、Qwen-PI、Qwen-GR00T 共用训练、数据和部署管线，实现即插即用实验迭代。',
+        'StarVLA-FAST、StarVLA-OFT、StarVLA-PI、StarVLA-GR00T 共用训练、数据和部署管线，实现即插即用实验迭代。',
       icon: 'puzzle',
     },
     {
@@ -153,8 +153,8 @@ export const landingContent = {
       key: 'simplerenv',
       enTitle: 'SimplerEnv',
       zhTitle: 'SimplerEnv',
-      metricEn: 'WidowX Success (Qwen-GR00T-Bridge)',
-      metricZh: 'WidowX 成功率（Qwen-GR00T-Bridge）',
+      metricEn: 'WidowX Success (StarVLA-GR00T-Bridge)',
+      metricZh: 'WidowX 成功率（StarVLA-GR00T-Bridge）',
       value: '71.4%',
       videos: [
         '/assets/simplerenv-1.mp4',
@@ -167,8 +167,8 @@ export const landingContent = {
       key: 'robocasa',
       enTitle: 'RoboCasa',
       zhTitle: 'RoboCasa',
-      metricEn: 'Average Success (Qwen3OFT)',
-      metricZh: '平均成功率（Qwen3OFT）',
+      metricEn: 'Average Success (StarVLA-OFT)',
+      metricZh: '平均成功率（StarVLA-OFT）',
       value: '48.8%',
       videos: [
         '/assets/robocasa-1.mp4',
@@ -181,8 +181,8 @@ export const landingContent = {
       key: 'robotwin',
       enTitle: 'RoboTwin 2.0',
       zhTitle: 'RoboTwin 2.0',
-      metricEn: 'Average Hard Score (QwenOFT)',
-      metricZh: 'Hard 平均分（QwenOFT）',
+      metricEn: 'Average Hard Score (StarVLA-OFT)',
+      metricZh: 'Hard 平均分（StarVLA-OFT）',
       value: '88.32',
       videos: [
         '/assets/robotwin-1.mp4',
@@ -196,8 +196,8 @@ export const landingContent = {
     libero: {
       enTitle: 'LIBERO',
       zhTitle: 'LIBERO',
-      metricEn: 'Average Score (Qwen3-VL-OFT)',
-      metricZh: '平均分（Qwen3-VL-OFT）',
+      metricEn: 'Average Score (StarVLA-OFT)',
+      metricZh: '平均分（StarVLA-OFT）',
       value: '96.6',
       source: `${DOCS_BASE}/benchmarks/libero/`,
     },
