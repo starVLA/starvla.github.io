@@ -223,7 +223,7 @@ export const landingContent = {
     currentLabel: { en: 'starVLA Generalist', zh: 'starVLA 通用模型' },
     previousLabel: { en: 'Previous SOTA', zh: '此前 SOTA' },
     rows: [
-      { benchmark: 'LIBERO', value: '98.8%', previous: '97.1%' },
+      { benchmark: 'LIBERO', value: '97.8%', previous: '97.1%' },
       { benchmark: 'LIBERO-Plus', value: '79.7%', previous: '69.6%' },
       { benchmark: 'SimplerEnv WidowX', value: '70.2%', previous: '62.0%' },
       { benchmark: 'SimplerEnv Google VA', value: '73.8%', previous: '68.4%' },
