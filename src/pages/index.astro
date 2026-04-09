@@ -26,7 +26,10 @@ const featureIconMap: Record<string, string> = {
           <BiText en={landingContent.hero.subtitle.en} zh={landingContent.hero.subtitle.zh} />
         </p>
         <div class="hero-cta-group">
-          <a class="cta cta--primary" href={landingContent.hero.primaryCta.href} target="_blank" rel="noopener noreferrer">
+          <a class="cta cta--primary" href={landingContent.hero.reportCta.href} target="_blank" rel="noopener noreferrer">
+            <BiText en={landingContent.hero.reportCta.en} zh={landingContent.hero.reportCta.zh} />
+          </a>
+          <a class="cta cta--secondary" href={landingContent.hero.primaryCta.href} target="_blank" rel="noopener noreferrer">
             <BiText en={landingContent.hero.primaryCta.en} zh={landingContent.hero.primaryCta.zh} />
           </a>
           <a class="cta cta--secondary" href={landingContent.hero.secondaryCta.href} target="_blank" rel="noopener noreferrer">
@@ -369,6 +372,14 @@ const featureIconMap: Record<string, string> = {
       </div>
 
       <div class="resource-grid">
+        <a class="link-card" href={landingContent.community.techReport} target="_blank" rel="noopener noreferrer">
+          <h3 class="link-card__title">
+            <BiText en="Technical Report" zh="技术报告" />
+          </h3>
+          <p class="link-card__desc">
+            <BiText en="Read the StarVLA technical report on arXiv (2604.05014)." zh="在 arXiv 阅读 StarVLA 技术报告 (2604.05014)。" />
+          </p>
+        </a>
         <a class="link-card" href={landingContent.community.overleaf} target="_blank" rel="noopener noreferrer">
           <h3 class="link-card__title">
             <BiText en="Live Report" zh="实时报告" />

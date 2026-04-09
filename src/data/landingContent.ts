@@ -24,6 +24,7 @@ export const landingContent = {
       en: 'Unify lego-like framework modules, training recipes, benchmark evaluation, and deployment interfaces so teams can iterate and ship faster.',
       zh: '统一 Lego 式框架模块、训练流程、基准评测与部署接口，让团队更快迭代并交付。',
     },
+    reportCta: { en: 'Technical Report', zh: '技术报告', href: 'https://arxiv.org/abs/2604.05014' },
     primaryCta: { en: 'Read Documentation', zh: '查看文档', href: DOCS_BASE },
     secondaryCta: { en: 'Explore GitHub', zh: '查看 GitHub', href: 'https://github.com/starVLA/starVLA' },
     tertiaryCta: { en: 'Hugging Face', zh: 'Hugging Face', href: 'https://huggingface.co/StarVLA' },
@@ -260,6 +261,7 @@ export const landingContent = {
     huggingFace: 'https://huggingface.co/StarVLA',
     wechatIssue: 'https://github.com/starVLA/starVLA/issues/64#issuecomment-3715403845',
     overleaf: 'https://www.overleaf.com/read/qqtwrnprctkf#d5bdce',
+    techReport: 'https://arxiv.org/abs/2604.05014',
   },
   ecosystem: [
     {
