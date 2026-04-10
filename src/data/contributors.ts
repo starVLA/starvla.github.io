@@ -3,15 +3,16 @@ export interface Contributor {
   link?: string;
   avatar?: string;
   affiliation?: { en: string; zh: string };
+  tag?: { en: string; zh: string };
 }
 
 export const contributors: Contributor[] = [
-  { name: 'Jinhui Ye' },
+  { name: 'Weiyu Guo', tag: { en: 'Co-Founder', zh: '联合创始人' } },
+  { name: 'Jinhui Ye', tag: { en: 'Co-Founder', zh: '联合创始人' } },
   { name: 'Ning Gao' },
   { name: 'Yilun Chen' },
   { name: 'Fangjing Wang' },
   { name: 'Junqiu Yu' },
-  { name: 'Weiyu Guo' },
   { name: 'Yuqi Liu' },
   { name: 'Deyu Zhou' },
   { name: 'Jiaming Zhou' },
