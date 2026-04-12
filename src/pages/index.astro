@@ -269,6 +269,12 @@ const featureIconMap: Record<string, string> = {
             zh={landingContent.benchmarkComparison.note.zh}
           />
         </p>
+        <p class="benchmark-compare__note benchmark-compare__note--generalist">
+          <BiText
+            en={landingContent.benchmarkComparison.generalistNote.en}
+            zh={landingContent.benchmarkComparison.generalistNote.zh}
+          />
+        </p>
         <table class="benchmark-compare__table" role="table" aria-label="Benchmark comparison values">
           <thead role="rowgroup">
             <tr class="benchmark-compare__row benchmark-compare__row--head" role="row">
@@ -277,8 +283,14 @@ const featureIconMap: Record<string, string> = {
               </th>
               <th role="columnheader">
                 <BiText
-                  en={landingContent.benchmarkComparison.currentLabel.en}
-                  zh={landingContent.benchmarkComparison.currentLabel.zh}
+                  en={landingContent.benchmarkComparison.specialistLabel.en}
+                  zh={landingContent.benchmarkComparison.specialistLabel.zh}
+                />
+              </th>
+              <th role="columnheader">
+                <BiText
+                  en={landingContent.benchmarkComparison.generalistLabel.en}
+                  zh={landingContent.benchmarkComparison.generalistLabel.zh}
                 />
               </th>
               <th role="columnheader">
@@ -294,7 +306,8 @@ const featureIconMap: Record<string, string> = {
               landingContent.benchmarkComparison.rows.map((item) => (
                 <tr class="benchmark-compare__row" role="row">
                   <td role="cell">{item.benchmark}</td>
-                  <td role="cell" class="benchmark-compare__current">{item.value}</td>
+                  <td role="cell" class="benchmark-compare__current">{item.specialist}</td>
+                  <td role="cell">{item.generalist}</td>
                   <td role="cell">{item.previous}</td>
                 </tr>
               ))

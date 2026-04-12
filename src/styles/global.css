@@ -574,6 +574,12 @@ img {
   font-size: 0.86rem;
 }
 
+.benchmark-compare__note--generalist {
+  font-style: italic;
+  font-size: 0.82rem;
+  margin-top: 0.25rem;
+}
+
 .benchmark-compare__table {
   margin-top: 0.75rem;
   border: 1px solid var(--border);
@@ -586,7 +592,7 @@ img {
 
 .benchmark-compare__row {
   display: grid;
-  grid-template-columns: minmax(0, 1.8fr) minmax(120px, 1fr) minmax(120px, 1fr);
+  grid-template-columns: minmax(0, 1.8fr) minmax(100px, 1fr) minmax(100px, 1fr) minmax(100px, 1fr);
   gap: 0.75rem;
   padding: 0.62rem 0.8rem;
   align-items: center;
@@ -596,8 +602,10 @@ img {
 
 .benchmark-compare__row td:nth-child(2),
 .benchmark-compare__row td:nth-child(3),
+.benchmark-compare__row td:nth-child(4),
 .benchmark-compare__row th:nth-child(2),
-.benchmark-compare__row th:nth-child(3) {
+.benchmark-compare__row th:nth-child(3),
+.benchmark-compare__row th:nth-child(4) {
   text-align: right;
   font-variant-numeric: tabular-nums;
   font-family: 'Space Grotesk', 'IBM Plex Sans', sans-serif;
@@ -832,7 +840,7 @@ a.contributor-card:hover {
   }
 
   .benchmark-compare__row {
-    grid-template-columns: minmax(0, 1.4fr) minmax(96px, 1fr) minmax(96px, 1fr);
+    grid-template-columns: minmax(0, 1.4fr) minmax(72px, 1fr) minmax(72px, 1fr) minmax(72px, 1fr);
     font-size: 0.82rem;
     gap: 0.5rem;
     padding: 0.55rem 0.62rem;
