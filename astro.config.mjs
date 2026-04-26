@@ -7,7 +7,6 @@ import tailwindcss from '@tailwindcss/vite';
 export default defineConfig({
   redirects: {
     '/contributors': '/',
-    '/contributor': '/',
   },
   vite: {
     plugins: [tailwindcss()]
