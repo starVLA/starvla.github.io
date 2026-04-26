@@ -214,8 +214,8 @@ export const landingContent = {
   },
   benchmarkComparison: {
     title: {
-      en: 'starVLA Performance vs Previous SOTA',
-      zh: 'starVLA 性能 vs 既有 SOTA',
+      en: 'starVLA Performance vs π₀.₅',
+      zh: 'starVLA 性能 vs π₀.₅',
     },
     note: {
       en: 'Percent values reported in the benchmark summary chart.',
@@ -227,16 +227,16 @@ export const landingContent = {
     },
     specialistLabel: { en: 'starVLA Specialist', zh: 'starVLA 专家模型' },
     generalistLabel: { en: 'starVLA Generalist', zh: 'starVLA 通用模型' },
-    previousLabel: { en: 'Previous SOTA', zh: '此前 SOTA' },
+    previousLabel: { en: 'π₀.₅', zh: 'π₀.₅' },
     rows: [
-      { benchmark: 'LIBERO', specialist: '98.8%', generalist: '97.8%', previous: '97.1%' },
-      { benchmark: 'LIBERO-Plus', specialist: '77.8%', generalist: '79.7%', previous: '69.6%' },
-      { benchmark: 'SimplerEnv WidowX', specialist: '64.6%', generalist: '70.2%', previous: '62.0%' },
+      { benchmark: 'LIBERO', specialist: '98.8%', generalist: '97.8%', previous: '96.9%' },
+      { benchmark: 'LIBERO-Plus', specialist: '77.8%', generalist: '79.7%', previous: '–' },
+      { benchmark: 'SimplerEnv WidowX', specialist: '64.6%', generalist: '70.2%', previous: '46.9%' },
       { benchmark: 'SimplerEnv Google VA', specialist: '70.2%', generalist: '73.8%', previous: '68.4%' },
       { benchmark: 'SimplerEnv Google VM', specialist: '76.0%', generalist: '79.3%', previous: '72.7%' },
       { benchmark: 'RoboTwin Clean*', specialist: '88.2%', generalist: '88.7%', previous: '82.7%' },
       { benchmark: 'RoboTwin Random*', specialist: '88.3%', generalist: '87.8%', previous: '76.8%' },
-      { benchmark: 'RoboCasa-GR1', specialist: '53.8%', generalist: '57.3%', previous: '47.6%' },
+      { benchmark: 'RoboCasa-GR1', specialist: '53.8%', generalist: '57.3%', previous: '37.0%' },
       { benchmark: 'RoboChallenge', specialist: '30.0%', generalist: '–', previous: '17.7%' },
     ],
   },
