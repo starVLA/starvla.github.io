@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<!--
+  StarVLA technical-report landing page (Google Scholar canonical record).
+  Deployed at https://starvla.github.io/papers/starvla/ with starvla.pdf alongside.
+  Static file under public/ on purpose: BaseLayout.astro hard-codes a /starVLA-web canonical
+  and SoftwareSourceCode JSON-LD, both of which would mislead Scholar for a paper page.
+-->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>StarVLA: A Lego-like Codebase for Vision-Language-Action Model Developing</title>
+
+  <!-- Highwire Press tags read by Google Scholar -->
+  <meta name="citation_title" content="StarVLA: A Lego-like Codebase for Vision-Language-Action Model Developing">
+  <meta name="citation_author" content="StarVLA Community">
+  <meta name="citation_author_institution" content="Von Neumann Institute, HKUST">
+  <meta name="citation_publication_date" content="2026/04/06">
+  <meta name="citation_online_date" content="2026/04/06">
+  <meta name="citation_technical_report_institution" content="StarVLA Community">
+  <meta name="citation_arxiv_id" content="2604.05014">
+  <meta name="citation_doi" content="10.48550/arXiv.2604.05014">
+  <meta name="citation_abstract_html_url" content="https://starvla.github.io/papers/starvla/">
+  <meta name="citation_pdf_url" content="https://starvla.github.io/papers/starvla/starvla.pdf">
+  <meta name="citation_language" content="en">
+  <meta name="citation_keywords" content="vision-language-action; robot learning; modular framework; world model; embodied AI">
+
+  <meta name="description" content="StarVLA is an open-source, modular backbone–action-head codebase for Vision-Language-Action research with reusable training strategies and a unified benchmark evaluation interface.">
+  <link rel="canonical" href="https://starvla.github.io/papers/starvla/">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="StarVLA: A Lego-like Codebase for Vision-Language-Action Model Developing">
+  <meta property="og:url" content="https://starvla.github.io/papers/starvla/">
+  <meta property="og:site_name" content="StarVLA">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ScholarlyArticle",
+    "headline": "StarVLA: A Lego-like Codebase for Vision-Language-Action Model Developing",
+    "author": {"@type": "Organization", "name": "StarVLA Community", "url": "https://github.com/starVLA"},
+    "datePublished": "2026-04-06",
+    "sameAs": ["https://arxiv.org/abs/2604.05014", "https://doi.org/10.48550/arXiv.2604.05014"],
+    "url": "https://starvla.github.io/papers/starvla/",
+    "encoding": {"@type": "MediaObject", "contentUrl": "https://starvla.github.io/papers/starvla/starvla.pdf", "encodingFormat": "application/pdf"}
+  }
+  </script>
+
+  <style>
+    :root { color-scheme: light; }
+    body { margin: 0; font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; color: #1f2328; background: #fff; }
+    main { max-width: 760px; margin: 0 auto; padding: 48px 24px 72px; }
+    nav a { color: #57606a; text-decoration: none; font-size: 14px; }
+    nav a:hover { text-decoration: underline; }
+    h1 { font-size: 30px; line-height: 1.25; margin: 20px 0 10px; }
+    h2 { font-size: 20px; margin: 36px 0 10px; }
+    .meta { color: #57606a; margin: 0 0 6px; }
+    .links { margin: 18px 0 0; display: flex; flex-wrap: wrap; gap: 10px; }
+    .links a { display: inline-block; padding: 7px 14px; border: 1px solid #d0d7de; border-radius: 6px; color: #1f2328; text-decoration: none; font-size: 14px; }
+    .links a.primary { background: #1f2328; color: #fff; border-color: #1f2328; }
+    .links a:hover { border-color: #8c959f; }
+    pre { background: #f6f8fa; border: 1px solid #d0d7de; border-radius: 6px; padding: 14px 16px; overflow-x: auto; font-size: 13px; line-height: 1.5; }
+    footer { margin-top: 48px; color: #57606a; font-size: 14px; }
+  </style>
+</head>
+<body>
+  <main>
+    <nav><a href="/">← starvla.github.io</a></nav>
+
+    <h1>StarVLA: A Lego-like Codebase for Vision-Language-Action Model Developing</h1>
+    <p class="meta"><strong>StarVLA Community</strong> · Von Neumann Institute, HKUST</p>
+    <p class="meta">Technical report · arXiv:2604.05014 · April 6, 2026</p>
+
+    <p class="links">
+      <a class="primary" href="./starvla.pdf">PDF</a>
+      <a href="https://arxiv.org/abs/2604.05014">arXiv</a>
+      <a href="https://github.com/starVLA/starVLA">Code</a>
+      <a href="https://doi.org/10.5281/zenodo.18264214">Software DOI</a>
+    </p>
+
+    <h2>Abstract</h2>
+    <p>
+      Building generalist embodied agents requires integrating perception, language understanding, and
+      action, which are core capabilities addressed by Vision-Language-Action (VLA) approaches based on
+      multimodal foundation models, including recent advances in vision-language models and world models.
+      Despite rapid progress, VLA methods remain fragmented across incompatible architectures, codebases,
+      and evaluation protocols, hindering principled comparison and reproducibility. We present StarVLA,
+      an open-source codebase for VLA research. StarVLA addresses these challenges in three aspects.
+      First, it provides a modular backbone–action-head architecture that supports both VLM backbones
+      (e.g., Qwen-VL) and world-model backbones (e.g., Cosmos) alongside representative action-decoding
+      paradigms, all under a shared abstraction in which backbone and action head can each be swapped
+      independently. Second, it provides reusable training strategies, including cross-embodiment
+      learning and multimodal co-training, that apply consistently across supported paradigms. Third, it
+      integrates major benchmarks, including LIBERO, SimplerEnv, RoboTwin 2.0, RoboCasa-GR1, and
+      BEHAVIOR-1K, through a unified evaluation interface that supports both simulation and real-robot
+      deployment. StarVLA also ships simple, fully reproducible single-benchmark training recipes that,
+      despite minimal data engineering, already match or surpass prior methods on multiple benchmarks
+      with both VLM and world-model backbones. To our best knowledge, StarVLA is one of the most
+      comprehensive open-source VLA frameworks available, and we expect it to lower the barrier for
+      reproducing existing methods and prototyping new ones. StarVLA is being actively maintained and
+      expanded; we will update this report as the project evolves. The code and documentation are
+      available at <a href="https://github.com/starVLA/starVLA">https://github.com/starVLA/starVLA</a>.
+    </p>
+
+    <h2>Citation</h2>
+<pre><code>@article{community2026starvla,
+  title={StarVLA: A Lego-like Codebase for Vision-Language-Action Model Developing},
+  author={{StarVLA Community}},
+  journal={arXiv preprint arXiv:2604.05014},
+  year={2026},
+  eprint={2604.05014},
+  archivePrefix={arXiv},
+  primaryClass={cs.RO}
+}</code></pre>
+
+    <h2>Related work from the StarVLA team</h2>
+    <p class="meta">
+      StarVLA-α: Reducing Complexity in Vision-Language-Action Systems —
+      <a href="https://arxiv.org/abs/2604.11757">arXiv:2604.11757</a> (ECCV 2026). A separate paper; please cite it independently.
+    </p>
+
+    <footer>StarVLA is released under the MIT License. © StarVLA Community.</footer>
+  </main>
+</body>
+</html>

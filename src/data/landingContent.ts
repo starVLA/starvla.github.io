@@ -284,6 +284,7 @@ export const landingContent = {
     wechatIssue: 'https://github.com/starVLA/starVLA/issues/64#issuecomment-3715403845',
     overleaf: 'https://www.overleaf.com/read/qqtwrnprctkf#d5bdce',
     techReport: 'https://arxiv.org/abs/2604.05014',
+    paperPage: '/papers/starvla/',
   },
   ecosystem: [
     {
