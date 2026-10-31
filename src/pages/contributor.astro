@@ -13,18 +13,21 @@ function getInitials(name: string): string {
 }
 ---
 
-<BaseLayout title="Contributor | starVLA" description="People who contribute to the starVLA project.">
+<BaseLayout title="Contributors | StarVLA" description="People who contribute to the StarVLA project." path="/contributor">
   <section class="section reveal">
     <div class="container">
-      <h1 class="section-title">
-        <BiText en="Contributors" zh="贡献者" />
-      </h1>
-      <p class="section-lead">
-        <BiText
-          en="People who contribute to the starVLA project."
-          zh="为 starVLA 项目做出贡献的人。"
-        />
-      </p>
+      <div class="section-head">
+        <span class="eyebrow"><BiText en="Community" zh="社区" /></span>
+        <h1 class="section-title">
+          <BiText en="Contributors" zh="贡献者" />
+        </h1>
+        <p class="section-lead">
+          <BiText
+            en="People who contribute to the StarVLA project."
+            zh="为 StarVLA 项目做出贡献的人。"
+          />
+        </p>
+      </div>
 
       <div class="contributors-grid">
         {

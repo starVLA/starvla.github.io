@@ -1,6 +1,17 @@
-# starVLA Web
+# StarVLA Web
 
-Landing page for **starVLA**, built with Astro.
+Landing page for **StarVLA** (https://starvla.github.io), built with Astro.
+
+## Structure
+
+- `src/pages/index.astro` – landing page (hero + "Compose your VLA" builder, architecture, research, benchmarks, quick start, model zoo, news, ecosystem, community, citation)
+- `src/pages/contributor.astro` – contributors page
+- `src/data/landingContent.ts` – **all copy, links and numbers** (bilingual EN/ZH). Edit this file to update content.
+- `src/data/contributors.ts` – contributor list
+- `src/layouts/BaseLayout.astro` – nav, footer, theme/locale toggles, live GitHub stats
+- `src/styles/global.css` – design tokens and styles
+- `public/assets/` – demo videos and figures
+- `public/papers/starvla/` – static paper landing page (PDF + BibTeX)
 
 ## Local Development
 

@@ -1,66 +1,452 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import BiText from '../components/BiText.astro';
-import { landingContent } from '../data/landingContent';
+import { landingContent as c } from '../data/landingContent';
 
-const featureIconMap: Record<string, string> = {
-  puzzle: 'ti ti-puzzle',
-  chart: 'ti ti-chart-bar',
-  server: 'ti ti-server',
-};
+const maxBar = 100;
+const widthOf = (v: number | null) => (v === null ? 0 : (v / maxBar) * 100);
+const fmt = (v: number | null) => (v === null ? '–' : `${v.toFixed(1)}%`);
 ---
 
-<BaseLayout title={landingContent.meta.title} description={landingContent.meta.description}>
-  <section id="overview" class="section section--compact reveal">
-    <div class="container hero hero--single">
-      <div>
-        <div class="hero-badge">
-          <BiText en={landingContent.hero.badge.en} zh={landingContent.hero.badge.zh} />
-        </div>
-        <h1 class="hero-title">
-          <span class="hero-highlight">starVLA</span>
-          <br />
-          <BiText en={landingContent.hero.title.en} zh={landingContent.hero.title.zh} />
+<BaseLayout title={c.meta.title} description={c.meta.description}>
+  <!-- ============================== HERO ============================== -->
+  <section id="overview" class="hero">
+    <div class="container hero__grid">
+      <div class="reveal is-visible">
+        <span class="hero__eyebrow">
+          <span class="dot" aria-hidden="true"></span>
+          <BiText en={c.hero.eyebrow.en} zh={c.hero.eyebrow.zh} />
+        </span>
+        <h1 class="hero__title">
+          <span class="brand-word">StarVLA</span>
+          <BiText en={c.hero.title.en} zh={c.hero.title.zh} />
         </h1>
-        <p class="hero-subtitle">
-          <BiText en={landingContent.hero.subtitle.en} zh={landingContent.hero.subtitle.zh} />
+        <p class="hero__subtitle">
+          <BiText en={c.hero.subtitle.en} zh={c.hero.subtitle.zh} />
         </p>
-        <div class="hero-cta-group">
-          <a class="cta cta--primary" href={landingContent.hero.reportCta.href} target="_blank" rel="noopener noreferrer">
-            <BiText en={landingContent.hero.reportCta.en} zh={landingContent.hero.reportCta.zh} />
-          </a>
-          <a class="cta cta--secondary" href={landingContent.hero.primaryCta.href} target="_blank" rel="noopener noreferrer">
-            <BiText en={landingContent.hero.primaryCta.en} zh={landingContent.hero.primaryCta.zh} />
-          </a>
-          <a class="cta cta--secondary" href={landingContent.hero.secondaryCta.href} target="_blank" rel="noopener noreferrer">
-            <BiText en={landingContent.hero.secondaryCta.en} zh={landingContent.hero.secondaryCta.zh} />
-          </a>
-          <a class="cta cta--secondary" href={landingContent.hero.tertiaryCta.href} target="_blank" rel="noopener noreferrer">
-            <BiText en={landingContent.hero.tertiaryCta.en} zh={landingContent.hero.tertiaryCta.zh} />
-          </a>
-        </div>
-
-        <div class="metrics-grid">
+        <div class="cta-row">
           {
-            landingContent.metrics.map((metric) => (
+            c.hero.ctas.map((cta) => (
               <a
-                class="metric-card"
-                href={metric.href}
+                class={`btn ${cta.primary ? 'btn--primary' : ''}`}
+                href={cta.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                data-badge-url={metric.badgeUrl}
-                data-badge-source-url={metric.badgeSourceUrl}
-                data-badge-query={metric.badgeQuery}
-                data-badge-label={metric.badgeLabel}
-                data-fallback-badge-url={metric.fallbackBadgeUrl}
-                data-value-format={metric.valueFormat}
               >
-                <span class="metric-label">
-                  <BiText en={metric.label.en} zh={metric.label.zh} />
+                <i class={cta.icon} aria-hidden="true" />
+                <BiText en={cta.en} zh={cta.zh} />
+              </a>
+            ))
+          }
+        </div>
+        <div class="hero__install">
+          <code id="heroInstall">{c.hero.install}</code>
+          <button class="copy-btn" type="button" data-copy="#heroInstall" aria-label="Copy command">
+            <i class="ti ti-copy" aria-hidden="true"></i>
+            <span data-copy-label><BiText en="Copy" zh="复制" /></span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Lego composer -->
+      <aside class="composer reveal is-visible" aria-labelledby="composerTitle">
+        <div class="composer__head">
+          <h2 class="composer__title" id="composerTitle">
+            <BiText en={c.composer.title.en} zh={c.composer.title.zh} />
+          </h2>
+          <span class="composer__name" id="composerName">StarVLA-OFT</span>
+        </div>
+        <p class="composer__hint"><BiText en={c.composer.hint.en} zh={c.composer.hint.zh} /></p>
+
+        <div class="composer__layers" id="composer">
+          {
+            c.composer.layers.map((layer, li) => (
+              <div class={`brick brick--${layer.tone}`} data-layer={layer.key}>
+                <div class="brick__label">
+                  <BiText en={layer.label.en} zh={layer.label.zh} />
+                  <small>{String(li + 1).padStart(2, '0')}</small>
+                </div>
+                <div class="brick__options" role="group">
+                  {layer.options.map((opt, oi) => (
+                    <button
+                      class={`chip ${oi === (layer.key === 'head' ? 1 : 0) ? 'is-active' : ''}`}
+                      type="button"
+                      data-option={opt.key}
+                    >
+                      {opt.name}
+                      {'world' in opt && opt.world && <span class="chip__tag">WM</span>}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            ))
+          }
+        </div>
+
+        <div class="composer__output">
+          <div class="composer__output-head">
+            <span>configs/my_vla.yaml</span>
+            <button class="copy-btn" type="button" data-copy="#composerCode" aria-label="Copy config">
+              <i class="ti ti-copy" aria-hidden="true"></i>
+              <span data-copy-label><BiText en="Copy" zh="复制" /></span>
+            </button>
+          </div>
+          <pre class="composer__code" id="composerCode"></pre>
+        </div>
+        <p class="composer__foot"><BiText en={c.composer.footnote.en} zh={c.composer.footnote.zh} /></p>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ============================== STATS ============================= -->
+  <section class="section--tight">
+    <div class="container reveal">
+      <div class="stats">
+        {
+          c.stats.map((s) => {
+            const Tag = 'href' in s && s.href ? 'a' : 'div';
+            return (
+              <Tag
+                class="stat"
+                {...('href' in s && s.href ? { href: s.href, target: '_blank', rel: 'noopener noreferrer' } : {})}
+              >
+                <span class="stat__value" {...('live' in s && s.live ? { 'data-live': s.live } : {})}>
+                  {s.value}
                 </span>
-                <strong class="metric-value" data-metric-value data-fallback={metric.fallback}>
-                  {metric.fallback}
-                </strong>
+                <span class="stat__label">
+                  <BiText en={s.label.en} zh={s.label.zh} />
+                </span>
+              </Tag>
+            );
+          })
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================== ARCHITECTURE ========================= -->
+  <section id="architecture" class="section">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow"><BiText en="Architecture" zh="架构" /></span>
+        <h2 class="section-title"><BiText en={c.architecture.title.en} zh={c.architecture.title.zh} /></h2>
+        <p class="section-lead"><BiText en={c.architecture.lead.en} zh={c.architecture.lead.zh} /></p>
+      </div>
+
+      <div class="layer-grid reveal">
+        {
+          c.architecture.layers.map((layer) => (
+            <article class={`layer-card layer-card--${layer.tone}`}>
+              <div class="layer-card__top">
+                <span class="layer-card__icon">
+                  <i class={layer.icon} aria-hidden="true" />
+                </span>
+                <span class="layer-card__index">{layer.index}</span>
+              </div>
+              <h3>
+                <BiText en={layer.title.en} zh={layer.title.zh} />
+              </h3>
+              <p>
+                <BiText en={layer.body.en} zh={layer.body.zh} />
+              </p>
+              <div class="tag-row">
+                {layer.chips.map((chip) => (
+                  <span class="tag">{chip}</span>
+                ))}
+              </div>
+            </article>
+          ))
+        }
+      </div>
+
+      <div class="figure-grid reveal">
+        <figure class="figure">
+          <img src={c.architecture.figure.src} alt={c.architecture.figure.alt} loading="lazy" />
+          <figcaption><BiText en={c.architecture.figure.caption.en} zh={c.architecture.figure.caption.zh} /></figcaption>
+        </figure>
+        <div class="figure-col">
+          <figure class="figure">
+            <img src={c.architecture.variants.src} alt={c.architecture.variants.alt} loading="lazy" />
+            <figcaption>
+              <BiText en={c.architecture.variants.caption.en} zh={c.architecture.variants.caption.zh} />
+            </figcaption>
+          </figure>
+          <article class="panel principles">
+            <h3><BiText en={c.architecture.principles.title.en} zh={c.architecture.principles.title.zh} /></h3>
+            <ul class="principle-list">
+              {
+                c.architecture.principles.items.map((p) => (
+                  <li>
+                    <span class="principle__icon">
+                      <i class={p.icon} aria-hidden="true" />
+                    </span>
+                    <span>
+                      <strong class="principle__title">
+                        <BiText en={p.title.en} zh={p.title.zh} />
+                      </strong>
+                      <span class="principle__body">
+                        <BiText en={p.body.en} zh={p.body.zh} />
+                      </span>
+                    </span>
+                  </li>
+                ))
+              }
+            </ul>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================= RESEARCH =========================== -->
+  <section id="research" class="section section--band">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow"><BiText en="Research" zh="研究" /></span>
+        <h2 class="section-title"><BiText en={c.research.title.en} zh={c.research.title.zh} /></h2>
+        <p class="section-lead"><BiText en={c.research.lead.en} zh={c.research.lead.zh} /></p>
+      </div>
+
+      <div class="paper-grid reveal">
+        {
+          c.research.papers.map((paper) => (
+            <article class={`paper ${'featured' in paper && paper.featured ? 'paper--featured' : ''}`}>
+              <span class="paper__tag">
+                <BiText en={paper.tag.en} zh={paper.tag.zh} />
+              </span>
+              <h3>{paper.title}</h3>
+              <p class="paper__venue">{paper.venue}</p>
+              <p class="paper__summary">
+                <BiText en={paper.summary.en} zh={paper.summary.zh} />
+              </p>
+              <div class="paper__links">
+                {paper.links.map((link) => (
+                  <a
+                    class="pill-link"
+                    href={link.href}
+                    {...(link.href.startsWith('/') ? {} : { target: '_blank', rel: 'noopener noreferrer' })}
+                  >
+                    {link.label}
+                    <i class="ti ti-arrow-up-right" aria-hidden="true" />
+                  </a>
+                ))}
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ BENCHMARKS ========================== -->
+  <section id="benchmarks" class="section">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow"><BiText en="Benchmarks" zh="基准" /></span>
+        <h2 class="section-title"><BiText en={c.benchmarks.title.en} zh={c.benchmarks.title.zh} /></h2>
+        <p class="section-lead"><BiText en={c.benchmarks.lead.en} zh={c.benchmarks.lead.zh} /></p>
+      </div>
+
+      <div class="video-grid reveal">
+        {
+          c.benchmarks.videos.map((card) => (
+            <article class="video-card">
+              <div class="video-stage" data-carousel>
+                {card.videos.map((src, i) => (
+                  <video
+                    class={i === 0 ? 'is-active' : ''}
+                    muted
+                    loop
+                    playsinline
+                    preload={i === 0 ? 'metadata' : 'none'}
+                    aria-label={`${card.title} demo ${i + 1}`}
+                  >
+                    <source src={src} type="video/mp4" />
+                  </video>
+                ))}
+                <div class="video-dots">
+                  {card.videos.map((_, i) => (
+                    <button
+                      class={`video-dot ${i === 0 ? 'is-active' : ''}`}
+                      type="button"
+                      data-index={i}
+                      aria-label={`Show demo ${i + 1}`}
+                    />
+                  ))}
+                </div>
+              </div>
+              <div class="video-card__body">
+                <h3 class="video-card__title">{card.title}</h3>
+                <span class="video-card__metric">
+                  <BiText en={card.metric.en} zh={card.metric.zh} />
+                </span>
+                <span class="video-card__value">{card.value}</span>
+                <span class="video-card__src">
+                  <a href={card.source} target="_blank" rel="noopener noreferrer">
+                    <BiText en="Source" zh="来源" /> ↗
+                  </a>
+                </span>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+
+      <div class="compare reveal">
+        <article class="panel">
+          <h3><BiText en={c.benchmarks.comparison.title.en} zh={c.benchmarks.comparison.title.zh} /></h3>
+          <p class="panel__note"><BiText en={c.benchmarks.comparison.note.en} zh={c.benchmarks.comparison.note.zh} /></p>
+          <div class="legend">
+            <span><i style="background: var(--accent)"></i><BiText en={c.benchmarks.comparison.series[0].label.en} zh={c.benchmarks.comparison.series[0].label.zh} /></span>
+            <span><i style="background: color-mix(in srgb, var(--accent) 45%, transparent)"></i><BiText en={c.benchmarks.comparison.series[1].label.en} zh={c.benchmarks.comparison.series[1].label.zh} /></span>
+            <span><i style="background: var(--ink-3); opacity: .55"></i>{c.benchmarks.comparison.series[2].label.en}</span>
+          </div>
+          <div class="bars">
+            {
+              c.benchmarks.comparison.rows.map((row) => (
+                <div class="bar-row">
+                  <span class="bar-row__name">{row.benchmark}</span>
+                  <div class="bar-row__bars">
+                    {(['specialist', 'generalist', 'previous'] as const).map((k) => (
+                      <div
+                        class={`bar bar--${k} ${row[k] === null ? 'bar--na' : ''}`}
+                        style={`--w: ${widthOf(row[k])}%`}
+                        title={`${row.benchmark} · ${k}: ${fmt(row[k])}`}
+                      >
+                        <span />
+                        <b>{fmt(row[k])}</b>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))
+            }
+          </div>
+          <p class="panel__foot"><BiText en={c.benchmarks.comparison.footnote.en} zh={c.benchmarks.comparison.footnote.zh} /></p>
+        </article>
+
+        <article class="panel">
+          <h3><BiText en={c.benchmarks.supported.title.en} zh={c.benchmarks.supported.title.zh} /></h3>
+          <p class="panel__note">
+            <BiText
+              en="Every benchmark ships with a training recipe, a policy-server entry point and an evaluation script."
+              zh="每个基准都附带训练配方、策略服务入口与评测脚本。"
+            />
+          </p>
+          <div class="panel__group">
+            <span class="panel__group-title"><BiText en="Simulation & real robots" zh="仿真与真机" /></span>
+            <div class="bench-list">
+              {
+                c.benchmarks.supported.items.map((b) => (
+                  <span class={`bench ${b.done ? '' : 'bench--todo'}`}>
+                    <i class={b.done ? 'ti ti-circle-check-filled' : 'ti ti-circle-dashed'} aria-hidden="true" />
+                    {b.name}
+                  </span>
+                ))
+              }
+            </div>
+            <p class="panel__foot">
+              <BiText en="Dashed items are in progress." zh="虚线项为进行中。" />
+            </p>
+          </div>
+          <div class="panel__group">
+            <span class="panel__group-title"><BiText en="Robot embodiments" zh="机器人本体" /></span>
+            <div class="bench-list">
+              {c.benchmarks.supported.embodiments.map((e) => <span class="bench">{e}</span>)}
+            </div>
+          </div>
+          <div class="panel__group">
+            <span class="panel__group-title"><BiText en="Reports" zh="报告" /></span>
+            <div class="report-list">
+              {
+                c.benchmarks.supported.reports.map((r) => (
+                  <a href={r.href} target="_blank" rel="noopener noreferrer">
+                    <i class={r.icon} aria-hidden="true" />
+                    <BiText en={r.label.en} zh={r.label.zh} />
+                  </a>
+                ))
+              }
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ QUICK START ========================= -->
+  <section id="quick-start" class="section section--band">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow"><BiText en="Quick start" zh="快速开始" /></span>
+        <h2 class="section-title"><BiText en={c.quickStart.title.en} zh={c.quickStart.title.zh} /></h2>
+        <p class="section-lead"><BiText en={c.quickStart.intro.en} zh={c.quickStart.intro.zh} /></p>
+      </div>
+
+      <div class="quick reveal">
+        <div>
+          <div class="seg-row">
+            <div class="seg" id="goalControls" role="tablist">
+              {
+                c.quickStart.goals.map((goal, i) => (
+                  <button class={i === 0 ? 'is-active' : ''} type="button" role="tab" data-goal={goal.key}>
+                    <BiText en={goal.en} zh={goal.zh} />
+                  </button>
+                ))
+              }
+            </div>
+            <div class="seg" id="benchmarkControls" role="tablist" hidden>
+              {
+                c.quickStart.benchmarks.map((b, i) => (
+                  <button class={i === 0 ? 'is-active' : ''} type="button" role="tab" data-benchmark={b.key}>
+                    {b.en}
+                  </button>
+                ))
+              }
+            </div>
+          </div>
+
+          <div class="terminal">
+            <div class="terminal__head">
+              <span class="terminal__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+              <span id="terminalATitle">Terminal</span>
+              <button class="copy-btn" type="button" data-copy="#commandA">
+                <i class="ti ti-copy" aria-hidden="true"></i>
+                <span data-copy-label><BiText en="Copy" zh="复制" /></span>
+              </button>
+            </div>
+            <pre id="commandA"></pre>
+          </div>
+
+          <div class="terminal" id="terminalBCard" hidden>
+            <div class="terminal__head">
+              <span class="terminal__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+              <span id="terminalBTitle">Terminal B</span>
+              <button class="copy-btn" type="button" data-copy="#commandB">
+                <i class="ti ti-copy" aria-hidden="true"></i>
+                <span data-copy-label><BiText en="Copy" zh="复制" /></span>
+              </button>
+            </div>
+            <pre id="commandB"></pre>
+          </div>
+          <p class="quick__note" id="quickNote"></p>
+        </div>
+
+        <div class="guide-list">
+          {
+            c.quickStart.guides.map((g) => (
+              <a class="guide" href={g.href} target="_blank" rel="noopener noreferrer">
+                <span class="guide__icon">
+                  <i class={g.icon} aria-hidden="true" />
+                </span>
+                <span class="guide__text">
+                  <span class="guide__title">
+                    <BiText en={g.title.en} zh={g.title.zh} />
+                  </span>
+                  <span class="guide__desc">
+                    <BiText en={g.desc.en} zh={g.desc.zh} />
+                  </span>
+                </span>
+                <i class="ti ti-arrow-up-right arrow" aria-hidden="true" />
               </a>
             ))
           }
@@ -69,391 +455,178 @@ const featureIconMap: Record<string, string> = {
     </div>
   </section>
 
-  <section class="section reveal">
+  <!-- ============================= MODEL ZOO ========================== -->
+  <section id="model-zoo" class="section">
     <div class="container">
-      <h2 class="section-title">
-        <BiText en="Design for fast iteration" zh="为快速迭代而设计" />
-      </h2>
-      <p class="section-lead">
-        <BiText
-          en="From setup to benchmarking and deployment, the workflow is organized for fast, reliable team iteration."
-          zh="从环境搭建到基准评测再到部署落地，整体流程围绕团队快速且可靠的迭代而设计。"
-        />
-      </p>
-
-      <div class="feature-grid">
+      <div class="section-head reveal">
+        <span class="eyebrow"><BiText en="Model zoo" zh="模型库" /></span>
+        <h2 class="section-title"><BiText en={c.modelZoo.title.en} zh={c.modelZoo.title.zh} /></h2>
+        <p class="section-lead"><BiText en={c.modelZoo.lead.en} zh={c.modelZoo.lead.zh} /></p>
+      </div>
+      <div class="card-grid card-grid--5 reveal">
         {
-          landingContent.features.map((feature) => (
-            <article class="card">
-              <div class="feature-icon" aria-hidden="true">
-                <i class={featureIconMap[feature.icon] ?? 'ti ti-circle'}></i>
-              </div>
+          c.modelZoo.items.map((m) => (
+            <a class="mini-card" href={m.link} target="_blank" rel="noopener noreferrer">
+              <span class="mini-card__kind">
+                <BiText en={m.kind.en} zh={m.kind.zh} />
+              </span>
               <h3>
-                <BiText en={feature.enTitle} zh={feature.zhTitle} />
+                <code>{m.name}</code>
               </h3>
               <p>
-                <BiText en={feature.enBody} zh={feature.zhBody} />
+                <BiText en={m.desc.en} zh={m.desc.zh} />
               </p>
-            </article>
+              <span class="mini-card__ext">Hugging Face ↗</span>
+            </a>
           ))
         }
       </div>
     </div>
   </section>
 
-  <section id="quick-start" class="section reveal">
-    <div class="container quick-start">
-      <h2 class="section-title">
-        <BiText en={landingContent.quickStart.title.en} zh={landingContent.quickStart.title.zh} />
-      </h2>
-      <p class="section-lead">
-        <BiText en={landingContent.quickStart.intro.en} zh={landingContent.quickStart.intro.zh} />
-      </p>
-
-      <div class="quick-controls" id="goalControls">
-        {
-          landingContent.quickStart.goals.map((goal, idx) => (
-            <button class={`pill ${idx === 0 ? 'is-active' : ''}`} type="button" data-goal={goal.key}>
-              <BiText en={goal.en} zh={goal.zh} />
-            </button>
-          ))
-        }
-      </div>
-
-      <div class="quick-controls" id="benchmarkControls" hidden>
-        {
-          landingContent.quickStart.benchmarks.map((benchmark, idx) => (
-            <button class={`pill ${idx === 0 ? 'is-active' : ''}`} type="button" data-benchmark={benchmark.key}>
-              <BiText en={benchmark.en} zh={benchmark.zh} />
-            </button>
-          ))
-        }
-      </div>
-
-      <div class="quick-command-grid">
-        <article class="code-card">
-          <header class="code-head">
-            <span id="terminalATitle">Terminal A</span>
-            <button class="copy-btn" type="button" data-copy-target="commandA">
-              <BiText en="Copy" zh="复制" />
-            </button>
-          </header>
-          <pre class="code-block" id="commandA"></pre>
-        </article>
-
-        <article class="code-card" id="terminalBCard">
-          <header class="code-head">
-            <span id="terminalBTitle">Terminal B</span>
-            <button class="copy-btn" type="button" data-copy-target="commandB">
-              <BiText en="Copy" zh="复制" />
-            </button>
-          </header>
-          <pre class="code-block" id="commandB"></pre>
-        </article>
-      </div>
-
-      <p class="quick-note" id="quickNote"></p>
-    </div>
-  </section>
-
-  <section id="benchmarks" class="section reveal">
-    <div class="container">
-      <h2 class="section-title">
-        <BiText en="Reported benchmark snapshots" zh="已公开基准快照" />
-      </h2>
-      <p class="section-lead">
-        <BiText
-          en="Numbers below are reported results from the official StarVLA docs and repository, with source links for verification."
-          zh="以下数字来自 StarVLA 官方文档与仓库公开结果，并附带来源链接供核对。"
-        />
-      </p>
-
-      <div class="benchmark-video-grid">
-        {
-          landingContent.benchmarkVideos.map((card) => (
-            <article class="video-card">
-              <div class="video-carousel" aria-label={`${card.enTitle} simulation demos – ${card.metricEn}: ${card.value}`}>
-                {card.videos.map((src, i) => (
-                  <video
-                    class={`video-card__media ${i === 0 ? 'is-active' : ''}`}
-                    autoplay={i === 0}
-                    muted
-                    loop
-                    playsinline
-                    preload="metadata"
-                  >
-                    <source src={src} type="video/mp4" />
-                  </video>
-                ))}
-                <div class="video-carousel__dots">
-                  {card.videos.map((_, i) => (
-                    <button
-                      class={`video-carousel__dot ${i === 0 ? 'is-active' : ''}`}
-                      type="button"
-                      aria-label={`Video ${i + 1}`}
-                      data-index={i}
-                    />
-                  ))}
-                </div>
-              </div>
-              <div class="video-card__body">
-                <h3 class="link-card__title">
-                  <BiText en={card.enTitle} zh={card.zhTitle} />
-                </h3>
-                <div class="metric-pill">
-                  <BiText en={card.metricEn} zh={card.metricZh} />
-                </div>
-                <div class="value-line">{card.value}</div>
-                <a class="link-row" href={card.source} target="_blank" rel="noopener noreferrer">
-                  <BiText en="View benchmark source" zh="查看基准来源" />
-                  <span aria-hidden="true">↗</span>
+  <!-- ======================== NEWS + ECOSYSTEM ======================== -->
+  <section id="news" class="section section--band">
+    <div class="container two-col">
+      <div class="reveal">
+        <div class="section-head">
+          <span class="eyebrow"><BiText en="News" zh="动态" /></span>
+          <h2 class="section-title"><BiText en={c.news.title.en} zh={c.news.title.zh} /></h2>
+        </div>
+        <ol class="timeline">
+          {
+            c.news.items.map((n) => (
+              <li>
+                <time datetime={n.date}>{n.date}</time>
+                <a href={n.href} target="_blank" rel="noopener noreferrer">
+                  <BiText en={n.en} zh={n.zh} />
                 </a>
-              </div>
-            </article>
-          ))
-        }
+              </li>
+            ))
+          }
+        </ol>
+        <a class="more-link" href={`${c.links.github}#news`} target="_blank" rel="noopener noreferrer">
+          <BiText en={c.news.more.en} zh={c.news.more.zh} />
+          <i class="ti ti-arrow-right" aria-hidden="true"></i>
+        </a>
       </div>
 
-      <div class="benchmark-info-grid">
-        <article class="card">
-          <h3 class="link-card__title">
-            <BiText
-              en={landingContent.benchmarkInfo.libero.enTitle}
-              zh={landingContent.benchmarkInfo.libero.zhTitle}
-            />
-          </h3>
-          <div class="metric-pill mt-card">
-            <BiText
-              en={landingContent.benchmarkInfo.libero.metricEn}
-              zh={landingContent.benchmarkInfo.libero.metricZh}
-            />
-          </div>
-          <div class="value-line">{landingContent.benchmarkInfo.libero.value}</div>
-          <a class="link-row" href={landingContent.benchmarkInfo.libero.source} target="_blank" rel="noopener noreferrer">
-            <BiText en="View benchmark docs" zh="查看基准文档" />
-            <span aria-hidden="true">↗</span>
-          </a>
-        </article>
-
-        <article class="card">
-          <h3 class="link-card__title">
-            <BiText
-              en={landingContent.benchmarkInfo.behavior.enTitle}
-              zh={landingContent.benchmarkInfo.behavior.zhTitle}
-            />
-          </h3>
-          <div class="metric-pill mt-card">
-            <BiText
-              en={landingContent.benchmarkInfo.behavior.metricEn}
-              zh={landingContent.benchmarkInfo.behavior.metricZh}
-            />
-          </div>
-          <div class="value-line">
-            <BiText
-              en={landingContent.benchmarkInfo.behavior.valueEn}
-              zh={landingContent.benchmarkInfo.behavior.valueZh}
-            />
-          </div>
-          <a class="link-row" href={landingContent.benchmarkInfo.behavior.source} target="_blank" rel="noopener noreferrer">
-            <BiText en="Open documentation" zh="打开文档链接" />
-            <span aria-hidden="true">↗</span>
-          </a>
-        </article>
+      <div class="reveal">
+        <div class="section-head">
+          <span class="eyebrow"><BiText en="Ecosystem" zh="生态" /></span>
+          <h2 class="section-title"><BiText en={c.ecosystem.title.en} zh={c.ecosystem.title.zh} /></h2>
+          <p class="section-lead"><BiText en={c.ecosystem.lead.en} zh={c.ecosystem.lead.zh} /></p>
+        </div>
+        <div class="card-grid" style="grid-template-columns: repeat(2, minmax(0, 1fr));">
+          {
+            c.ecosystem.items.map((p) => (
+              <a class="mini-card" href={p.link} target="_blank" rel="noopener noreferrer">
+                <h3>{p.name}</h3>
+                <p>
+                  <BiText en={p.desc.en} zh={p.desc.zh} />
+                </p>
+              </a>
+            ))
+          }
+        </div>
       </div>
-
-      <article class="card benchmark-compare">
-        <h3 class="link-card__title">
-          <BiText
-            en={landingContent.benchmarkComparison.title.en}
-            zh={landingContent.benchmarkComparison.title.zh}
-          />
-        </h3>
-        <p class="benchmark-compare__note">
-          <BiText
-            en={landingContent.benchmarkComparison.note.en}
-            zh={landingContent.benchmarkComparison.note.zh}
-          />
-        </p>
-        <p class="benchmark-compare__note benchmark-compare__note--generalist">
-          <BiText
-            en={landingContent.benchmarkComparison.generalistNote.en}
-            zh={landingContent.benchmarkComparison.generalistNote.zh}
-          />
-        </p>
-        <table class="benchmark-compare__table" role="table" aria-label="Benchmark comparison values">
-          <thead role="rowgroup">
-            <tr class="benchmark-compare__row benchmark-compare__row--head" role="row">
-              <th role="columnheader">
-                <BiText en="Benchmark" zh="基准" />
-              </th>
-              <th role="columnheader">
-                <BiText
-                  en={landingContent.benchmarkComparison.specialistLabel.en}
-                  zh={landingContent.benchmarkComparison.specialistLabel.zh}
-                />
-              </th>
-              <th role="columnheader">
-                <BiText
-                  en={landingContent.benchmarkComparison.generalistLabel.en}
-                  zh={landingContent.benchmarkComparison.generalistLabel.zh}
-                />
-              </th>
-              <th role="columnheader">
-                <BiText
-                  en={landingContent.benchmarkComparison.previousLabel.en}
-                  zh={landingContent.benchmarkComparison.previousLabel.zh}
-                />
-              </th>
-            </tr>
-          </thead>
-          <tbody role="rowgroup">
-            {
-              landingContent.benchmarkComparison.rows.map((item) => (
-                <tr class="benchmark-compare__row" role="row">
-                  <td role="cell">{item.benchmark}</td>
-                  <td role="cell" class="benchmark-compare__current">{item.specialist}</td>
-                  <td role="cell">{item.generalist}</td>
-                  <td role="cell">{item.previous}</td>
-                </tr>
-              ))
-            }
-          </tbody>
-        </table>
-      </article>
     </div>
   </section>
 
-  <section id="model-zoo" class="section reveal">
+  <!-- ========================= COMMUNITY + CITE ======================= -->
+  <section id="community" class="section">
     <div class="container">
-      <h2 class="section-title">
-        <BiText en="Model Zoo highlights" zh="模型库精选" />
-      </h2>
-      <p class="section-lead">
-        <BiText
-          en="Use published backbones and checkpoints to reproduce or extend StarVLA experiments quickly."
-          zh="使用已发布骨干和检查点，快速复现或扩展 StarVLA 实验。"
-        />
-      </p>
-
-      <div class="model-grid">
+      <div class="section-head reveal">
+        <span class="eyebrow"><BiText en="Community" zh="社区" /></span>
+        <h2 class="section-title"><BiText en={c.community.title.en} zh={c.community.title.zh} /></h2>
+        <p class="section-lead"><BiText en={c.community.lead.en} zh={c.community.lead.zh} /></p>
+      </div>
+      <div class="card-grid card-grid--4 reveal">
         {
-          landingContent.modelZoo.map((model) => (
-            <a class="link-card" href={model.link} target="_blank" rel="noopener noreferrer">
-              <h3 class="link-card__title">{model.name}</h3>
-              <p class="link-card__desc">
-                <BiText en={model.enDesc} zh={model.zhDesc} />
+          c.community.cards.map((card) => (
+            <a class="mini-card" href={card.href} target="_blank" rel="noopener noreferrer">
+              <span class="mini-card__icon">
+                <i class={card.icon} aria-hidden="true" />
+              </span>
+              <h3>{typeof card.title === 'string' ? card.title : <BiText en={card.title.en} zh={card.title.zh} />}</h3>
+              <p>
+                <BiText en={card.desc.en} zh={card.desc.zh} />
               </p>
             </a>
           ))
         }
       </div>
-    </div>
-  </section>
 
-  <section id="community" class="section reveal">
-    <div class="container">
-      <h2 class="section-title">
-        <BiText en="Community and resources" zh="社区与资源" />
-      </h2>
-      <p class="section-lead">
-        <BiText
-          en="Get help, follow live progress, and collaborate with researchers and engineers in the StarVLA ecosystem."
-          zh="获取支持、跟进实时进展，并与 StarVLA 生态中的研究者和工程师协作。"
-        />
-      </p>
-
-      <div class="community-grid">
-        <a class="link-card" href={landingContent.community.docs} target="_blank" rel="noopener noreferrer">
-          <h3 class="link-card__title">Docs</h3>
-          <p class="link-card__desc">
-            <BiText en="Official setup, benchmarks, and training guides." zh="官方安装、评测与训练指南。" />
-          </p>
-        </a>
-        <a class="link-card" href={landingContent.community.github} target="_blank" rel="noopener noreferrer">
-          <h3 class="link-card__title">GitHub</h3>
-          <p class="link-card__desc">
-            <BiText en="Source code, issues, pull requests, and updates." zh="源码、issue、PR 与最新更新。" />
-          </p>
-        </a>
-        <a class="link-card" href={landingContent.community.huggingFace} target="_blank" rel="noopener noreferrer">
-          <h3 class="link-card__title">Hugging Face</h3>
-          <p class="link-card__desc">
-            <BiText en="Published models, checkpoints, and datasets." zh="已发布模型、检查点与数据集。" />
-          </p>
-        </a>
-        <a class="link-card" href={landingContent.community.wechatIssue} target="_blank" rel="noopener noreferrer">
-          <h3 class="link-card__title">WeChat</h3>
-          <p class="link-card__desc">
-            <BiText en="Join via issue thread link." zh="通过 issue 链接加入中文交流群。" />
-          </p>
-        </a>
-      </div>
-
-      <div class="resource-grid">
-        <a class="link-card" href={landingContent.community.techReport} target="_blank" rel="noopener noreferrer">
-          <h3 class="link-card__title">
-            <BiText en="Technical Report" zh="技术报告" />
-          </h3>
-          <p class="link-card__desc">
-            <BiText en="Read the StarVLA technical report on arXiv (2604.05014)." zh="在 arXiv 阅读 StarVLA 技术报告 (2604.05014)。" />
-          </p>
-        </a>
-        <a class="link-card" href={landingContent.community.paperPage}>
-          <h3 class="link-card__title">
-            <BiText en="Paper Page & BibTeX" zh="论文页与引用" />
-          </h3>
-          <p class="link-card__desc">
-            <BiText en="Abstract, PDF and the recommended citation for the StarVLA technical report." zh="StarVLA 技术报告的摘要、PDF 与推荐引用格式。" />
-          </p>
-        </a>
-        <a class="link-card" href={landingContent.community.overleaf} target="_blank" rel="noopener noreferrer">
-          <h3 class="link-card__title">
-            <BiText en="Live Report" zh="实时报告" />
-          </h3>
-          <p class="link-card__desc">
-            <BiText en="Continuously updated experiment report and analysis." zh="持续更新的实验报告与分析。" />
-          </p>
-        </a>
-        <a class="link-card" href="https://starvla.github.io/docs/design/lego-like/" target="_blank" rel="noopener noreferrer">
-          <h3 class="link-card__title">
-            <BiText en="Lego-like Design" zh="Lego 式设计" />
-          </h3>
-          <p class="link-card__desc">
-            <BiText en="Top-down modular principles for framework extension." zh="用于框架扩展的自顶向下模块化原则。" />
-          </p>
-        </a>
-        <a class="link-card" href="https://starvla.github.io/docs/design/eval-protocol/" target="_blank" rel="noopener noreferrer">
-          <h3 class="link-card__title">
-            <BiText en="Evaluation Protocol" zh="评测协议" />
-          </h3>
-          <p class="link-card__desc">
-            <BiText en="Unified policy client-server interface for deployment." zh="用于部署的一体化策略客户端-服务端接口。" />
-          </p>
-        </a>
-      </div>
-
-      <div class="ecosystem-grid">
-        {
-          landingContent.ecosystem.map((project) => (
-            <a class="link-card" href={project.link} target="_blank" rel="noopener noreferrer">
-              <h3 class="link-card__title">{project.name}</h3>
-              <p class="link-card__desc">
-                <BiText en={project.enDesc} zh={project.zhDesc} />
-              </p>
-            </a>
-          ))
-        }
+      <div class="cite reveal" id="citation" style="margin-top: 64px;">
+        <div>
+          <span class="eyebrow"><BiText en="Citation" zh="引用" /></span>
+          <h2 class="section-title" style="font-size: 28px;"><BiText en={c.citation.title.en} zh={c.citation.title.zh} /></h2>
+          <p class="section-lead" style="font-size: 15px;"><BiText en={c.citation.lead.en} zh={c.citation.lead.zh} /></p>
+          <div class="cta-row" style="margin-top: 18px;">
+            <a class="btn btn--sm" href={c.links.paperPage}><i class="ti ti-file-description" aria-hidden="true"></i><BiText en="Paper page" zh="论文页" /></a>
+            <a class="btn btn--sm" href={c.links.arxiv} target="_blank" rel="noopener noreferrer"><i class="ti ti-external-link" aria-hidden="true"></i>arXiv</a>
+          </div>
+        </div>
+        <div class="terminal">
+          <div class="terminal__head">
+            <span class="terminal__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span>starvla.bib</span>
+            <button class="copy-btn" type="button" data-copy="#bibtex">
+              <i class="ti ti-copy" aria-hidden="true"></i>
+              <span data-copy-label><BiText en="Copy BibTeX" zh="复制 BibTeX" /></span>
+            </button>
+          </div>
+          <pre id="bibtex">{c.citation.bibtex}</pre>
+        </div>
       </div>
     </div>
   </section>
 
-  <script
-    is:inline
-    define:vars={{
-      quickStart: landingContent.quickStart,
-    }}
-  >
+  <script is:inline define:vars={{ composer: c.composer, quickStart: c.quickStart }}>
     const html = document.documentElement;
+    const isZh = () => html.getAttribute('data-locale') === 'zh';
+    const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;');
+
+    /* ---------------- Composer ---------------- */
+    const composerRoot = document.getElementById('composer');
+    const composerCode = document.getElementById('composerCode');
+    const composerName = document.getElementById('composerName');
+    const selection = { backbone: 'qwen3vl', head: 'oft', recipe: 'sft', benchmark: 'libero' };
+    const optionOf = (layerKey, optKey) =>
+      composer.layers.find((l) => l.key === layerKey).options.find((o) => o.key === optKey);
+
+    function renderComposer() {
+      const backbone = optionOf('backbone', selection.backbone);
+      const head = optionOf('head', selection.head);
+      const recipe = optionOf('recipe', selection.recipe);
+      const bench = optionOf('benchmark', selection.benchmark);
+      const framework = `${backbone.prefix}${head.suffix}`;
+      composerName.textContent = `StarVLA-${head.suffix}`;
+
+      const comment = `# ${backbone.name} × ${head.name} × ${recipe.name} → ${bench.name}`;
+      const lines = [
+        `<span class="c">${esc(comment)}</span>`,
+        `<span class="k">framework</span>: <span class="s">${esc(framework)}</span>`,
+        `<span class="k">backbone</span>:`,
+        `  <span class="k">${backbone.world ? 'world_model' : 'vlm'}</span>: <span class="s">${esc(backbone.id)}</span>`,
+        `<span class="k">action_head</span>: <span class="s">${esc(head.suffix.toLowerCase())}</span>  <span class="c"># ${esc(isZh() ? head.desc.zh : head.desc.en)}</span>`,
+        `<span class="k">recipe</span>: <span class="s">${esc(recipe.id)}</span>`,
+        `<span class="k">benchmark</span>: <span class="s">${esc(bench.id)}</span>`,
+        '',
+        `<span class="p">$</span> bash examples/${esc(bench.dir)}/train_files/run_${esc(bench.id)}_train.sh`,
+      ];
+      composerCode.innerHTML = lines.join('\n');
+    }
+
+    composerRoot?.addEventListener('click', (e) => {
+      const chip = e.target.closest('[data-option]');
+      if (!chip) return;
+      const brick = chip.closest('[data-layer]');
+      selection[brick.dataset.layer] = chip.dataset.option;
+      brick.querySelectorAll('.chip').forEach((el) => el.classList.toggle('is-active', el === chip));
+      renderComposer();
+    });
+
+    /* ---------------- Quick start ---------------- */
     const quickNote = document.getElementById('quickNote');
     const commandA = document.getElementById('commandA');
     const commandB = document.getElementById('commandB');
@@ -461,213 +634,101 @@ const featureIconMap: Record<string, string> = {
     const terminalBTitle = document.getElementById('terminalBTitle');
     const terminalBCard = document.getElementById('terminalBCard');
     const benchmarkControls = document.getElementById('benchmarkControls');
-
     const goalButtons = [...document.querySelectorAll('[data-goal]')];
     const benchmarkButtons = [...document.querySelectorAll('[data-benchmark]')];
-
     let currentGoal = 'install';
     let currentBenchmark = 'libero';
 
-    function getLocaleText(en, zh) {
-      return html.getAttribute('data-locale') === 'zh' ? zh : en;
-    }
-
     function renderQuickStart() {
-      const isZh = html.getAttribute('data-locale') === 'zh';
+      const zh = isZh();
       const isEval = currentGoal === 'evaluate';
-
       benchmarkControls.hidden = !isEval;
-
-      terminalATitle.textContent = isEval ? (isZh ? '终端 A（模型服务）' : 'Terminal A (Policy Server)') : isZh ? '终端 A' : 'Terminal A';
-      terminalBTitle.textContent = isZh ? '终端 B（评测环境）' : 'Terminal B (Simulator)';
+      terminalBCard.hidden = !isEval;
 
       if (!isEval) {
-        const preset = quickStart.presets[currentGoal];
-        commandA.textContent = preset.terminalA;
+        terminalATitle.textContent = zh ? '终端' : 'Terminal';
+        commandA.textContent = quickStart.presets[currentGoal].terminalA;
         commandB.textContent = '';
-        terminalBCard.style.display = 'none';
-        quickNote.textContent = getLocaleText(
-          'Tip: run this in your starVLA environment and verify every command path locally.',
-          '提示：请在 starVLA 环境中执行，并按本地路径校正命令。'
-        );
+        quickNote.textContent = zh
+          ? '提示：请在 starVLA 环境中执行，并按本地路径校正命令。'
+          : 'Tip: run inside your starVLA environment and adjust paths to your setup.';
         return;
       }
-
-      const benchmarkMap = quickStart.presets.evaluate.mapping;
-      const commands = benchmarkMap[currentBenchmark];
-      commandA.textContent = commands.terminalA;
-      commandB.textContent = commands.terminalB;
-      terminalBCard.style.display = 'block';
-      quickNote.textContent = getLocaleText(
-        'Evaluation uses two terminals with separate dependencies. Keep checkpoint paths and env variables explicit.',
-        '评测默认使用双终端和独立依赖环境。请显式配置 checkpoint 路径和环境变量。'
-      );
+      const cmd = quickStart.presets.evaluate.mapping[currentBenchmark];
+      terminalATitle.textContent = zh ? '终端 A · 策略服务' : 'Terminal A · policy server';
+      terminalBTitle.textContent = zh ? '终端 B · 仿真环境' : 'Terminal B · simulator';
+      commandA.textContent = cmd.terminalA;
+      commandB.textContent = cmd.terminalB;
+      quickNote.textContent = zh
+        ? '评测使用两个终端与独立依赖环境；请显式设置 checkpoint 路径与环境变量。'
+        : 'Evaluation uses two terminals with separate dependencies. Keep checkpoint paths and env variables explicit.';
     }
 
-    goalButtons.forEach((button) => {
+    goalButtons.forEach((button) =>
       button.addEventListener('click', () => {
-        currentGoal = button.getAttribute('data-goal');
-        goalButtons.forEach((item) => item.classList.toggle('is-active', item === button));
+        currentGoal = button.dataset.goal;
+        goalButtons.forEach((b) => b.classList.toggle('is-active', b === button));
         renderQuickStart();
-      });
-    });
-
-    benchmarkButtons.forEach((button) => {
+      })
+    );
+    benchmarkButtons.forEach((button) =>
       button.addEventListener('click', () => {
-        currentBenchmark = button.getAttribute('data-benchmark');
-        benchmarkButtons.forEach((item) => item.classList.toggle('is-active', item === button));
+        currentBenchmark = button.dataset.benchmark;
+        benchmarkButtons.forEach((b) => b.classList.toggle('is-active', b === button));
         renderQuickStart();
-      });
-    });
+      })
+    );
 
-    window.addEventListener('starvla:locale', () => renderQuickStart());
+    /* ---------------- Video carousels ---------------- */
+    document.querySelectorAll('[data-carousel]').forEach((stage) => {
+      const videos = [...stage.querySelectorAll('video')];
+      const dots = [...stage.querySelectorAll('.video-dot')];
+      let index = 0;
+      let timer;
 
-    async function fetchShield(url, params) {
-      try {
-        const shieldUrl = new URL(url);
-        if (params) {
-          Object.entries(params).forEach(([key, value]) => {
-            if (value) shieldUrl.searchParams.set(key, value);
-          });
-        }
-
-        const res = await fetch(shieldUrl.toString(), {
-          cache: 'no-store',
-          referrerPolicy: 'no-referrer',
-        });
-        if (!res.ok) throw new Error('Request failed');
-        return await res.json();
-      } catch {
-        return null;
-      }
-    }
-
-    function normalizeBadgeValue(value, fallback = '') {
-      const text = String(value ?? '').trim();
-      if (!text) return fallback;
-
-      const lowered = text.toLowerCase();
-      if (['invalid', 'unknown', 'inaccessible', 'not found', 'error'].includes(lowered)) {
-        return fallback;
-      }
-
-      return text;
-    }
-
-    function formatGithubCount(value) {
-      const text = String(value ?? '').replace(/,/g, '').trim();
-      if (!text) return '';
-
-      const parsed = Number(text);
-      if (!Number.isFinite(parsed)) return '';
-
-      return Intl.NumberFormat('en-us', {
-        notation: 'compact',
-        maximumFractionDigits: 1,
-      }).format(parsed);
-    }
-
-    function getBadgeText(data) {
-      return data?.message ?? data?.value ?? '';
-    }
-
-    async function hydrateMetric(card) {
-      const valueEl = card.querySelector('[data-metric-value]');
-      const badgeUrl = card.getAttribute('data-badge-url');
-      if (!valueEl || !badgeUrl) return;
-
-      const sourceUrl = card.getAttribute('data-badge-source-url');
-      const badgeQuery = card.getAttribute('data-badge-query');
-      const badgeLabel = card.getAttribute('data-badge-label');
-      const fallbackBadgeUrl = card.getAttribute('data-fallback-badge-url');
-      const valueFormat = card.getAttribute('data-value-format');
-
-      const primaryData =
-        sourceUrl && badgeQuery
-          ? await fetchShield(badgeUrl, {
-              url: sourceUrl,
-              query: badgeQuery,
-              label: badgeLabel,
-            })
-          : await fetchShield(badgeUrl);
-
-      const primaryText = normalizeBadgeValue(getBadgeText(primaryData));
-      const formattedPrimary = valueFormat === 'compact-number' ? formatGithubCount(primaryText) : '';
-      if (formattedPrimary || primaryText) {
-        valueEl.textContent = formattedPrimary || primaryText;
-        return;
-      }
-
-      const fallbackData = fallbackBadgeUrl ? await fetchShield(fallbackBadgeUrl) : null;
-      const fallbackText = normalizeBadgeValue(getBadgeText(fallbackData));
-      valueEl.textContent = fallbackText || valueEl.dataset.fallback || '—';
-    }
-
-    document.querySelectorAll('[data-badge-url]').forEach((card) => hydrateMetric(card));
-
-    document.querySelectorAll('[data-copy-target]').forEach((button) => {
-      button.addEventListener('click', async () => {
-        const targetId = button.getAttribute('data-copy-target');
-        const target = document.getElementById(targetId);
-        if (!target) return;
-        try {
-          await navigator.clipboard.writeText(target.textContent || '');
-          const oldText = button.textContent;
-          button.textContent = getLocaleText('Copied', '已复制');
-          window.setTimeout(() => {
-            button.textContent = oldText;
-          }, 1200);
-        } catch {
-          button.textContent = getLocaleText('Copy failed', '复制失败');
-        }
-      });
-    });
-
-    renderQuickStart();
-
-    // Video carousel: auto-rotate + dot clicks
-    document.querySelectorAll('.video-carousel').forEach((carousel) => {
-      const videos = [...carousel.querySelectorAll('.video-card__media')];
-      const dots = [...carousel.querySelectorAll('.video-carousel__dot')];
-      let current = 0;
-      let timer = null;
-
-      function switchTo(index) {
-        videos[current].classList.remove('is-active');
-        videos[current].pause();
-        dots[current].classList.remove('is-active');
-
-        current = index;
-        const next = videos[current];
-        next.classList.add('is-active');
-        next.play();
-        dots[current].classList.add('is-active');
-      }
-
-      function advance() {
-        switchTo((current + 1) % videos.length);
-      }
-
-      function startTimer() {
-        timer = setInterval(advance, 5000);
-      }
-
-      function resetTimer() {
-        clearInterval(timer);
-        startTimer();
-      }
-
-      dots.forEach((dot) => {
-        dot.addEventListener('click', () => {
-          const idx = Number(dot.dataset.index);
-          if (idx !== current) {
-            switchTo(idx);
-            resetTimer();
+      const show = (i) => {
+        index = (i + videos.length) % videos.length;
+        videos.forEach((v, vi) => {
+          const active = vi === index;
+          v.classList.toggle('is-active', active);
+          if (active) {
+            v.play().catch(() => {});
+          } else {
+            v.pause();
           }
         });
-      });
-
-      if (videos.length > 1) startTimer();
+        dots.forEach((d, di) => d.classList.toggle('is-active', di === index));
+      };
+      const schedule = () => {
+        clearInterval(timer);
+        timer = setInterval(() => show(index + 1), 6000);
+      };
+      dots.forEach((dot) =>
+        dot.addEventListener('click', () => {
+          show(Number(dot.dataset.index));
+          schedule();
+        })
+      );
+      // Only play while visible to save bandwidth.
+      new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            show(index);
+            schedule();
+          } else {
+            clearInterval(timer);
+            videos.forEach((v) => v.pause());
+          }
+        },
+        { threshold: 0.3 }
+      ).observe(stage);
     });
+
+    window.addEventListener('starvla:locale', () => {
+      renderComposer();
+      renderQuickStart();
+    });
+    renderComposer();
+    renderQuickStart();
   </script>
 </BaseLayout>
