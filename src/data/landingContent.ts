@@ -536,8 +536,8 @@ export const landingContent = {
   citation: {
     title: { en: 'Citation', zh: '引用' },
     lead: {
-      en: 'If StarVLA helps your research, please cite the technical report.',
-      zh: '如果 StarVLA 对你的研究有帮助，请引用技术报告。',
+      en: 'If StarVLA helps your research, please cite the technical report and any of the follow-up work you build on.',
+      zh: '如果 StarVLA 对你的研究有帮助，请引用技术报告，以及你所基于的后续工作。',
     },
     bibtex: `@article{community2026starvla,
   title={StarVLA: A Lego-like Codebase for Vision-Language-Action Model Developing},
@@ -545,6 +545,26 @@ export const landingContent = {
   journal={arXiv preprint arXiv:2604.05014},
   year={2026},
   eprint={2604.05014},
+  archivePrefix={arXiv},
+  primaryClass={cs.RO}
+}
+
+@article{ye2026starvlaalpha,
+  title={StarVLA-$\\alpha$: Reducing Complexity in Vision-Language-Action Systems},
+  author={Ye, Jinhui and Gao, Ning and Yang, Senqiao and Zheng, Jinliang and Wang, Zixuan and Chen, Yuxin and Chen, Pengguang and Chen, Yilun and Liu, Shu and Jia, Jiaya},
+  journal={arXiv preprint arXiv:2604.11757},
+  year={2026},
+  eprint={2604.11757},
+  archivePrefix={arXiv},
+  primaryClass={cs.RO}
+}
+
+@article{yang2026vlact,
+  title={Beyond Data Scaling: Representation-Centric Continued Pre-training for Vision-Language-Action Models},
+  author={Yang, Senqiao and Wang, Chengyao and Chen, Yuxin and Wang, Zixuan and Tang, Longxiang and Gui, Haokun and Ye, Jinhui and Lu, Changsheng and Wu, Xiaoyang and Zhu, Mingkang and Chen, Pengguang and Liu, Shu and Tian, Zhuotao and Zhao, Hengshuang and Yu, Bei and Jia, Jiaya},
+  journal={arXiv preprint arXiv:2608.27550},
+  year={2026},
+  eprint={2608.27550},
   archivePrefix={arXiv},
   primaryClass={cs.RO}
 }`,

@@ -1426,6 +1426,14 @@ a.stat:hover {
 }
 .cite .terminal pre {
   font-size: 12.5px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+/* Hanging indent: wrapped title/author lines sit under their field. */
+.bib-line {
+  display: block;
+  padding-left: 4ch;
+  text-indent: -4ch;
 }
 
 /* ------------------------------------------------------------------ */

@@ -567,7 +567,7 @@ const fmt = (v: number | null) => (v === null ? '–' : `${v.toFixed(1)}%`);
               <span data-copy-label><BiText en="Copy BibTeX" zh="复制 BibTeX" /></span>
             </button>
           </div>
-          <pre id="bibtex">{c.citation.bibtex}</pre>
+          <pre id="bibtex">{c.citation.bibtex.split('\n').map((line) => <span class="bib-line">{line + '\n'}</span>)}</pre>
         </div>
       </div>
     </div>
