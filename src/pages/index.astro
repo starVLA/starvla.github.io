@@ -46,6 +46,26 @@ const fmt = (v: number | null) => (v === null ? '–' : `${v.toFixed(1)}%`);
             <span data-copy-label><BiText en="Copy" zh="复制" /></span>
           </button>
         </div>
+        <div class="stats">
+          {
+            c.stats.map((s) => {
+              const Tag = 'href' in s && s.href ? 'a' : 'div';
+              return (
+                <Tag
+                  class="stat"
+                  {...('href' in s && s.href ? { href: s.href, target: '_blank', rel: 'noopener noreferrer' } : {})}
+                >
+                  <span class="stat__value" {...('live' in s && s.live ? { 'data-live': s.live } : {})}>
+                    {s.value}
+                  </span>
+                  <span class="stat__label">
+                    <BiText en={s.label.en} zh={s.label.zh} />
+                  </span>
+                </Tag>
+              );
+            })
+          }
+        </div>
       </div>
 
       <!-- Lego composer -->
@@ -95,32 +115,6 @@ const fmt = (v: number | null) => (v === null ? '–' : `${v.toFixed(1)}%`);
         </div>
         <p class="composer__foot"><BiText en={c.composer.footnote.en} zh={c.composer.footnote.zh} /></p>
       </aside>
-    </div>
-  </section>
-
-  <!-- ============================== STATS ============================= -->
-  <section class="section--tight">
-    <div class="container reveal">
-      <div class="stats">
-        {
-          c.stats.map((s) => {
-            const Tag = 'href' in s && s.href ? 'a' : 'div';
-            return (
-              <Tag
-                class="stat"
-                {...('href' in s && s.href ? { href: s.href, target: '_blank', rel: 'noopener noreferrer' } : {})}
-              >
-                <span class="stat__value" {...('live' in s && s.live ? { 'data-live': s.live } : {})}>
-                  {s.value}
-                </span>
-                <span class="stat__label">
-                  <BiText en={s.label.en} zh={s.label.zh} />
-                </span>
-              </Tag>
-            );
-          })
-        }
-      </div>
     </div>
   </section>
 

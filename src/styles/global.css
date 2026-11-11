@@ -632,34 +632,32 @@ html[data-locale='zh'] [data-locale-content='zh'] {
   color: var(--ink-3);
 }
 
-/* Stats band */
+/* Hero stats (1px gaps over the line colour act as dividers) */
 .stats {
+  margin-top: 28px;
   display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
-  gap: 0;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
   border: 1px solid var(--line);
   border-radius: var(--radius-lg);
-  background: var(--bg-elevated);
+  background: var(--line);
   overflow: hidden;
   box-shadow: var(--shadow-sm);
 }
 .stat {
-  padding: 22px 20px;
-  border-right: 1px solid var(--line);
+  padding: 16px 18px;
+  background: var(--bg-elevated);
   display: flex;
   flex-direction: column;
   gap: 4px;
   transition: background 0.15s ease;
-}
-.stat:last-child {
-  border-right: 0;
 }
 a.stat:hover {
   background: var(--bg-sunken);
 }
 .stat__value {
   font-family: var(--font-display);
-  font-size: 30px;
+  font-size: 26px;
   font-weight: 800;
   letter-spacing: -0.03em;
   line-height: 1;
@@ -1551,15 +1549,6 @@ a.contributor-card:hover {
   .hero__subtitle {
     max-width: 640px;
   }
-  .stats {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-  .stat:nth-child(3) {
-    border-right: 0;
-  }
-  .stat:nth-child(-n + 3) {
-    border-bottom: 1px solid var(--line);
-  }
   .layer-grid,
   .card-grid--4 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1628,19 +1617,6 @@ a.contributor-card:hover {
   }
   .stats {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-  .stat {
-    border-bottom: 1px solid var(--line);
-  }
-  .stat:nth-child(odd) {
-    border-right: 1px solid var(--line);
-  }
-  .stat:nth-child(even),
-  .stat:nth-child(3) {
-    border-right: 0;
-  }
-  .stat:nth-last-child(-n + 2) {
-    border-bottom: 0;
   }
   .card-grid--4,
   .layer-grid {
