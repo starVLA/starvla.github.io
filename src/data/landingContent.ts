@@ -44,7 +44,7 @@ export const landingContent = {
   hero: {
     eyebrow: { en: 'Open source · MIT License · arXiv 2604.05014', zh: '开源 · MIT 协议 · arXiv 2604.05014' },
     title: {
-      en: 'A Lego-like Codebase for Vision-Language-Action Models',
+      en: 'A Lego-like Codebase for VLA Models',
       zh: '乐高式的视觉-语言-动作模型开发代码库',
     },
     subtitle: {
@@ -53,8 +53,8 @@ export const landingContent = {
     },
     ctas: [
       { key: 'github', en: 'View on GitHub', zh: '查看 GitHub', href: GITHUB_URL, icon: 'ti ti-brand-github', primary: true },
-      { key: 'paper', en: 'Technical Report', zh: '技术报告', href: ARXIV_URL, icon: 'ti ti-file-text' },
-      { key: 'docs', en: 'Documentation', zh: '文档', href: DOCS_BASE, icon: 'ti ti-book-2' },
+      { key: 'paper', en: 'Paper', zh: '技术报告', href: ARXIV_URL, icon: 'ti ti-file-text' },
+      { key: 'docs', en: 'Docs', zh: '文档', href: DOCS_BASE, icon: 'ti ti-book-2' },
       { key: 'hf', en: 'Hugging Face', zh: 'Hugging Face', href: HF_URL, icon: 'ti ti-box' },
     ],
     install: 'git clone https://github.com/starVLA/starVLA.git && cd starVLA && pip install -e .',
@@ -63,15 +63,15 @@ export const landingContent = {
     { key: 'stars', value: '3.9k', label: { en: 'GitHub stars', zh: 'GitHub Stars' }, live: 'stargazers_count', href: `${GITHUB_URL}/stargazers` },
     { key: 'policies', value: '27', label: { en: 'Policy implementations', zh: '策略实现' } },
     { key: 'benchmarks', value: '13', label: { en: 'Simulation benchmarks', zh: '仿真基准' } },
+    { key: 'forks', value: '519', label: { en: 'Forks', zh: 'Forks' }, live: 'forks_count', href: `${GITHUB_URL}/network` },
     { key: 'embodiments', value: '10', label: { en: 'Robot embodiments', zh: '机器人本体' } },
     { key: 'checkpoints', value: '41+', label: { en: 'Checkpoint repos', zh: '模型检查点仓库' }, href: HF_URL },
-    { key: 'forks', value: '519', label: { en: 'Forks', zh: 'Forks' }, live: 'forks_count', href: `${GITHUB_URL}/network` },
   ],
   // Interactive "compose your VLA" builder shown in the hero.
   composer: {
     title: { en: 'Compose your VLA', zh: '组合你的 VLA' },
     hint: {
-      en: 'Pick one brick per layer. Every combination shares the same trainer, dataloader and policy server.',
+      en: 'One brick per layer — all combos share one trainer and policy server.',
       zh: '每层选一块积木。所有组合共用同一套训练器、数据加载与策略服务。',
     },
     layers: [
@@ -127,7 +127,7 @@ export const landingContent = {
       },
     ],
     footnote: {
-      en: 'Illustrative config. Supported recipes and exact entry points are listed in the docs.',
+      en: 'Illustrative config — see the docs for supported combos and scripts.',
       zh: '示意性配置，实际支持的组合与入口脚本请以文档为准。',
     },
   },
