@@ -248,7 +248,7 @@ export const landingContent = {
         featured: true,
       },
       {
-        tag: { en: 'Evaluation', zh: '评测' },
+        tag: { en: 'Study', zh: '探究' },
         title: 'StarVLA-α: Reducing Complexity in Vision-Language-Action Systems',
         venue: 'ECCV 2026 · arXiv 2604.11757',
         summary: {
