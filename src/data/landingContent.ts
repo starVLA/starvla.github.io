@@ -536,8 +536,8 @@ export const landingContent = {
   citation: {
     title: { en: 'Citation', zh: '引用' },
     lead: {
-      en: 'If StarVLA helps your research, please cite the technical report and any of the follow-up work you build on.',
-      zh: '如果 StarVLA 对你的研究有帮助，请引用技术报告，以及你所基于的后续工作。',
+      en: 'If StarVLA helps your research, please cite the technical report and related work.',
+      zh: '如果 StarVLA 对你的研究有帮助，请引用技术报告和相关工作。',
     },
     bibtex: `@article{community2026starvla,
   title={StarVLA: A Lego-like Codebase for Vision-Language-Action Model Developing},
@@ -549,10 +549,10 @@ export const landingContent = {
   primaryClass={cs.RO}
 }
 
-@article{ye2026starvlaalpha,
+@inproceedings{ye2026starvlaalpha,
   title={StarVLA-$\\alpha$: Reducing Complexity in Vision-Language-Action Systems},
   author={Ye, Jinhui and Gao, Ning and Yang, Senqiao and Zheng, Jinliang and Wang, Zixuan and Chen, Yuxin and Chen, Pengguang and Chen, Yilun and Liu, Shu and Jia, Jiaya},
-  journal={arXiv preprint arXiv:2604.11757},
+  booktitle={European Conference on Computer Vision (ECCV)},
   year={2026},
   eprint={2604.11757},
   archivePrefix={arXiv},
