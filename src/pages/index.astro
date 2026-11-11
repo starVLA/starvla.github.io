@@ -152,40 +152,38 @@ const fmt = (v: number | null) => (v === null ? '–' : `${v.toFixed(1)}%`);
       </div>
 
       <div class="figure-grid reveal">
-        <figure class="figure">
+        <figure class="figure figure--wide">
           <img src={c.architecture.figure.src} alt={c.architecture.figure.alt} loading="lazy" />
           <figcaption><BiText en={c.architecture.figure.caption.en} zh={c.architecture.figure.caption.zh} /></figcaption>
         </figure>
-        <div class="figure-col">
-          <figure class="figure">
-            <img src={c.architecture.variants.src} alt={c.architecture.variants.alt} loading="lazy" />
-            <figcaption>
-              <BiText en={c.architecture.variants.caption.en} zh={c.architecture.variants.caption.zh} />
-            </figcaption>
-          </figure>
-          <article class="panel principles">
-            <h3><BiText en={c.architecture.principles.title.en} zh={c.architecture.principles.title.zh} /></h3>
-            <ul class="principle-list">
-              {
-                c.architecture.principles.items.map((p) => (
-                  <li>
-                    <span class="principle__icon">
-                      <i class={p.icon} aria-hidden="true" />
+        <figure class="figure">
+          <img src={c.architecture.variants.src} alt={c.architecture.variants.alt} loading="lazy" />
+          <figcaption>
+            <BiText en={c.architecture.variants.caption.en} zh={c.architecture.variants.caption.zh} />
+          </figcaption>
+        </figure>
+        <article class="panel principles">
+          <h3><BiText en={c.architecture.principles.title.en} zh={c.architecture.principles.title.zh} /></h3>
+          <ul class="principle-list">
+            {
+              c.architecture.principles.items.map((p) => (
+                <li>
+                  <span class="principle__icon">
+                    <i class={p.icon} aria-hidden="true" />
+                  </span>
+                  <span>
+                    <strong class="principle__title">
+                      <BiText en={p.title.en} zh={p.title.zh} />
+                    </strong>
+                    <span class="principle__body">
+                      <BiText en={p.body.en} zh={p.body.zh} />
                     </span>
-                    <span>
-                      <strong class="principle__title">
-                        <BiText en={p.title.en} zh={p.title.zh} />
-                      </strong>
-                      <span class="principle__body">
-                        <BiText en={p.body.en} zh={p.body.zh} />
-                      </span>
-                    </span>
-                  </li>
-                ))
-              }
-            </ul>
-          </article>
-        </div>
+                  </span>
+                </li>
+              ))
+            }
+          </ul>
+        </article>
       </div>
     </div>
   </section>

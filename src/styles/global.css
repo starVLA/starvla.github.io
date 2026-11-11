@@ -784,10 +784,8 @@ a.stat:hover {
   grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
   gap: 16px;
 }
-.figure-col {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+.figure--wide {
+  grid-column: 1 / -1;
 }
 .principles {
   flex: 1;

@@ -185,7 +185,7 @@ export const landingContent = {
     ],
     figure: {
       src: '/assets/starvla-overview.webp',
-      alt: 'Overview of the StarVLA framework: backbone network, action head, training strategy and benchmark evaluation layers.',
+      alt: 'Overview of the StarVLA framework: data integration, model encapsulation, training paradigms and benchmark integration, tied together by one experiment configuration.',
       caption: {
         en: 'StarVLA organises VLA research as a composable stack. Each axis is decoupled, so a new variant typically reduces to swapping one layer while reusing the rest.',
         zh: 'StarVLA 将 VLA 研究组织为可组合的栈：各层相互解耦，新变体通常只需替换一层并复用其余部分。',
