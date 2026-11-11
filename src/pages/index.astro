@@ -74,17 +74,16 @@ const fmt = (v: number | null) => (v === null ? '–' : `${v.toFixed(1)}%`);
           <h2 class="composer__title" id="composerTitle">
             <BiText en={c.composer.title.en} zh={c.composer.title.zh} />
           </h2>
-          <span class="composer__name" id="composerName">StarVLA-OFT</span>
+          <span class="composer__name">StarVLA</span>
         </div>
         <p class="composer__hint"><BiText en={c.composer.hint.en} zh={c.composer.hint.zh} /></p>
 
         <div class="composer__layers" id="composer">
           {
-            c.composer.layers.map((layer, li) => (
+            c.composer.layers.map((layer) => (
               <div class={`brick brick--${layer.tone}`} data-layer={layer.key}>
                 <div class="brick__label">
                   <BiText en={layer.label.en} zh={layer.label.zh} />
-                  <small>{String(li + 1).padStart(2, '0')}</small>
                 </div>
                 <div class="brick__options" role="group">
                   {layer.options.map((opt, oi) => (
@@ -94,7 +93,6 @@ const fmt = (v: number | null) => (v === null ? '–' : `${v.toFixed(1)}%`);
                       data-option={opt.key}
                     >
                       {opt.name}
-                      {'world' in opt && opt.world && <span class="chip__tag">WM</span>}
                     </button>
                   ))}
                 </div>
@@ -583,7 +581,6 @@ const fmt = (v: number | null) => (v === null ? '–' : `${v.toFixed(1)}%`);
     /* ---------------- Composer ---------------- */
     const composerRoot = document.getElementById('composer');
     const composerCode = document.getElementById('composerCode');
-    const composerName = document.getElementById('composerName');
     const selection = { backbone: 'qwen3vl', head: 'oft', recipe: 'sft', benchmark: 'libero' };
     const optionOf = (layerKey, optKey) =>
       composer.layers.find((l) => l.key === layerKey).options.find((o) => o.key === optKey);
@@ -594,7 +591,6 @@ const fmt = (v: number | null) => (v === null ? '–' : `${v.toFixed(1)}%`);
       const recipe = optionOf('recipe', selection.recipe);
       const bench = optionOf('benchmark', selection.benchmark);
       const framework = `${backbone.prefix}${head.suffix}`;
-      composerName.textContent = `StarVLA-${head.suffix}`;
 
       const comment = `# ${backbone.name} × ${head.name} × ${recipe.name} → ${bench.name}`;
       const lines = [

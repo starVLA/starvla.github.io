@@ -536,29 +536,21 @@ html[data-locale='zh'] [data-locale-content='zh'] {
 .brick--amber { --brick: var(--amber); --brick-soft: var(--amber-soft); }
 .brick--purple { --brick: var(--purple); --brick-soft: var(--purple-soft); }
 .brick__label {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  padding-top: 4px;
+  padding-top: 6px;
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--brick);
 }
-.brick__label small {
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0;
-  text-transform: none;
-  color: var(--ink-3);
-}
 .brick__options {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
 }
+/* Chips grow to fill each row so both edges of every brick line up. */
 .chip {
+  flex: 1 1 auto;
   height: 28px;
   padding: 0 10px;
   border-radius: 8px;
@@ -581,11 +573,6 @@ html[data-locale='zh'] [data-locale-content='zh'] {
 }
 [data-theme='dark'] .chip.is-active {
   color: #0b1220;
-}
-.chip__tag {
-  margin-left: 5px;
-  font-size: 10px;
-  opacity: 0.75;
 }
 .composer__output {
   margin-top: 14px;
