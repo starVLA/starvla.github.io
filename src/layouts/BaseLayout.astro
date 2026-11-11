@@ -64,9 +64,8 @@ const { links } = landingContent;
     <script is:inline>
       (() => {
         const storedTheme = localStorage.getItem('starvla-theme') || 'system';
-        const storedLocale =
-          localStorage.getItem('starvla-locale') ||
-          ((navigator.language || '').toLowerCase().startsWith('zh') ? 'zh' : 'en');
+        // English by default; only an explicit toggle (stored) switches to Chinese.
+        const storedLocale = localStorage.getItem('starvla-locale') === 'zh' ? 'zh' : 'en';
         const theme =
           storedTheme === 'system'
             ? window.matchMedia('(prefers-color-scheme: dark)').matches
