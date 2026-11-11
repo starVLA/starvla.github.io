@@ -1428,8 +1428,8 @@ a.stat:hover {
   font-size: 12.5px;
   white-space: pre-wrap;
   overflow-wrap: anywhere;
-  /* Fixed height (about one entry plus the start of the next); scroll for the rest. */
-  max-height: 300px;
+  /* Fixed height showing the first entry (10 lines + padding); scroll for the rest. */
+  max-height: calc(10lh + 28px);
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: #334155 transparent;
