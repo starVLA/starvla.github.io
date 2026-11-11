@@ -81,6 +81,7 @@ export const landingContent = {
         tone: 'blue',
         options: [
           { key: 'qwen3vl', name: 'Qwen3-VL', id: 'Qwen/Qwen3-VL-4B-Instruct', prefix: 'Qwen' },
+          { key: 'qwenvlmoe', name: 'QwenVL-MoE', id: 'Qwen/Qwen3-VL-30B-A3B-Instruct', prefix: 'Qwen' },
           { key: 'qwen35', name: 'Qwen3.5', id: 'Qwen/Qwen3.5-4B', prefix: 'Qwen' },
           { key: 'internvl', name: 'InternVL', id: 'OpenGVLab/InternVL3-2B', prefix: 'InternVL' },
           { key: 'florence', name: 'Florence-2', id: 'microsoft/Florence-2-large', prefix: 'Florence' },
@@ -144,10 +145,10 @@ export const landingContent = {
         icon: 'ti ti-brain',
         title: { en: 'Backbone network', zh: '骨干网络' },
         body: {
-          en: 'VLM backbones (Qwen3-VL, Qwen3.5, InternVL, Florence-2) and world-model backbones (Cosmos-Predict2, Wan2.2) behind one interface.',
-          zh: 'VLM 骨干（Qwen3-VL、Qwen3.5、InternVL、Florence-2）与世界模型骨干（Cosmos-Predict2、Wan2.2）共用同一接口。',
+          en: 'VLM backbones (Qwen3-VL, QwenVL-MoE, Qwen3.5, InternVL, Florence-2) and world-model backbones (Cosmos-Predict2, Wan2.2) behind one interface.',
+          zh: 'VLM 骨干（Qwen3-VL、QwenVL-MoE、Qwen3.5、InternVL、Florence-2）与世界模型骨干（Cosmos-Predict2、Wan2.2）共用同一接口。',
         },
-        chips: ['Qwen3-VL', 'Qwen3.5', 'InternVL', 'Florence-2', 'Cosmos', 'Wan2.2'],
+        chips: ['Qwen3-VL', 'QwenVL-MoE', 'Qwen3.5', 'InternVL', 'Florence-2', 'Cosmos', 'Wan2.2'],
       },
       {
         index: '02',
