@@ -44,7 +44,7 @@ export const landingContent = {
   hero: {
     eyebrow: { en: 'Open source · MIT License · arXiv 2604.05014', zh: '开源 · MIT 协议 · arXiv 2604.05014' },
     title: {
-      en: 'A Lego-like Codebase for VLA Models',
+      en: 'A Lego-like Codebase for VLA Model Developing',
       zh: '乐高式的视觉-语言-动作模型开发代码库',
     },
     subtitle: {
