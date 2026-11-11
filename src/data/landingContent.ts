@@ -530,7 +530,7 @@ export const landingContent = {
       { icon: 'ti ti-brand-github', title: 'GitHub', desc: { en: 'Source, issues and pull requests.', zh: '源码、Issue 与 PR。' }, href: GITHUB_URL },
       { icon: 'ti ti-brand-wechat', title: 'WeChat', desc: { en: 'Chinese discussion group (via issue thread).', zh: '中文交流群（通过 issue 链接加入）。' }, href: 'https://github.com/starVLA/starVLA/issues/64#issuecomment-3715403845' },
       { icon: 'ti ti-users-group', title: { en: 'Contributors group', zh: '贡献者小组' }, desc: { en: 'Coordinate releases and the contributor list.', zh: '协调版本发布与贡献者名单。' }, href: 'https://github.com/starVLA/starVLA/issues/393' },
-      { icon: 'ti ti-notebook', title: { en: 'Daily dev log', zh: '每日开发日志' }, desc: { en: 'Follow what lands in starVLA_dev.', zh: '跟进 starVLA_dev 分支的最新进展。' }, href: 'https://github.com/starVLA/starVLA/issues/64#issue-3727060165' },
+      { icon: 'ti ti-notebook', title: { en: 'Daily dev log', zh: '日常开发日志' }, desc: { en: 'Follow what lands in starVLA_dev.', zh: '跟进 starVLA_dev 分支的最新进展。' }, href: 'https://github.com/starVLA/starVLA/issues/64#issue-3727060165' },
     ],
   },
   citation: {
