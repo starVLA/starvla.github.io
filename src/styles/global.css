@@ -524,8 +524,8 @@ html[data-locale='zh'] [data-locale-content='zh'] {
   display: grid;
   grid-template-columns: 112px 1fr;
   gap: 10px;
-  align-items: start;
-  padding: 10px 12px 12px;
+  align-items: center;
+  padding: 11px 12px;
   border-radius: 12px;
   border: 1px solid var(--line);
   background: var(--brick-soft, var(--bg-sunken));
@@ -536,7 +536,6 @@ html[data-locale='zh'] [data-locale-content='zh'] {
 .brick--amber { --brick: var(--amber); --brick-soft: var(--amber-soft); }
 .brick--purple { --brick: var(--purple); --brick-soft: var(--purple-soft); }
 .brick__label {
-  padding-top: 6px;
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.04em;
