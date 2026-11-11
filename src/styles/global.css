@@ -663,8 +663,14 @@ a.stat:hover {
   gap: 16px;
   margin-bottom: 48px;
 }
+/* Cards share row tracks (subgrid) so titles, bodies and tag rows line up
+   across a row even when one body runs a line longer. */
 .layer-card {
   position: relative;
+  display: grid;
+  grid-row: span 4;
+  grid-template-rows: subgrid;
+  row-gap: 0;
   padding: 22px 20px 20px;
   border-radius: var(--radius);
   border: 1px solid var(--line);
@@ -737,6 +743,7 @@ a.stat:hover {
 .tag-row {
   display: flex;
   flex-wrap: wrap;
+  align-content: flex-start;
   gap: 6px;
 }
 .tag {
