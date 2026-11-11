@@ -641,7 +641,7 @@ const fmt = (v: number | null) => (v === null ? '–' : `${v.toFixed(1)}%`);
         commandB.textContent = '';
         quickNote.textContent = zh
           ? '提示：请在 starVLA 环境中执行，并按本地路径校正命令。'
-          : 'Tip: run inside your starVLA environment and adjust paths to your setup.';
+          : 'Run inside the starVLA conda env and adjust paths for your machine.';
         return;
       }
       const cmd = quickStart.presets.evaluate.mapping[currentBenchmark];
@@ -651,7 +651,7 @@ const fmt = (v: number | null) => (v === null ? '–' : `${v.toFixed(1)}%`);
       commandB.textContent = cmd.terminalB;
       quickNote.textContent = zh
         ? '评测使用两个终端与独立依赖环境；请显式设置 checkpoint 路径与环境变量。'
-        : 'Evaluation uses two terminals with separate dependencies. Keep checkpoint paths and env variables explicit.';
+        : 'Point the scripts at your checkpoint and set any env variables before launching.';
     }
 
     goalButtons.forEach((button) =>

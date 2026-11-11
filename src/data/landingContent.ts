@@ -366,7 +366,7 @@ export const landingContent = {
   quickStart: {
     title: { en: 'From zero to a running policy', zh: '从零到跑起来' },
     intro: {
-      en: 'Pick a goal and copy the commands. Evaluation always runs in two terminals: the policy server keeps model dependencies isolated from the simulator.',
+      en: 'Pick a task, copy the commands, and you\'re running. Evaluation splits the policy server and the simulator into separate terminals, so their dependencies never collide.',
       zh: '选择目标并复制命令。评测始终使用两个终端：策略服务将模型依赖与仿真器隔离。',
     },
     goals: [
@@ -430,25 +430,25 @@ export const landingContent = {
       {
         icon: 'ti ti-route',
         title: { en: 'Step-by-step guide', zh: '新手指南' },
-        desc: { en: 'Install → train → evaluate on LIBERO.', zh: '从安装、训练到 LIBERO 评测的完整流程。' },
+        desc: { en: 'Install, train and evaluate on LIBERO, end to end.', zh: '从安装、训练到 LIBERO 评测的完整流程。' },
         href: 'https://github.com/starVLA/starVLA/blob/main/docs/starVLA_guideline.md',
       },
       {
         icon: 'ti ti-database-plus',
         title: { en: 'Integrate your dataset', zh: '接入你的数据集' },
-        desc: { en: 'Bring your own robot / dataset into StarVLA.', zh: '将自己的机器人或数据集接入 StarVLA。' },
+        desc: { en: 'Train on your own robot data.', zh: '将自己的机器人或数据集接入 StarVLA。' },
         href: 'https://github.com/starVLA/starVLA/blob/main/docs/integrate_your_dataset.md',
       },
       {
         icon: 'ti ti-puzzle',
         title: { en: 'Lego-like design', zh: '乐高式设计' },
-        desc: { en: 'Top-down modular principles for extending the framework.', zh: '用于扩展框架的自顶向下模块化原则。' },
+        desc: { en: 'How the modules fit together, and how to add your own.', zh: '用于扩展框架的自顶向下模块化原则。' },
         href: `${DOCS_BASE}/design/lego-like/`,
       },
       {
         icon: 'ti ti-plug-connected',
         title: { en: 'Evaluation protocol', zh: '评测协议' },
-        desc: { en: 'The unified policy client–server interface.', zh: '统一的策略客户端-服务端接口。' },
+        desc: { en: 'One client–server interface for every benchmark.', zh: '统一的策略客户端-服务端接口。' },
         href: `${DOCS_BASE}/design/eval-protocol/`,
       },
     ],
