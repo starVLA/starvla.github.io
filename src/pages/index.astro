@@ -1,221 +1,347 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import BiText from '../components/BiText.astro';
+import VariantDefs from '../components/VariantDefs.astro';
+import VariantDiagram from '../components/VariantDiagram.astro';
 import { landingContent as c } from '../data/landingContent';
 
 const maxBar = 100;
 const widthOf = (v: number | null) => (v === null ? 0 : (v / maxBar) * 100);
 const fmt = (v: number | null) => (v === null ? '–' : `${v.toFixed(1)}%`);
+const ext = (href: string) => (href.startsWith('/') ? {} : { target: '_blank', rel: 'noopener noreferrer' });
 ---
 
 <BaseLayout title={c.meta.title} description={c.meta.description}>
   <!-- ============================== HERO ============================== -->
+  <!-- Centred head, then the composer as the page's main visual, then the numbers in one row -->
   <section id="overview" class="hero">
-    <div class="container hero__grid">
-      <div class="reveal is-visible">
-        <span class="hero__eyebrow">
-          <span class="dot" aria-hidden="true"></span>
-          <BiText en={c.hero.eyebrow.en} zh={c.hero.eyebrow.zh} />
-        </span>
-        <h1 class="hero__title">
-          <span class="brand-word">StarVLA</span>
-          <BiText en={c.hero.title.en} zh={c.hero.title.zh} />
-        </h1>
-        <p class="hero__subtitle">
-          <BiText en={c.hero.subtitle.en} zh={c.hero.subtitle.zh} />
-        </p>
-        <div class="cta-row">
-          {
-            c.hero.ctas.map((cta) => (
-              <a
-                class={`btn ${cta.primary ? 'btn--primary' : ''}`}
-                href={cta.href}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <i class={cta.icon} aria-hidden="true" />
-                <BiText en={cta.en} zh={cta.zh} />
-              </a>
-            ))
-          }
-        </div>
-        <div class="hero__install">
-          <code id="heroInstall">{c.hero.install}</code>
-          <button class="copy-btn" type="button" data-copy="#heroInstall" aria-label="Copy command">
-            <i class="ti ti-copy" aria-hidden="true"></i>
-            <span data-copy-label><BiText en="Copy" zh="复制" /></span>
-          </button>
-        </div>
-        <div class="stats">
-          {
-            c.stats.map((s) => {
-              const Tag = 'href' in s && s.href ? 'a' : 'div';
-              return (
-                <Tag
-                  class="stat"
-                  {...('href' in s && s.href ? { href: s.href, target: '_blank', rel: 'noopener noreferrer' } : {})}
-                >
-                  <span class="stat__value" {...('live' in s && s.live ? { 'data-live': s.live } : {})}>
-                    {s.value}
-                  </span>
-                  <span class="stat__label">
-                    <BiText en={s.label.en} zh={s.label.zh} />
-                  </span>
-                </Tag>
-              );
-            })
-          }
-        </div>
+    <div class="container hero__head">
+      <a class="hero__eyebrow" href={c.links.arxiv} target="_blank" rel="noopener noreferrer">
+        <span class="dot" aria-hidden="true"></span>
+        <BiText en={c.hero.eyebrow.en} zh={c.hero.eyebrow.zh} />
+        <i class="ti ti-arrow-up-right" aria-hidden="true"></i>
+      </a>
+      <h1 class="hero__title">
+        <span class="brand-word">StarVLA</span>
+        <span class="hero__tagline"><BiText en={c.hero.title.en} zh={c.hero.title.zh} /></span>
+      </h1>
+      <p class="hero__subtitle">
+        <BiText en={c.hero.subtitle.en} zh={c.hero.subtitle.zh} />
+      </p>
+      <div class="cta-row">
+        {
+          c.hero.ctas.map((cta) => (
+            <a class={`btn ${cta.primary ? 'btn--primary' : ''}`} href={cta.href} target="_blank" rel="noopener noreferrer">
+              <i class={cta.icon} aria-hidden="true" />
+              <BiText en={cta.en} zh={cta.zh} />
+            </a>
+          ))
+        }
       </div>
+      <div class="hero__install">
+        <code id="heroInstall">{c.hero.install}</code>
+        <button class="copy-btn" type="button" data-copy="#heroInstall" aria-label="Copy command">
+          <i class="ti ti-copy" aria-hidden="true"></i>
+          <span data-copy-label><BiText en="Copy" zh="复制" /></span>
+        </button>
+      </div>
+    </div>
 
-      <!-- Lego composer -->
-      <aside class="composer reveal is-visible" aria-labelledby="composerTitle">
-        <div class="composer__head">
-          <h2 class="composer__title" id="composerTitle">
-            <BiText en={c.composer.title.en} zh={c.composer.title.zh} />
-          </h2>
-          <span class="composer__name">StarVLA</span>
-        </div>
-        <p class="composer__hint"><BiText en={c.composer.hint.en} zh={c.composer.hint.zh} /></p>
-
-        <div class="composer__layers" id="composer">
-          {
-            c.composer.layers.map((layer) => (
-              <div class={`brick brick--${layer.tone}`} data-layer={layer.key}>
-                <div class="brick__label">
-                  <BiText en={layer.label.en} zh={layer.label.zh} />
+    <div class="container">
+      <!-- Composer: pick one option per layer; the config and the training command on the right follow -->
+      <div class="composer" aria-labelledby="composerTitle">
+        <div class="composer__controls">
+          <div class="composer__head">
+            <h2 class="composer__title" id="composerTitle"><BiText en={c.composer.title.en} zh={c.composer.title.zh} /></h2>
+            <p class="composer__hint"><BiText en={c.composer.hint.en} zh={c.composer.hint.zh} /></p>
+          </div>
+          <div class="composer__layers" id="composer">
+            {
+              c.composer.layers.map((layer, li) => (
+                <div class={`brick brick--${layer.tone}`} data-layer={layer.key}>
+                  <div class="brick__label" id={`layer-${layer.key}`}>
+                    <span class="brick__no">{String(li + 1).padStart(2, '0')}</span>
+                    <BiText en={layer.label.en} zh={layer.label.zh} />
+                  </div>
+                  <div class="brick__options" role="group" aria-labelledby={`layer-${layer.key}`}>
+                    {layer.options.map((opt, oi) => {
+                      const on = oi === (layer.key === 'head' ? 1 : 0);
+                      return (
+                        <button class={`chip ${on ? 'is-active' : ''}`} type="button" data-option={opt.key} aria-pressed={on ? 'true' : 'false'}>
+                          {opt.name}
+                        </button>
+                      );
+                    })}
+                  </div>
                 </div>
-                <div class="brick__options" role="group">
-                  {layer.options.map((opt, oi) => (
-                    <button
-                      class={`chip ${oi === (layer.key === 'head' ? 1 : 0) ? 'is-active' : ''}`}
-                      type="button"
-                      data-option={opt.key}
-                    >
-                      {opt.name}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            ))
-          }
+              ))
+            }
+          </div>
         </div>
-
         <div class="composer__output">
           <div class="composer__output-head">
-            <span>configs/my_vla.yaml</span>
+            <span class="composer__file"><i class="ti ti-file-code" aria-hidden="true"></i> configs/my_vla.yaml</span>
             <button class="copy-btn" type="button" data-copy="#composerCode" aria-label="Copy config">
               <i class="ti ti-copy" aria-hidden="true"></i>
               <span data-copy-label><BiText en="Copy" zh="复制" /></span>
             </button>
           </div>
           <pre class="composer__code" id="composerCode"></pre>
+          <div class="composer__run" id="composerRunBox">
+            <span class="composer__prompt" aria-hidden="true">$</span>
+            <code id="composerRun"></code>
+            <button class="copy-btn copy-btn--icon" type="button" data-copy="#composerRun" aria-label="Copy command">
+              <i class="ti ti-copy" aria-hidden="true"></i>
+              <i class="ti ti-check" aria-hidden="true"></i>
+            </button>
+          </div>
+          <p class="composer__foot"><BiText en={c.composer.footnote.en} zh={c.composer.footnote.zh} /></p>
         </div>
-        <p class="composer__foot"><BiText en={c.composer.footnote.en} zh={c.composer.footnote.zh} /></p>
-      </aside>
+      </div>
+
+      <div class="stats">
+        {
+          c.stats.map((s) => {
+            const Tag = 'href' in s && s.href ? 'a' : 'div';
+            return (
+              <Tag class="stat" {...('href' in s && s.href ? { href: s.href, target: '_blank', rel: 'noopener noreferrer' } : {})}>
+                <span class="stat__value" {...('live' in s && s.live ? { 'data-live': s.live } : {})}>{s.value}</span>
+                <span class="stat__label"><BiText en={s.label.en} zh={s.label.zh} /></span>
+              </Tag>
+            );
+          })
+        }
+      </div>
     </div>
   </section>
 
   <!-- =========================== ARCHITECTURE ========================= -->
   <section id="architecture" class="section">
     <div class="container">
-      <div class="section-head reveal">
-        <span class="eyebrow"><BiText en="Architecture" zh="架构" /></span>
-        <h2 class="section-title"><BiText en={c.architecture.title.en} zh={c.architecture.title.zh} /></h2>
+      <div class="section-head section-head--split reveal">
+        <div>
+          <span class="eyebrow"><BiText en="Architecture" zh="架构" /></span>
+          <h2 class="section-title"><BiText en={c.architecture.title.en} zh={c.architecture.title.zh} /></h2>
+        </div>
         <p class="section-lead"><BiText en={c.architecture.lead.en} zh={c.architecture.lead.zh} /></p>
       </div>
 
-      <div class="layer-grid reveal">
+      <!-- The four layers drawn as a stack, in the composer's colours -->
+      <div class="stack reveal">
         {
           c.architecture.layers.map((layer) => (
-            <article class={`layer-card layer-card--${layer.tone}`}>
-              <div class="layer-card__top">
-                <span class="layer-card__icon">
-                  <i class={layer.icon} aria-hidden="true" />
-                </span>
-                <span class="layer-card__index">{layer.index}</span>
+            <article class={`stack__layer tone--${layer.tone}`}>
+              <div class="stack__key">
+                <span class="stack__no">{layer.index}</span>
+                <i class={layer.icon} aria-hidden="true" />
               </div>
-              <h3>
-                <BiText en={layer.title.en} zh={layer.title.zh} />
-              </h3>
-              <p>
-                <BiText en={layer.body.en} zh={layer.body.zh} />
-              </p>
-              <div class="tag-row">
-                {layer.chips.map((chip) => (
-                  <span class="tag">{chip}</span>
-                ))}
+              <div class="stack__text">
+                <h3><BiText en={layer.title.en} zh={layer.title.zh} /></h3>
+                <p><BiText en={layer.body.en} zh={layer.body.zh} /></p>
+              </div>
+              <div class="stack__tags">
+                {layer.chips.map((chip) => <span class="tag">{chip}</span>)}
               </div>
             </article>
           ))
         }
       </div>
 
-      <div class="figure-grid reveal">
-        <figure class="figure figure--wide">
-          <img src={c.architecture.figure.src} alt={c.architecture.figure.alt} loading="lazy" />
-          <figcaption><BiText en={c.architecture.figure.caption.en} zh={c.architecture.figure.caption.zh} /></figcaption>
-        </figure>
-        <figure class="figure">
-          <img src={c.architecture.variants.src} alt={c.architecture.variants.alt} loading="lazy" />
-          <figcaption>
-            <BiText en={c.architecture.variants.caption.en} zh={c.architecture.variants.caption.zh} />
-          </figcaption>
-        </figure>
-        <article class="panel principles">
-          <h3><BiText en={c.architecture.principles.title.en} zh={c.architecture.principles.title.zh} /></h3>
-          <ul class="principle-list">
+      <div class="principles reveal">
+        <h3><BiText en={c.architecture.principles.title.en} zh={c.architecture.principles.title.zh} /></h3>
+        <ul class="principle-list">
+          {
+            c.architecture.principles.items.map((p) => (
+              <li>
+                <span class="principle__icon"><i class={p.icon} aria-hidden="true" /></span>
+                <span>
+                  <strong class="principle__title"><BiText en={p.title.en} zh={p.title.zh} /></strong>
+                  <span class="principle__body"><BiText en={p.body.en} zh={p.body.zh} /></span>
+                </span>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <figure class="figure reveal">
+        <img src={c.architecture.figure.src} alt={c.architecture.figure.alt} loading="lazy" />
+        <figcaption><BiText en={c.architecture.figure.caption.en} zh={c.architecture.figure.caption.zh} /></figcaption>
+      </figure>
+      <figure class="figure figure--variants reveal">
+        <VariantDefs />
+        <div class="variants">
+          {
+            c.architecture.variants.items.map((v) => (
+              <div class="variant">
+                <VariantDiagram kind={v.kind} label={`${v.name}: ${v.desc.en}`} />
+                <h4 class="variant__name">
+                  {v.name}
+                  <span class="variant__like"><BiText en={`à la ${v.like}`} zh={`类似 ${v.like}`} /></span>
+                </h4>
+                <p class="variant__desc"><BiText en={v.desc.en} zh={v.desc.zh} /></p>
+              </div>
+            ))
+          }
+        </div>
+        <figcaption class="variants__caption">
+          <BiText en={c.architecture.variants.caption.en} zh={c.architecture.variants.caption.zh} />
+          <span class="variants__legend">
+            <span><i class="variants__swatch variants__swatch--vlm"></i><BiText en={c.architecture.variants.legend.shared.en} zh={c.architecture.variants.legend.shared.zh} /></span>
+            <span><i class="variants__swatch variants__swatch--head"></i><BiText en={c.architecture.variants.legend.head.en} zh={c.architecture.variants.legend.head.zh} /></span>
+          </span>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ============================ BENCHMARKS ========================== -->
+  <section id="benchmarks" class="section section--band">
+    <div class="container">
+      <div class="section-head section-head--split reveal">
+        <div>
+          <span class="eyebrow"><BiText en="Benchmarks" zh="基准" /></span>
+          <h2 class="section-title"><BiText en={c.benchmarks.title.en} zh={c.benchmarks.title.zh} /></h2>
+        </div>
+        <p class="section-lead"><BiText en={c.benchmarks.lead.en} zh={c.benchmarks.lead.zh} /></p>
+      </div>
+
+      <div class="video-grid reveal">
+        {
+          c.benchmarks.videos.map((card) => (
+            <article class="video-card">
+              <div class="video-stage" data-carousel>
+                {card.videos.map((src, i) => (
+                  <video class={i === 0 ? 'is-active' : ''} muted loop playsinline preload={i === 0 ? 'metadata' : 'none'} aria-label={`${card.title} demo ${i + 1}`}>
+                    <source src={src} type="video/mp4" />
+                  </video>
+                ))}
+                <div class="video-card__overlay">
+                  <div>
+                    <h3 class="video-card__title">{card.title}</h3>
+                    <span class="video-card__metric"><BiText en={card.metric.en} zh={card.metric.zh} /></span>
+                  </div>
+                  <span class="video-card__value">{card.value}</span>
+                </div>
+                <div class="video-dots">
+                  {card.videos.map((_, i) => (
+                    <button class={`video-dot ${i === 0 ? 'is-active' : ''}`} type="button" data-index={i} aria-label={`Show demo ${i + 1}`} />
+                  ))}
+                </div>
+              </div>
+              <a class="video-card__src" href={card.source} target="_blank" rel="noopener noreferrer">
+                <BiText en="Source" zh="来源" /> <i class="ti ti-arrow-up-right" aria-hidden="true"></i>
+              </a>
+            </article>
+          ))
+        }
+      </div>
+
+      <article class="panel chart reveal">
+        <div class="chart__head">
+          <div>
+            <h3><BiText en={c.benchmarks.comparison.title.en} zh={c.benchmarks.comparison.title.zh} /></h3>
+            <p class="panel__note"><BiText en={c.benchmarks.comparison.note.en} zh={c.benchmarks.comparison.note.zh} /></p>
+          </div>
+          <div class="legend">
+            <span><i class="swatch swatch--specialist"></i><BiText en={c.benchmarks.comparison.series[0].label.en} zh={c.benchmarks.comparison.series[0].label.zh} /></span>
+            <span><i class="swatch swatch--generalist"></i><BiText en={c.benchmarks.comparison.series[1].label.en} zh={c.benchmarks.comparison.series[1].label.zh} /></span>
+            <span><i class="swatch swatch--previous"></i>{c.benchmarks.comparison.series[2].label.en}</span>
+          </div>
+        </div>
+        <div class="bars">
+          {
+            c.benchmarks.comparison.rows.map((row) => (
+              <div class="bar-row">
+                <span class="bar-row__name">{row.benchmark}</span>
+                <div class="bar-row__bars">
+                  {(['specialist', 'generalist', 'previous'] as const).map((k) => (
+                    <div class={`bar bar--${k} ${row[k] === null ? 'bar--na' : ''}`} style={`--w: ${widthOf(row[k])}%`} title={`${row.benchmark} · ${k}: ${fmt(row[k])}`}>
+                      <span />
+                      <b>{fmt(row[k])}</b>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))
+          }
+        </div>
+        <p class="panel__foot"><BiText en={c.benchmarks.comparison.footnote.en} zh={c.benchmarks.comparison.footnote.zh} /></p>
+      </article>
+
+      <div class="support reveal">
+        <article class="panel support__benchmarks">
+          <h3><BiText en={c.benchmarks.supported.title.en} zh={c.benchmarks.supported.title.zh} /></h3>
+          <p class="panel__note">
+            <BiText
+              en="Every benchmark ships with a training recipe, a policy-server entry point and an evaluation script."
+              zh="每个基准都附带训练配方、策略服务入口与评测脚本。"
+            />
+          </p>
+          <div class="bench-list">
             {
-              c.architecture.principles.items.map((p) => (
-                <li>
-                  <span class="principle__icon">
-                    <i class={p.icon} aria-hidden="true" />
-                  </span>
-                  <span>
-                    <strong class="principle__title">
-                      <BiText en={p.title.en} zh={p.title.zh} />
-                    </strong>
-                    <span class="principle__body">
-                      <BiText en={p.body.en} zh={p.body.zh} />
-                    </span>
-                  </span>
-                </li>
+              c.benchmarks.supported.items.map((b) => (
+                <span class={`bench ${b.done ? '' : 'bench--todo'}`}>
+                  <i class={b.done ? 'ti ti-circle-check-filled' : 'ti ti-circle-dashed'} aria-hidden="true" />
+                  {b.name}
+                </span>
               ))
             }
-          </ul>
+          </div>
+          <p class="panel__foot"><BiText en="Dashed items are in progress." zh="虚线项为进行中。" /></p>
         </article>
+        <div class="support__side">
+        <article class="panel">
+          <h3><BiText en="Robot embodiments" zh="机器人本体" /></h3>
+          <div class="bench-list bench-list--one">
+            {c.benchmarks.supported.embodiments.map((e) => <span class="bench"><i class="ti ti-point-filled" aria-hidden="true" />{e}</span>)}
+          </div>
+        </article>
+        <article class="panel">
+          <h3><BiText en="Reports" zh="报告" /></h3>
+          <div class="report-list">
+            {
+              c.benchmarks.supported.reports.map((r) => (
+                <a href={r.href} target="_blank" rel="noopener noreferrer">
+                  <i class={r.icon} aria-hidden="true" />
+                  <BiText en={r.label.en} zh={r.label.zh} />
+                </a>
+              ))
+            }
+          </div>
+        </article>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- ============================= RESEARCH =========================== -->
-  <section id="research" class="section section--band">
+  <section id="research" class="section">
     <div class="container">
-      <div class="section-head reveal">
-        <span class="eyebrow"><BiText en="Research" zh="研究" /></span>
-        <h2 class="section-title"><BiText en={c.research.title.en} zh={c.research.title.zh} /></h2>
+      <div class="section-head section-head--split reveal">
+        <div>
+          <span class="eyebrow"><BiText en="Research" zh="研究" /></span>
+          <h2 class="section-title"><BiText en={c.research.title.en} zh={c.research.title.zh} /></h2>
+        </div>
         <p class="section-lead"><BiText en={c.research.lead.en} zh={c.research.lead.zh} /></p>
       </div>
 
-      <div class="paper-grid reveal">
+      <!-- One paper per row -->
+      <div class="papers reveal">
         {
           c.research.papers.map((paper) => (
             <article class={`paper ${'featured' in paper && paper.featured ? 'paper--featured' : ''}`}>
-              <span class="paper__tag">
-                <BiText en={paper.tag.en} zh={paper.tag.zh} />
-              </span>
-              <h3>{paper.title}</h3>
-              <p class="paper__venue">{paper.venue}</p>
-              <p class="paper__summary">
-                <BiText en={paper.summary.en} zh={paper.summary.zh} />
-              </p>
+              <div class="paper__meta">
+                <span class="paper__tag"><BiText en={paper.tag.en} zh={paper.tag.zh} /></span>
+                <span class="paper__venue">{paper.venue}</span>
+              </div>
+              <div class="paper__main">
+                <h3>{paper.title}</h3>
+                <p class="paper__summary"><BiText en={paper.summary.en} zh={paper.summary.zh} /></p>
+              </div>
               <div class="paper__links">
                 {paper.links.map((link) => (
-                  <a
-                    class="pill-link"
-                    href={link.href}
-                    {...(link.href.startsWith('/') ? {} : { target: '_blank', rel: 'noopener noreferrer' })}
-                  >
+                  <a class="pill-link" href={link.href} {...ext(link.href)}>
                     {link.label}
                     <i class="ti ti-arrow-up-right" aria-hidden="true" />
                   </a>
@@ -228,147 +354,14 @@ const fmt = (v: number | null) => (v === null ? '–' : `${v.toFixed(1)}%`);
     </div>
   </section>
 
-  <!-- ============================ BENCHMARKS ========================== -->
-  <section id="benchmarks" class="section">
-    <div class="container">
-      <div class="section-head reveal">
-        <span class="eyebrow"><BiText en="Benchmarks" zh="基准" /></span>
-        <h2 class="section-title"><BiText en={c.benchmarks.title.en} zh={c.benchmarks.title.zh} /></h2>
-        <p class="section-lead"><BiText en={c.benchmarks.lead.en} zh={c.benchmarks.lead.zh} /></p>
-      </div>
-
-      <div class="video-grid reveal">
-        {
-          c.benchmarks.videos.map((card) => (
-            <article class="video-card">
-              <div class="video-stage" data-carousel>
-                {card.videos.map((src, i) => (
-                  <video
-                    class={i === 0 ? 'is-active' : ''}
-                    muted
-                    loop
-                    playsinline
-                    preload={i === 0 ? 'metadata' : 'none'}
-                    aria-label={`${card.title} demo ${i + 1}`}
-                  >
-                    <source src={src} type="video/mp4" />
-                  </video>
-                ))}
-                <div class="video-dots">
-                  {card.videos.map((_, i) => (
-                    <button
-                      class={`video-dot ${i === 0 ? 'is-active' : ''}`}
-                      type="button"
-                      data-index={i}
-                      aria-label={`Show demo ${i + 1}`}
-                    />
-                  ))}
-                </div>
-              </div>
-              <div class="video-card__body">
-                <h3 class="video-card__title">{card.title}</h3>
-                <span class="video-card__metric">
-                  <BiText en={card.metric.en} zh={card.metric.zh} />
-                </span>
-                <span class="video-card__value">{card.value}</span>
-                <span class="video-card__src">
-                  <a href={card.source} target="_blank" rel="noopener noreferrer">
-                    <BiText en="Source" zh="来源" /> ↗
-                  </a>
-                </span>
-              </div>
-            </article>
-          ))
-        }
-      </div>
-
-      <div class="compare reveal">
-        <article class="panel">
-          <h3><BiText en={c.benchmarks.comparison.title.en} zh={c.benchmarks.comparison.title.zh} /></h3>
-          <p class="panel__note"><BiText en={c.benchmarks.comparison.note.en} zh={c.benchmarks.comparison.note.zh} /></p>
-          <div class="legend">
-            <span><i style="background: var(--accent)"></i><BiText en={c.benchmarks.comparison.series[0].label.en} zh={c.benchmarks.comparison.series[0].label.zh} /></span>
-            <span><i style="background: color-mix(in srgb, var(--accent) 45%, transparent)"></i><BiText en={c.benchmarks.comparison.series[1].label.en} zh={c.benchmarks.comparison.series[1].label.zh} /></span>
-            <span><i style="background: var(--ink-3); opacity: .55"></i>{c.benchmarks.comparison.series[2].label.en}</span>
-          </div>
-          <div class="bars">
-            {
-              c.benchmarks.comparison.rows.map((row) => (
-                <div class="bar-row">
-                  <span class="bar-row__name">{row.benchmark}</span>
-                  <div class="bar-row__bars">
-                    {(['specialist', 'generalist', 'previous'] as const).map((k) => (
-                      <div
-                        class={`bar bar--${k} ${row[k] === null ? 'bar--na' : ''}`}
-                        style={`--w: ${widthOf(row[k])}%`}
-                        title={`${row.benchmark} · ${k}: ${fmt(row[k])}`}
-                      >
-                        <span />
-                        <b>{fmt(row[k])}</b>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              ))
-            }
-          </div>
-          <p class="panel__foot"><BiText en={c.benchmarks.comparison.footnote.en} zh={c.benchmarks.comparison.footnote.zh} /></p>
-        </article>
-
-        <article class="panel">
-          <h3><BiText en={c.benchmarks.supported.title.en} zh={c.benchmarks.supported.title.zh} /></h3>
-          <p class="panel__note">
-            <BiText
-              en="Every benchmark ships with a training recipe, a policy-server entry point and an evaluation script."
-              zh="每个基准都附带训练配方、策略服务入口与评测脚本。"
-            />
-          </p>
-          <div class="panel__group">
-            <span class="panel__group-title"><BiText en="Simulation & real robots" zh="仿真与真机" /></span>
-            <div class="bench-list">
-              {
-                c.benchmarks.supported.items.map((b) => (
-                  <span class={`bench ${b.done ? '' : 'bench--todo'}`}>
-                    <i class={b.done ? 'ti ti-circle-check-filled' : 'ti ti-circle-dashed'} aria-hidden="true" />
-                    {b.name}
-                  </span>
-                ))
-              }
-            </div>
-            <p class="panel__foot">
-              <BiText en="Dashed items are in progress." zh="虚线项为进行中。" />
-            </p>
-          </div>
-          <div class="panel__group">
-            <span class="panel__group-title"><BiText en="Robot embodiments" zh="机器人本体" /></span>
-            <div class="bench-list">
-              {c.benchmarks.supported.embodiments.map((e) => <span class="bench">{e}</span>)}
-            </div>
-          </div>
-          <div class="panel__group">
-            <span class="panel__group-title"><BiText en="Reports" zh="报告" /></span>
-            <div class="report-list">
-              {
-                c.benchmarks.supported.reports.map((r) => (
-                  <a href={r.href} target="_blank" rel="noopener noreferrer">
-                    <i class={r.icon} aria-hidden="true" />
-                    <BiText en={r.label.en} zh={r.label.zh} />
-                  </a>
-                ))
-              }
-            </div>
-          </div>
-        </article>
-      </div>
-    </div>
-  </section>
-
   <!-- ============================ QUICK START ========================= -->
   <section id="quick-start" class="section section--band">
     <div class="container">
-      <div class="section-head reveal">
-        <span class="eyebrow"><BiText en="Quick start" zh="快速开始" /></span>
-        <h2 class="section-title"><BiText en={c.quickStart.title.en} zh={c.quickStart.title.zh} /></h2>
+      <div class="section-head section-head--split reveal">
+        <div>
+          <span class="eyebrow"><BiText en="Quick start" zh="快速开始" /></span>
+          <h2 class="section-title"><BiText en={c.quickStart.title.en} zh={c.quickStart.title.zh} /></h2>
+        </div>
         <p class="section-lead"><BiText en={c.quickStart.intro.en} zh={c.quickStart.intro.zh} /></p>
       </div>
 
@@ -425,16 +418,10 @@ const fmt = (v: number | null) => (v === null ? '–' : `${v.toFixed(1)}%`);
           {
             c.quickStart.guides.map((g) => (
               <a class="guide" href={g.href} target="_blank" rel="noopener noreferrer">
-                <span class="guide__icon">
-                  <i class={g.icon} aria-hidden="true" />
-                </span>
+                <span class="guide__icon"><i class={g.icon} aria-hidden="true" /></span>
                 <span class="guide__text">
-                  <span class="guide__title">
-                    <BiText en={g.title.en} zh={g.title.zh} />
-                  </span>
-                  <span class="guide__desc">
-                    <BiText en={g.desc.en} zh={g.desc.zh} />
-                  </span>
+                  <span class="guide__title"><BiText en={g.title.en} zh={g.title.zh} /></span>
+                  <span class="guide__desc"><BiText en={g.desc.en} zh={g.desc.zh} /></span>
                 </span>
                 <i class="ti ti-arrow-up-right arrow" aria-hidden="true" />
               </a>
@@ -448,25 +435,22 @@ const fmt = (v: number | null) => (v === null ? '–' : `${v.toFixed(1)}%`);
   <!-- ============================= MODEL ZOO ========================== -->
   <section id="model-zoo" class="section">
     <div class="container">
-      <div class="section-head reveal">
-        <span class="eyebrow"><BiText en="Model zoo" zh="模型库" /></span>
-        <h2 class="section-title"><BiText en={c.modelZoo.title.en} zh={c.modelZoo.title.zh} /></h2>
+      <div class="section-head section-head--split reveal">
+        <div>
+          <span class="eyebrow"><BiText en="Model zoo" zh="模型库" /></span>
+          <h2 class="section-title"><BiText en={c.modelZoo.title.en} zh={c.modelZoo.title.zh} /></h2>
+        </div>
         <p class="section-lead"><BiText en={c.modelZoo.lead.en} zh={c.modelZoo.lead.zh} /></p>
       </div>
-      <div class="card-grid card-grid--5 reveal">
+      <!-- A table: one checkpoint per row -->
+      <div class="zoo reveal">
         {
           c.modelZoo.items.map((m) => (
-            <a class="mini-card" href={m.link} target="_blank" rel="noopener noreferrer">
-              <span class="mini-card__kind">
-                <BiText en={m.kind.en} zh={m.kind.zh} />
-              </span>
-              <h3>
-                <code>{m.name}</code>
-              </h3>
-              <p>
-                <BiText en={m.desc.en} zh={m.desc.zh} />
-              </p>
-              <span class="mini-card__ext">Hugging Face ↗</span>
+            <a class="zoo__row" href={m.link} target="_blank" rel="noopener noreferrer">
+              <span class="zoo__kind"><BiText en={m.kind.en} zh={m.kind.zh} /></span>
+              <code class="zoo__name">{m.name}</code>
+              <span class="zoo__desc"><BiText en={m.desc.en} zh={m.desc.zh} /></span>
+              <span class="zoo__link">Hugging Face <i class="ti ti-arrow-up-right" aria-hidden="true"></i></span>
             </a>
           ))
         }
@@ -487,9 +471,7 @@ const fmt = (v: number | null) => (v === null ? '–' : `${v.toFixed(1)}%`);
             c.news.items.map((n) => (
               <li>
                 <time datetime={n.date}>{n.date}</time>
-                <a href={n.href} target="_blank" rel="noopener noreferrer">
-                  <BiText en={n.en} zh={n.zh} />
-                </a>
+                <a href={n.href} target="_blank" rel="noopener noreferrer"><BiText en={n.en} zh={n.zh} /></a>
               </li>
             ))
           }
@@ -506,14 +488,12 @@ const fmt = (v: number | null) => (v === null ? '–' : `${v.toFixed(1)}%`);
           <h2 class="section-title"><BiText en={c.ecosystem.title.en} zh={c.ecosystem.title.zh} /></h2>
           <p class="section-lead"><BiText en={c.ecosystem.lead.en} zh={c.ecosystem.lead.zh} /></p>
         </div>
-        <div class="card-grid" style="grid-template-columns: repeat(2, minmax(0, 1fr));">
+        <div class="eco">
           {
             c.ecosystem.items.map((p) => (
-              <a class="mini-card" href={p.link} target="_blank" rel="noopener noreferrer">
-                <h3>{p.name}</h3>
-                <p>
-                  <BiText en={p.desc.en} zh={p.desc.zh} />
-                </p>
+              <a class="eco__item" href={p.link} target="_blank" rel="noopener noreferrer">
+                <span class="eco__name">{p.name} <i class="ti ti-arrow-up-right" aria-hidden="true"></i></span>
+                <span class="eco__desc"><BiText en={p.desc.en} zh={p.desc.zh} /></span>
               </a>
             ))
           }
@@ -525,33 +505,31 @@ const fmt = (v: number | null) => (v === null ? '–' : `${v.toFixed(1)}%`);
   <!-- ========================= COMMUNITY + CITE ======================= -->
   <section id="community" class="section">
     <div class="container">
-      <div class="section-head reveal">
-        <span class="eyebrow"><BiText en="Community" zh="社区" /></span>
-        <h2 class="section-title"><BiText en={c.community.title.en} zh={c.community.title.zh} /></h2>
+      <div class="section-head section-head--split reveal">
+        <div>
+          <span class="eyebrow"><BiText en="Community" zh="社区" /></span>
+          <h2 class="section-title"><BiText en={c.community.title.en} zh={c.community.title.zh} /></h2>
+        </div>
         <p class="section-lead"><BiText en={c.community.lead.en} zh={c.community.lead.zh} /></p>
       </div>
       <div class="card-grid card-grid--4 reveal">
         {
           c.community.cards.map((card) => (
             <a class="mini-card" href={card.href} target="_blank" rel="noopener noreferrer">
-              <span class="mini-card__icon">
-                <i class={card.icon} aria-hidden="true" />
-              </span>
+              <span class="mini-card__icon"><i class={card.icon} aria-hidden="true" /></span>
               <h3>{typeof card.title === 'string' ? card.title : <BiText en={card.title.en} zh={card.title.zh} />}</h3>
-              <p>
-                <BiText en={card.desc.en} zh={card.desc.zh} />
-              </p>
+              <p><BiText en={card.desc.en} zh={card.desc.zh} /></p>
             </a>
           ))
         }
       </div>
 
-      <div class="cite reveal" id="citation" style="margin-top: 64px;">
+      <div class="cite reveal" id="citation">
         <div>
           <span class="eyebrow"><BiText en="Citation" zh="引用" /></span>
-          <h2 class="section-title" style="font-size: 28px;"><BiText en={c.citation.title.en} zh={c.citation.title.zh} /></h2>
-          <p class="section-lead" style="font-size: 15px;"><BiText en={c.citation.lead.en} zh={c.citation.lead.zh} /></p>
-          <div class="cta-row" style="margin-top: 18px;">
+          <h2 class="section-title cite__title"><BiText en={c.citation.title.en} zh={c.citation.title.zh} /></h2>
+          <p class="section-lead cite__lead"><BiText en={c.citation.lead.en} zh={c.citation.lead.zh} /></p>
+          <div class="cta-row">
             <a class="btn btn--sm" href={c.links.paperPage}><i class="ti ti-file-description" aria-hidden="true"></i><BiText en="Paper page" zh="论文页" /></a>
             <a class="btn btn--sm" href={c.links.arxiv} target="_blank" rel="noopener noreferrer"><i class="ti ti-external-link" aria-hidden="true"></i>arXiv</a>
           </div>
@@ -579,11 +557,16 @@ const fmt = (v: number | null) => (v === null ? '–' : `${v.toFixed(1)}%`);
     /* ---------------- Composer ---------------- */
     const composerRoot = document.getElementById('composer');
     const composerCode = document.getElementById('composerCode');
+    const composerRun = document.getElementById('composerRun');
+    const composerRunBox = document.getElementById('composerRunBox');
+    let shownLines = [];
+    let shownRun = '';
     const selection = { backbone: 'qwen3vl', head: 'oft', recipe: 'sft', benchmark: 'libero' };
     const optionOf = (layerKey, optKey) =>
       composer.layers.find((l) => l.key === layerKey).options.find((o) => o.key === optKey);
 
-    function renderComposer() {
+    // lit: mark what this render changed (a pick does; a language switch does not)
+    function renderComposer(lit = false) {
       const backbone = optionOf('backbone', selection.backbone);
       const head = optionOf('head', selection.head);
       const recipe = optionOf('recipe', selection.recipe);
@@ -599,19 +582,33 @@ const fmt = (v: number | null) => (v === null ? '–' : `${v.toFixed(1)}%`);
         `<span class="k">action_head</span>: <span class="s">${esc(head.suffix.toLowerCase())}</span>  <span class="c"># ${esc(isZh() ? head.desc.zh : head.desc.en)}</span>`,
         `<span class="k">recipe</span>: <span class="s">${esc(recipe.id)}</span>`,
         `<span class="k">benchmark</span>: <span class="s">${esc(bench.id)}</span>`,
-        '',
-        `<span class="p">$</span> bash examples/${esc(bench.dir)}/train_files/run_${esc(bench.id)}_train.sh`,
       ];
-      composerCode.innerHTML = lines.join('\n');
+      composerCode.innerHTML = lines
+        .map((line, i) => `<span class="ln${lit && line !== shownLines[i] ? ' is-changed' : ''}">${line}</span>`)
+        .join('\n');
+      shownLines = lines;
+
+      // the long script path may wrap only after a slash; <wbr> adds no text, so copying is unchanged
+      const run = `bash examples/${bench.dir}/train_files/run_${bench.id}_train.sh`;
+      composerRun.innerHTML = esc(run).replaceAll('/', '/<wbr>');
+      composerRunBox.classList.remove('is-changed');
+      if (lit && run !== shownRun) {
+        void composerRunBox.offsetWidth;
+        composerRunBox.classList.add('is-changed');
+      }
+      shownRun = run;
     }
 
     composerRoot?.addEventListener('click', (e) => {
       const chip = e.target.closest('[data-option]');
-      if (!chip) return;
+      if (!chip || chip.classList.contains('is-active')) return;
       const brick = chip.closest('[data-layer]');
       selection[brick.dataset.layer] = chip.dataset.option;
-      brick.querySelectorAll('.chip').forEach((el) => el.classList.toggle('is-active', el === chip));
-      renderComposer();
+      brick.querySelectorAll('.chip').forEach((el) => {
+        el.classList.toggle('is-active', el === chip);
+        el.setAttribute('aria-pressed', String(el === chip));
+      });
+      renderComposer(true);
     });
 
     /* ---------------- Quick start ---------------- */

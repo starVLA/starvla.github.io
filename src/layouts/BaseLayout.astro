@@ -23,8 +23,8 @@ const { links } = landingContent;
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
     <meta name="generator" content={Astro.generator} />
-    <meta name="theme-color" content="#f6f7fb" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#0a0f1c" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0a1120" media="(prefers-color-scheme: dark)" />
 
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
@@ -37,8 +37,6 @@ const { links } = landingContent;
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="canonical" href={canonical} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/favicon.svg" />
@@ -117,7 +115,7 @@ const { links } = landingContent;
           <div class="nav-actions">
             <a class="icon-btn" href={links.github} target="_blank" rel="noopener noreferrer" aria-label="GitHub">
               <i class="ti ti-brand-github" aria-hidden="true"></i>
-              <span class="star-count label" id="navStars">★ 3.9k</span>
+              <span class="star-count label" id="navStars">★ 3.9K</span>
             </a>
             <button id="localeToggle" class="icon-btn" type="button" aria-label="Toggle language">
               <span data-locale-content="en">中文</span>
@@ -140,7 +138,8 @@ const { links } = landingContent;
 
       <footer class="footer">
         <div class="container footer-row">
-          <div>
+          <div class="footer-brand">
+            <img src="/favicon.svg" alt="" width="20" height="20" />
             <BiText
               en="© 2026 StarVLA Community · Released under the MIT License."
               zh="© 2026 StarVLA 社区 · 基于 MIT 协议发布。"

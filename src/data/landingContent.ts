@@ -36,8 +36,8 @@ export const landingContent = {
   },
   nav: [
     { id: 'architecture', en: 'Architecture', zh: '架构' },
-    { id: 'research', en: 'Research', zh: '研究' },
     { id: 'benchmarks', en: 'Benchmarks', zh: '基准' },
+    { id: 'research', en: 'Research', zh: '研究' },
     { id: 'quick-start', en: 'Quick Start', zh: '快速开始' },
     { id: 'community', en: 'Community', zh: '社区' },
   ],
@@ -60,7 +60,7 @@ export const landingContent = {
     install: 'git clone https://github.com/starVLA/starVLA.git && cd starVLA && pip install -e .',
   },
   stats: [
-    { key: 'stars', value: '3.9k', label: { en: 'GitHub stars', zh: 'GitHub Stars' }, live: 'stargazers_count', href: `${GITHUB_URL}/stargazers` },
+    { key: 'stars', value: '3.9K', label: { en: 'GitHub stars', zh: 'GitHub Stars' }, live: 'stargazers_count', href: `${GITHUB_URL}/stargazers` },
     { key: 'policies', value: '27', label: { en: 'Policy implementations', zh: '策略实现' } },
     { key: 'benchmarks', value: '13', label: { en: 'Simulation benchmarks', zh: '仿真基准' } },
     { key: 'forks', value: '519', label: { en: 'Forks', zh: 'Forks' }, live: 'forks_count', href: `${GITHUB_URL}/network` },
@@ -217,13 +217,54 @@ export const landingContent = {
         },
       ],
     },
+    // Drawn by components/VariantDiagram.astro; the wiring follows starVLA/model/framework/VLM4A/Qwen{Fast,OFT,GR00T,PI}.py
     variants: {
-      src: '/assets/starvla-variants.webp',
-      alt: 'StarVLA-FAST, StarVLA-OFT, StarVLA-GR00T and StarVLA-π variant architectures.',
       caption: {
         en: 'Four reference frameworks share the same data interface and infrastructure — only the action head differs.',
         zh: '四个参考框架共享同一数据接口与基础设施——区别仅在动作头。',
       },
+      legend: {
+        shared: { en: 'VLM, shared', zh: 'VLM，共享' },
+        head: { en: 'action head, differs', zh: '动作头，各不相同' },
+      },
+      items: [
+        {
+          kind: 'fast',
+          name: 'StarVLA-FAST',
+          like: 'π₀-FAST',
+          desc: {
+            en: 'The VLM writes the actions itself, as discrete FAST tokens, one at a time.',
+            zh: 'VLM 自己逐个写出离散的 FAST 动作 token。',
+          },
+        },
+        {
+          kind: 'oft',
+          name: 'StarVLA-OFT',
+          like: 'OpenVLA-OFT',
+          desc: {
+            en: 'Action query tokens go at the end of the prompt; an MLP regresses the whole chunk from their last-layer states at once.',
+            zh: '指令后接上动作 token，MLP 从它们最后一层的隐状态一次回归出整段动作。',
+          },
+        },
+        {
+          kind: 'groot',
+          name: 'StarVLA-GR00T',
+          like: 'GR00T',
+          desc: {
+            en: 'A flow-matching DiT denoises the chunk; every DiT layer cross-attends to the VLM’s last layer.',
+            zh: '流匹配 DiT 从噪声去噪出动作，每一层都交叉注意 VLM 的最后一层。',
+          },
+        },
+        {
+          kind: 'pi',
+          name: 'StarVLA-π',
+          like: 'π₀',
+          desc: {
+            en: 'The same kind of DiT, wired layer by layer: DiT layer i attends to VLM layer i.',
+            zh: '同样是流匹配 DiT，但逐层对接：DiT 的第 i 层看 VLM 的第 i 层。',
+          },
+        },
+      ],
     },
   },
   research: {

@@ -1,0 +1,23 @@
+---
+// Shared pieces of the framework diagrams (VariantDiagram.astro), defined once per page: three arrowheads and the
+// noise pattern. Not display:none, which would stop other SVGs from using them.
+---
+
+<svg class="vf-defs" width="0" height="0" aria-hidden="true" focusable="false">
+  <defs>
+    <marker id="vf-tip" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6.5" markerHeight="6.5" markerUnits="userSpaceOnUse" orient="auto">
+      <path class="vf-tip" d="M0.5 0.8 L7.5 4 L0.5 7.2 Z"></path>
+    </marker>
+    <marker id="vf-tip-green" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6.5" markerHeight="6.5" markerUnits="userSpaceOnUse" orient="auto">
+      <path class="vf-tip vf-tip--green" d="M0.5 0.8 L7.5 4 L0.5 7.2 Z"></path>
+    </marker>
+    <marker id="vf-tip-green-sm" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="4.5" markerHeight="4.5" markerUnits="userSpaceOnUse" orient="auto">
+      <path class="vf-tip vf-tip--green" d="M0.5 0.8 L7.5 4 L0.5 7.2 Z"></path>
+    </marker>
+    <pattern id="vf-noise" width="3" height="3" patternUnits="userSpaceOnUse">
+      <rect class="vf-noise-bg" width="3" height="3"></rect>
+      <circle class="vf-noise-dot" cx="0.9" cy="0.9" r="0.65"></circle>
+      <circle class="vf-noise-dot" cx="2.4" cy="2.1" r="0.5"></circle>
+    </pattern>
+  </defs>
+</svg>

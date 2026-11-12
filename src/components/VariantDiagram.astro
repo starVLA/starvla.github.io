@@ -1,0 +1,114 @@
+---
+// One reference framework as a small diagram. The VLM (shared, blue) is on the left with its layers stacked bottom to
+// top, so the top bar is its last layer; the action head (green: the part that differs) is on the right. Inputs sit
+// under the VLM and the action chunk comes out at the top right. What tells the four apart is how the head is wired to
+// the VLM. Arrowheads and the noise pattern are defined once on the page (VariantDefs.astro).
+interface Props {
+  kind: 'fast' | 'oft' | 'groot' | 'pi';
+  label: string;
+}
+
+const { kind, label } = Astro.props;
+
+const bars = [84, 102, 120, 138]; // y of the layer bars, the last layer first
+const mid = (y: number) => y + 6; // vertical centre of a bar
+const outs = [183, 204, 225]; // x of the three output squares
+const dit = kind === 'groot' || kind === 'pi';
+
+type Group = { x: number[]; cls: string; en: string; zh: string };
+const inputs: Group[] = [
+  { x: [24, 38], cls: 'img', en: 'image', zh: '图像' },
+  { x: [60, 74], cls: 'txt', en: 'text', zh: '文本' },
+];
+if (kind === 'oft') inputs.push({ x: [96, 110, 124], cls: 'query', en: 'queries', zh: '动作 token' });
+const centre = (g: Group) => (g.x[0] + g.x[g.x.length - 1] + 12) / 2;
+---
+
+<svg class="vf" viewBox="0 0 260 226" role="img" aria-label={label}>
+  <!-- the shared VLM -->
+  <rect class="vf-vlm" x="12" y="56" width="134" height="110" rx="12"></rect>
+  <text class="vf-label" x="24" y="75">VLM</text>
+  {bars.map((y) => <rect class="vf-bar" x="24" y={y} width="110" height="12" rx="3.5" />)}
+  {kind === 'oft' && <rect class="vf-state" x="96" y={bars[0]} width="38" height="12" rx="3.5" />}
+
+  <!-- inputs -->
+  <path class="vf-line" d="M79 179 V169"></path>
+  {
+    inputs.map((g) => (
+      <g>
+        {g.x.map((x) => (
+          <rect class={`vf-tok vf-tok--${g.cls}`} x={x} y="182" width="12" height="12" rx="3" />
+        ))}
+        <text class="vf-note" data-locale-content="en" x={centre(g)} y="211" text-anchor="middle">{g.en}</text>
+        <text class="vf-note" data-locale-content="zh" x={centre(g)} y="211" text-anchor="middle">{g.zh}</text>
+      </g>
+    ))
+  }
+
+  <!-- outputs: three action steps, or three FAST tokens -->
+  <text class="vf-note" data-locale-content="en" x="211" y="12" text-anchor="middle">{kind === 'fast' ? 'FAST tokens' : 'actions'}</text>
+  <text class="vf-note" data-locale-content="zh" x="211" y="12" text-anchor="middle">{kind === 'fast' ? 'FAST token' : '动作'}</text>
+  {
+    outs.map((x) => (
+      <rect class={`vf-tok ${kind === 'fast' ? 'vf-tok--fast' : 'vf-tok--act'}`} x={x} y="20" width="14" height="14" rx="3.5" />
+    ))
+  }
+
+  {
+    kind === 'fast' && (
+      <g>
+        {/* the last layer writes one token, which is fed back to write the next */}
+        <path class="vf-link" d={`M134 ${mid(bars[0])} H158 V27 H180`} />
+        {outs.slice(0, -1).map((x, i) => (
+          <path class="vf-link vf-link--hop" d={`M${x + 9} 37 Q${(x + 9 + outs[i + 1] + 5) / 2} 46 ${outs[i + 1] + 5} 37.5`} />
+        ))}
+      </g>
+    )
+  }
+
+  {
+    kind === 'oft' && (
+      <g>
+        {/* the action tokens' last-layer states go through an MLP, every step at once */}
+        <path class="vf-link" d={`M134 ${mid(bars[0])} H180`} />
+        <rect class="vf-head" x="183" y="78" width="56" height="24" rx="7" />
+        <text class="vf-label vf-label--sm" x="211" y="94.5" text-anchor="middle">MLP</text>
+        {outs.map((x) => <path class="vf-link" d={`M${x + 7} 76 V37`} />)}
+      </g>
+    )
+  }
+
+  {
+    dit && (
+      <g>
+        <rect class="vf-head" x="174" y="56" width="74" height="110" rx="12" />
+        <text class="vf-label" x="186" y="75">DiT</text>
+        {bars.map((y) => <rect class="vf-bar vf-bar--head" x="186" y={y} width="50" height="12" rx="3.5" />)}
+        {[191, 205, 219].map((x) => <rect class="vf-tok vf-tok--noise" x={x} y="182" width="12" height="12" rx="3" />)}
+        <text class="vf-note" data-locale-content="en" x="211" y="211" text-anchor="middle">noise</text>
+        <text class="vf-note" data-locale-content="zh" x="211" y="211" text-anchor="middle">噪声</text>
+        <path class="vf-line" d="M211 179 V169" />
+        <path class="vf-link" d="M211 54 V37" />
+      </g>
+    )
+  }
+
+  {
+    kind === 'groot' && (
+      <g>
+        {/* every DiT layer cross-attends to the VLM's last layer */}
+        <path class="vf-link vf-link--bare" d={`M134 ${mid(bars[0])} H160 V${mid(bars[3])}`} />
+        {bars.map((y) => <path class="vf-link" d={`M160 ${mid(y)} H184`} />)}
+      </g>
+    )
+  }
+
+  {
+    kind === 'pi' && (
+      <g>
+        {/* DiT layer i cross-attends to VLM layer i */}
+        {bars.map((y) => <path class="vf-link" d={`M134 ${mid(y)} H184`} />)}
+      </g>
+    )
+  }
+</svg>
