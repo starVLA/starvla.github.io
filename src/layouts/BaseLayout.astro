@@ -63,9 +63,20 @@ const { links } = landingContent;
 
     <script is:inline>
       (() => {
-        const storedTheme = localStorage.getItem('starvla-theme') || 'system';
-        // English by default; only an explicit toggle (stored) switches to Chinese.
-        const storedLocale = localStorage.getItem('starvla-locale') === 'zh' ? 'zh' : 'en';
+        let storedTheme = 'system';
+        let storedLocale = null;
+        try {
+          storedTheme = localStorage.getItem('starvla-theme') || 'system';
+          // The legacy key also stored automatic defaults, so only use explicit preferences.
+          storedLocale = localStorage.getItem('starvla-locale-preference');
+        } catch {}
+        const browserLanguage = navigator.languages?.[0] || navigator.language || 'en';
+        const locale =
+          storedLocale === 'zh' || storedLocale === 'en'
+            ? storedLocale
+            : browserLanguage.toLowerCase().startsWith('zh')
+              ? 'zh'
+              : 'en';
         const theme =
           storedTheme === 'system'
             ? window.matchMedia('(prefers-color-scheme: dark)').matches
@@ -74,8 +85,8 @@ const { links } = landingContent;
             : storedTheme;
         const root = document.documentElement;
         root.setAttribute('data-theme', theme);
-        root.setAttribute('data-locale', storedLocale);
-        root.setAttribute('lang', storedLocale === 'zh' ? 'zh-CN' : 'en');
+        root.setAttribute('data-locale', locale);
+        root.setAttribute('lang', locale === 'zh' ? 'zh-CN' : 'en');
       })();
     </script>
   </head>
@@ -155,7 +166,10 @@ const { links } = landingContent;
         const navLinks = document.getElementById('navLinks');
         const navStars = document.getElementById('navStars');
 
-        let themePref = localStorage.getItem('starvla-theme') || 'system';
+        let themePref = 'system';
+        try {
+          themePref = localStorage.getItem('starvla-theme') || 'system';
+        } catch {}
         const media = window.matchMedia('(prefers-color-scheme: dark)');
         const resolveTheme = (pref) => (pref === 'system' ? (media.matches ? 'dark' : 'light') : pref);
 
@@ -167,15 +181,19 @@ const { links } = landingContent;
           });
         }
 
-        function setLocale(locale) {
+        function setLocale(locale, remember = false) {
           html.setAttribute('data-locale', locale);
           html.setAttribute('lang', locale === 'zh' ? 'zh-CN' : 'en');
-          localStorage.setItem('starvla-locale', locale);
+          if (remember) {
+            try {
+              localStorage.setItem('starvla-locale-preference', locale);
+            } catch {}
+          }
           window.dispatchEvent(new CustomEvent('starvla:locale', { detail: locale }));
         }
 
         localeToggle?.addEventListener('click', () => {
-          setLocale(html.getAttribute('data-locale') === 'zh' ? 'en' : 'zh');
+          setLocale(html.getAttribute('data-locale') === 'zh' ? 'en' : 'zh', true);
         });
         themeToggle?.addEventListener('click', () => {
           themePref = resolveTheme(themePref) === 'dark' ? 'light' : 'dark';
