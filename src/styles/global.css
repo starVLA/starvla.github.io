@@ -880,7 +880,11 @@ a.stat:hover {
 .paper__links {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 6px;
+}
+.paper__links .pill-link {
+  padding: 0 8px;
+  white-space: nowrap;
 }
 .pill-link {
   display: inline-flex;
