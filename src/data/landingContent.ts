@@ -532,12 +532,6 @@ export const landingContent = {
         link: 'https://huggingface.co/StarVLA/Qwen3-VL-30B-A3B-OFT-Bridge-RT1',
       },
       {
-        name: 'world-model-to-vla',
-        kind: { en: 'Collection', zh: '模型合集' },
-        desc: { en: 'WM4A checkpoints: Cosmos-Predict2 / Wan2.2 backbones for action prediction.', zh: 'WM4A 检查点：以 Cosmos-Predict2 / Wan2.2 为骨干的动作预测模型。' },
-        link: 'https://huggingface.co/collections/StarVLA/world-model-to-vla',
-      },
-      {
         name: 'RoboDojo',
         kind: { en: 'Collection', zh: '模型合集' },
         desc: { en: 'RoboDojo checkpoints: StarVLA-PI, -GR00T and -OFT on Qwen3-VL-4B.', zh: 'RoboDojo 检查点：基于 Qwen3-VL-4B 的 StarVLA-PI、-GR00T 与 -OFT。' },
@@ -548,6 +542,12 @@ export const landingContent = {
         kind: { en: 'Collection', zh: '模型合集' },
         desc: { en: 'RoboCasa GR1 tabletop: StarVLA-OFT and -GR00T on Qwen3-VL, plus the GR00T teleop-sim data.', zh: 'RoboCasa GR1 桌面任务：基于 Qwen3-VL 的 StarVLA-OFT 与 -GR00T，以及 GR00T 遥操作仿真数据。' },
         link: 'https://huggingface.co/collections/StarVLA/robocasa-g1-tabletop',
+      },
+      {
+        name: 'World-Model-to-VLA',
+        kind: { en: 'Collection', zh: '模型合集' },
+        desc: { en: 'WM4A checkpoints: Cosmos-Predict2 / Wan2.2 backbones for action prediction.', zh: 'WM4A 检查点：以 Cosmos-Predict2 / Wan2.2 为骨干的动作预测模型。' },
+        link: 'https://huggingface.co/collections/StarVLA/world-model-to-vla',
       },
     ],
   },
