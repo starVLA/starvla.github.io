@@ -224,7 +224,7 @@ export const landingContent = {
         zh: '四个参考框架共享同一数据接口与基础设施——区别仅在动作头。',
       },
       legend: {
-        shared: { en: 'VLM, shared', zh: 'VLM，共享' },
+        shared: { en: 'VLM/WM, shared', zh: 'VLM/WM，共享' },
         head: { en: 'action head, differs', zh: '动作头，各不相同' },
       },
       items: [

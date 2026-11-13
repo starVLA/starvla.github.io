@@ -3,7 +3,7 @@
 // top, so the top bar is its last layer; the action head (green: the part that differs) is on the right. Inputs sit
 // under the VLM and the action chunk comes out at the top right. What tells the four apart is how the head is wired to
 // the VLM. Only FAST needs a VLM, since it writes the actions as text tokens; the other three also take a world model
-// as the backbone, hence VLM / WM. Arrowheads and the noise pattern are defined once on the page (VariantDefs.astro).
+// as the backbone, hence VLM/WM. Arrowheads and the noise pattern are defined once on the page (VariantDefs.astro).
 //
 // The page plays the data flow through it on a loop (global.css, .variants.is-playing): the inputs go in, the VLM
 // layers light up bottom to top, a glow runs along each link and the actions come out. Every animated element starts at
@@ -75,7 +75,7 @@ if (dit) {
 <svg class="vf" viewBox="0 0 260 226" role="img" aria-label={label}>
   <!-- the shared VLM -->
   <rect class="vf-vlm" x="12" y="56" width="134" height="110" rx="12"></rect>
-  <text class="vf-label" x="24" y="75">{kind === 'fast' ? 'VLM' : 'VLM / WM'}</text>
+  <text class="vf-label" x="24" y="75">{kind === 'fast' ? 'VLM' : 'VLM/WM'}</text>
   {bars.map((y, i) => <rect class="vf-bar vf-glow" x="24" y={y} width="110" height="12" rx="3.5" style={at(lit[i])} />)}
   {kind === 'oft' && <rect class="vf-state" x="96" y={bars[0]} width="38" height="12" rx="3.5" />}
 
