@@ -401,9 +401,9 @@ export const landingContent = {
       // each links to a typical sim benchmark for that embodiment
       embodiments: [
         { name: 'Single-arm', via: 'LIBERO', href: `${EXAMPLES_URL}/simBenchmarks/LIBERO` },
-        { name: 'Bimanual', via: 'RoboTwin 2.0', href: `${EXAMPLES_URL}/simBenchmarks/Robotwin` },
-        { name: 'Humanoid', via: 'RoboCasa-GR1', href: `${EXAMPLES_URL}/simBenchmarks/Robocasa_tabletop` },
-        { name: 'Mobile manipulation', via: 'BEHAVIOR-1K', href: `${EXAMPLES_URL}/simBenchmarks/Behavior` },
+        { name: 'Bimanual', via: 'RoboDojo', href: `${EXAMPLES_URL}/simBenchmarks/RoboDojo` },
+        { name: 'Humanoid', via: 'SIMPLE', href: 'https://github.com/physical-superintelligence-lab/SIMPLE' },
+        { name: 'Mobile manipulation', via: 'RoboCasa365', href: `${EXAMPLES_URL}/simBenchmarks/Robocasa_365` },
         { name: 'Navigation', via: 'VLN-CE', href: `${EXAMPLES_URL}/simBenchmarks/VLN-CE` },
       ],
       reports: [
