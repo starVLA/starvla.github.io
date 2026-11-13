@@ -562,8 +562,8 @@ html[data-locale='zh'] .hero__tagline {
 }
 
 /* Composer: the four layers on the left, the config they add up to on the right, the training command under it.
-   Picking stays quiet: in each layer the chosen option is filled navy (a fill, not a hue, marks it), and the layer
-   colours of the paper's figure only tint the small layer numbers. The config lines a pick changed light up briefly. */
+   Each layer is a tinted brick in the paper figure's colours, label on the left and options on the right; the chosen
+   option is filled with the layer colour. The config lines a pick changed light up briefly. */
 /* On wide screens the composer is a little wider than the text columns (up to 1280px), so each layer fits on one row */
 .composer {
   margin-top: 52px;
@@ -602,21 +602,31 @@ html[data-locale='zh'] .hero__tagline {
 }
 .composer__layers {
   display: grid;
-  gap: 22px;
+  gap: 12px;
+}
+.brick {
+  display: grid;
+  grid-template-columns: 150px minmax(0, 1fr);
+  gap: 14px;
+  align-items: center;
+  padding: 14px 16px 14px 18px;
+  border-radius: 14px;
+  border: 1px solid color-mix(in srgb, var(--brick) 22%, transparent);
+  border-left: 4px solid var(--brick);
+  background: var(--brick-soft);
 }
 .brick__label {
   display: flex;
   align-items: baseline;
-  gap: 10px;
-  margin-bottom: 10px;
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
+  gap: 8px;
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--ink-3);
+  color: var(--brick);
 }
 html[data-locale='zh'] .brick__label {
-  font-size: 13px;
+  font-size: 14px;
   letter-spacing: 0.04em;
 }
 .brick__no {
@@ -624,19 +634,21 @@ html[data-locale='zh'] .brick__label {
   font-size: 11.5px;
   font-weight: 600;
   letter-spacing: 0;
-  color: var(--brick);
+  opacity: 0.7;
 }
+/* Chips grow to fill each row so both edges of every brick line up */
 .brick__options {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
 }
 .chip {
+  flex: 1 1 auto;
   height: 32px;
   padding: 0 11px;
-  border-radius: 7px;
-  border: 1px solid transparent;
-  background: var(--bg-sunken);
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: var(--bg-elevated);
   font-size: 13px;
   font-weight: 500;
   color: var(--ink-2);
@@ -645,20 +657,22 @@ html[data-locale='zh'] .brick__label {
   transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
 }
 .chip:hover {
-  border-color: var(--line-strong);
-  background: var(--bg-elevated);
+  border-color: var(--brick);
   color: var(--ink);
 }
 .chip:focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--brick);
   outline-offset: 2px;
 }
 .chip.is-active {
-  background: var(--primary);
-  border-color: var(--primary);
-  color: var(--primary-ink);
+  background: var(--brick);
+  border-color: var(--brick);
+  color: #fff;
   font-weight: 600;
   cursor: default;
+}
+[data-theme='dark'] .chip.is-active {
+  color: #0b1220;
 }
 
 .composer__output {
@@ -2144,6 +2158,10 @@ a.contributor-card:hover {
 }
 
 @media (max-width: 560px) {
+  .brick {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
   .container {
     width: calc(100% - 32px);
   }
