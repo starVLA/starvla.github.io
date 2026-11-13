@@ -10,7 +10,8 @@ const widthOf = (v: number | null) => (v === null ? 0 : (v / maxBar) * 100);
 const fmt = (v: number | null) => (v === null ? '–' : `${v.toFixed(1)}%`);
 const ext = (href: string) => (href.startsWith('/') ? {} : { target: '_blank', rel: 'noopener noreferrer' });
 const community = c.research.community;
-const communityCount = community.periods.reduce((n, p) => n + p.names.length, 0);
+const communityNames = community.periods.flatMap((p) => p.names);
+const communityRows = [0, 1, 2, 3].map((r) => communityNames.filter((_, i) => i % 4 === r));
 ---
 
 <BaseLayout title={c.meta.title} description={c.meta.description}>
@@ -361,27 +362,27 @@ const communityCount = community.periods.reduce((n, p) => n + p.names.length, 0)
             </article>
           ))
         }
-        <article class="paper paper--community">
-          <div class="paper__meta">
-            <span class="paper__tag"><BiText en={community.tag.en} zh={community.tag.zh} /></span>
-            <span class="paper__venue">
-              <BiText en={`${communityCount} projects · ${community.span.en}`} zh={`${communityCount} 个项目 · ${community.span.zh}`} />
-            </span>
-          </div>
-          <div class="paper__main">
-            <h3><BiText en={community.title.en} zh={community.title.zh} /></h3>
-            {
-              community.periods.map((p) => (
-                <div class="panel__group">
-                  <span class="panel__group-title"><BiText en={p.label.en} zh={p.label.zh} /></span>
-                  <div class="bench-list">
-                    {p.names.map((name) => <span class="bench">{name}</span>)}
-                  </div>
-                </div>
-              ))
-            }
-          </div>
-        </article>
+      </div>
+    </div>
+
+    <!-- Community projects scroll past in rows, alternating direction -->
+    <div class="community reveal">
+      <div class="container community__head">
+        <h3><BiText en={community.title.en.replace('{n}', `${communityNames.length}`)} zh={community.title.zh.replace('{n}', `${communityNames.length}`)} /></h3>
+        <p><BiText en={community.sub.en} zh={community.sub.zh} /></p>
+      </div>
+      <div class="community__rows">
+        {
+          communityRows.map((row, r) => (
+            <div class="community__row" style={`--dur: ${row.length * 4}s`} data-reverse={r % 2 === 1 ? '' : undefined}>
+              {[0, 1].map((copy) => (
+                <ul class="community__track" aria-hidden={copy === 1 ? 'true' : undefined}>
+                  {row.map((name) => <li>{name}</li>)}
+                </ul>
+              ))}
+            </div>
+          ))
+        }
       </div>
     </div>
   </section>

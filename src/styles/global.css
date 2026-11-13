@@ -1574,13 +1574,6 @@ a.stat:hover .stat__value {
   font-size: 15px;
   color: var(--ink-2);
 }
-/* The community projects run under the papers, across the links column too */
-.paper--community .paper__main {
-  grid-column: 2 / -1;
-}
-.paper--community h3 {
-  margin-bottom: 22px;
-}
 .paper__links {
   display: flex;
   flex-direction: column;
@@ -1588,6 +1581,88 @@ a.stat:hover .stat__value {
   gap: 8px;
   padding-top: 4px;
 }
+/* Community projects: rows of names that scroll past, fading out at both edges */
+.community {
+  margin-top: 96px;
+}
+.community__head {
+  text-align: center;
+}
+.community__head h3 {
+  margin: 0;
+  font-size: clamp(26px, 3vw, 36px);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+}
+.community__head p {
+  margin: 10px 0 0;
+  font-size: 15px;
+  color: var(--ink-3);
+}
+.community__rows {
+  display: grid;
+  gap: 14px;
+  margin-top: 40px;
+  overflow: hidden;
+  mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+}
+.community__row {
+  display: flex;
+  width: max-content;
+}
+.community__track {
+  display: flex;
+  gap: 12px;
+  margin: 0;
+  padding: 0 12px 0 0;
+  list-style: none;
+}
+.community__track li {
+  padding: 10px 20px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--bg-sunken);
+  font-size: 15px;
+  font-weight: 600;
+  white-space: nowrap;
+  color: var(--ink-2);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .community__row {
+    animation: community-scroll var(--dur) linear infinite;
+  }
+  .community__row[data-reverse] {
+    animation-direction: reverse;
+  }
+  .community__rows:hover .community__row {
+    animation-play-state: paused;
+  }
+}
+/* Without motion the names simply wrap, once */
+@media (prefers-reduced-motion: reduce) {
+  .community__rows {
+    mask-image: none;
+  }
+  .community__row {
+    width: auto;
+  }
+  .community__track {
+    flex: 1;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 0 24px;
+  }
+  .community__track[aria-hidden] {
+    display: none;
+  }
+}
+@keyframes community-scroll {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
 /* Links as text with an arrow, not as pills */
 .pill-link {
   display: inline-flex;
@@ -2189,8 +2264,7 @@ a.contributor-card:hover {
     gap: 12px;
     padding: 28px 0;
   }
-  .paper__links,
-  .paper--community .paper__main {
+  .paper__links {
     grid-column: 1;
   }
   .paper__meta {

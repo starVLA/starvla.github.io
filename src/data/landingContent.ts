@@ -321,9 +321,9 @@ export const landingContent = {
     ],
     // Community projects built on StarVLA, by release date (Figure 2 of the StarVLA paper)
     community: {
-      tag: { en: 'Community research', zh: '社区研究' },
-      title: { en: 'Research projects built on StarVLA', zh: '基于 StarVLA 的社区研究项目' },
-      span: { en: 'Oct 2025 – Sep 2026', zh: '2025.10 – 2026.09' },
+      // {n} is replaced by the number of projects
+      title: { en: '{n} research projects already build on StarVLA', zh: '已有 {n} 个研究项目基于 StarVLA' },
+      sub: { en: 'Oct 2025 – Sep 2026, and growing', zh: '2025.10 – 2026.09，仍在增加' },
       periods: [
         {
           label: { en: 'Oct 2025 – Mar 2026', zh: '2025.10 – 2026.03' },
