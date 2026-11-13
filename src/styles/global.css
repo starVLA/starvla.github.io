@@ -564,12 +564,11 @@ html[data-locale='zh'] .hero__tagline {
 /* Composer: the four layers on the left, the config they add up to on the right, the training command under it.
    Each layer is a tinted brick in the paper figure's colours, label on the left and options on the right; the chosen
    option is filled with the layer colour. The config lines a pick changed light up briefly. */
-/* On wide screens the composer is a little wider than the text columns (up to 1280px), so each layer fits on one row */
+/* Layers and config split the text column evenly; the layers stay compact and the config lines rarely wrap */
 .composer {
   margin-top: 52px;
-  margin-inline: calc(50% - min(640px, 50vw - 24px));
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 420px;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   border-radius: 20px;
   border: 1px solid var(--line);
   background: var(--bg-elevated);
@@ -606,8 +605,8 @@ html[data-locale='zh'] .hero__tagline {
 }
 .brick {
   display: grid;
-  grid-template-columns: 92px minmax(0, 1fr);
-  gap: 16px;
+  grid-template-columns: 96px minmax(0, 1fr);
+  gap: 14px;
   align-items: center;
   padding: 14px 16px 14px 18px;
   border-radius: 14px;
@@ -636,14 +635,16 @@ html[data-locale='zh'] .brick__label {
   letter-spacing: 0;
   opacity: 0.65;
 }
+/* Chips grow to fill each row so both edges of every brick line up */
 .brick__options {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 6px;
 }
 .chip {
+  flex: 1 1 auto;
   height: 32px;
-  padding: 0 14px;
+  padding: 0 12px;
   border-radius: 8px;
   border: 1px solid var(--line);
   background: var(--bg-elevated);
@@ -1998,15 +1999,9 @@ a.contributor-card:hover {
 /* ------------------------------------------------------------------ */
 /* Responsive                                                          */
 /* ------------------------------------------------------------------ */
-/* The composer keeps every layer on one row: a narrower config panel first, then config under the layers */
-@media (max-width: 1340px) {
+/* Config under the layers once the halves get too narrow */
+@media (max-width: 1000px) {
   .composer {
-    grid-template-columns: minmax(0, 1fr) 380px;
-  }
-}
-@media (max-width: 1280px) {
-  .composer {
-    margin-inline: 0;
     grid-template-columns: 1fr;
   }
   .composer__controls {
