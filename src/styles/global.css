@@ -310,24 +310,10 @@ html[data-locale='zh'] [data-locale-content='zh'] {
 .section--band {
   background: var(--bg-sunken);
 }
+/* Title over lead, so a title stays on one line on wide screens */
 .section-head {
-  max-width: 720px;
+  max-width: 900px;
   margin-bottom: 52px;
-}
-/* Title on the left, lead on the right, both on the same baseline */
-.section-head--split {
-  max-width: none;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: 20px 72px;
-  align-items: end;
-  margin-bottom: 56px;
-}
-.section-head--split .section-title {
-  margin-bottom: 0;
-}
-.section-head--split .section-lead {
-  padding-bottom: 6px;
 }
 /* A small brick in front of each section label */
 .eyebrow {
@@ -367,7 +353,7 @@ html[data-locale='zh'] .section-title {
   line-height: 1.7;
   color: var(--ink-2);
   margin: 0;
-  max-width: 600px;
+  max-width: 760px;
   text-wrap: pretty;
 }
 
@@ -2016,10 +2002,6 @@ a.contributor-card:hover {
   }
   .stat:nth-child(4) {
     border-left: 0;
-  }
-  .section-head--split {
-    grid-template-columns: 1fr;
-    align-items: start;
   }
   .stack {
     grid-template-columns: repeat(2, minmax(0, 1fr));
