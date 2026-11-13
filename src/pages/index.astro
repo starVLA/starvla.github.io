@@ -561,7 +561,7 @@ const ext = (href: string) => (href.startsWith('/') ? {} : { target: '_blank', r
     const selection = { backbone: 'qwen3vl', head: 'oft', recipe: 'sft', benchmark: 'libero' };
     const optionOf = (layerKey, optKey) =>
       composer.layers.find((l) => l.key === layerKey).options.find((o) => o.key === optKey);
-    // each config line is marked in the colour of the layer that sets it
+    // a changed config line lights up in the colour of the layer that sets it
     const toneOf = (layerKey) => composer.layers.find((l) => l.key === layerKey).tone;
 
     // lit: mark what this render changed (a pick does; a language switch does not)

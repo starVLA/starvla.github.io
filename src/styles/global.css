@@ -563,9 +563,8 @@ html[data-locale='zh'] .hero__tagline {
 
 /* Composer: the four layers on the left, the config they add up to on the right, the training command under it.
    Each layer is a tinted brick in the paper figure's colours, label on the left and options on the right; the chosen
-   option is filled with the layer colour, and each config line carries the colour of the layer that sets it.
-   The config lines a pick changed light up briefly. The heading spans both columns, so the bricks and the config
-   card start and end on the same lines. */
+   option is filled with the layer colour, and the config lines a pick changed light up briefly in that colour.
+   The heading spans both columns, so the bricks and the config card start and end on the same lines. */
 .composer {
   margin-top: 52px;
   display: grid;
@@ -722,9 +721,6 @@ html[data-locale='zh'] .brick__label {
   text-indent: -4.5ch;
   border-radius: 5px;
   counter-increment: ln;
-}
-.composer__code .ln[class*='tone--'] {
-  box-shadow: inset 3px 0 0 var(--brick);
 }
 .composer__code .ln::before {
   content: counter(ln);
