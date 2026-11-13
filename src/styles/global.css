@@ -165,7 +165,7 @@ html[data-locale='zh'] [data-locale-content='zh'] {
 .quick > *,
 .two-col > *,
 .cite > *,
-.support > * {
+.compare > * {
   min-width: 0;
 }
 
@@ -1334,9 +1334,17 @@ a.stat:hover .stat__value {
   color: var(--ink-3);
 }
 
-/* Comparison chart: full width, the rows in two columns */
-.chart {
+/* Comparison chart on the left, the integrated benchmarks, embodiments and reports on the right */
+.compare {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+  gap: 24px;
   margin-top: 40px;
+}
+/* The rows spread out to the foot of the chart, which is as tall as the panel beside it */
+.chart {
+  display: flex;
+  flex-direction: column;
   --bar-1: var(--navy);
   --bar-2: var(--peri);
   --bar-3: #c3c9d4;
@@ -1346,23 +1354,11 @@ a.stat:hover .stat__value {
   --bar-2: #5f7bb8;
   --bar-3: #3a465c;
 }
-.chart__head {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 16px 40px;
-  margin-bottom: 30px;
-}
-.chart__head .panel__note {
-  margin: 0;
-  max-width: 640px;
-}
 .legend {
   display: flex;
   flex-wrap: wrap;
   gap: 18px;
-  padding-top: 4px;
+  margin-bottom: 26px;
   font-size: 13px;
   color: var(--ink-2);
 }
@@ -1381,13 +1377,14 @@ a.stat:hover .stat__value {
 .swatch--generalist { background: var(--bar-2); }
 .swatch--previous { background: var(--bar-3); }
 .bars {
+  flex: 1;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 18px 64px;
+  align-content: space-between;
+  gap: 16px;
 }
 .bar-row {
   display: grid;
-  grid-template-columns: 158px 1fr;
+  grid-template-columns: 170px 1fr;
   gap: 14px;
   align-items: center;
 }
@@ -1441,53 +1438,46 @@ a.stat:hover .stat__value {
   width: 0 !important;
 }
 
-/* Supported benchmarks, embodiments and reports: three panels in a row */
-.support {
-  display: grid;
-  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
-  gap: 24px;
-  margin-top: 24px;
+.panel__group + .panel__group {
+  margin-top: 26px;
 }
-.support__side {
-  display: grid;
-  gap: 24px;
-  align-content: start;
+.panel__group-title {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-3);
 }
-.support .panel h3 {
-  margin-bottom: 14px;
-}
-.support .panel h3 + .panel__note {
-  margin-top: -8px;
+.panel__group .panel__foot {
+  margin-top: 12px;
 }
 .bench-list {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0 20px;
-}
-.bench-list--one {
-  grid-template-columns: 1fr;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 .bench {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 9px;
-  min-width: 0;
-  padding: 8px 0;
-  border-bottom: 1px solid var(--line);
-  font-size: 14px;
+  gap: 7px;
+  height: 34px;
+  padding: 0 13px;
+  border-radius: 9px;
+  border: 1px solid var(--line);
+  background: var(--bg-sunken);
+  font-size: 13.5px;
   font-weight: 500;
   color: var(--ink);
 }
 .bench i {
-  flex: none;
   font-size: 15px;
   color: var(--green);
 }
-.bench-list--one .bench i {
-  color: var(--ink-3);
-  font-size: 12px;
-}
 .bench--todo {
+  border-style: dashed;
+  background: transparent;
   color: var(--ink-3);
 }
 .bench--todo i {
@@ -1495,16 +1485,19 @@ a.stat:hover .stat__value {
 }
 .report-list {
   display: grid;
+  gap: 8px;
 }
 .report-list a {
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 10px 0;
-  border-bottom: 1px solid var(--line);
+  padding: 11px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: var(--bg-sunken);
   font-size: 14px;
   font-weight: 500;
-  transition: color 0.15s ease;
+  transition: color 0.15s ease, border-color 0.15s ease;
 }
 .report-list a::after {
   content: '\2197';
@@ -1512,6 +1505,7 @@ a.stat:hover .stat__value {
   color: var(--ink-3);
 }
 .report-list a:hover {
+  border-color: var(--accent);
   color: var(--accent);
 }
 .report-list i {
@@ -2096,13 +2090,7 @@ a.contributor-card:hover {
   .two-col {
     gap: 80px;
   }
-  .support {
-    grid-template-columns: 1fr;
-  }
-  .support__side {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-  .bars {
+  .compare {
     grid-template-columns: 1fr;
   }
   .paper {
@@ -2174,9 +2162,6 @@ a.contributor-card:hover {
     padding: 0 10px;
   }
   .video-grid {
-    grid-template-columns: 1fr;
-  }
-  .support__side {
     grid-template-columns: 1fr;
   }
   .paper {
@@ -2270,8 +2255,5 @@ a.contributor-card:hover {
   }
   .figure img {
     padding: 16px;
-  }
-  .bench-list {
-    grid-template-columns: 1fr 1fr;
   }
 }

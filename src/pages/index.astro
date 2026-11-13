@@ -234,40 +234,37 @@ const ext = (href: string) => (href.startsWith('/') ? {} : { target: '_blank', r
         }
       </div>
 
-      <article class="panel chart reveal">
-        <div class="chart__head">
-          <div>
-            <h3><BiText en={c.benchmarks.comparison.title.en} zh={c.benchmarks.comparison.title.zh} /></h3>
-            <p class="panel__note"><BiText en={c.benchmarks.comparison.note.en} zh={c.benchmarks.comparison.note.zh} /></p>
-          </div>
+      <!-- The comparison on the left; what is integrated, on which robots, and the reports on the right -->
+      <div class="compare reveal">
+        <article class="panel chart">
+          <h3><BiText en={c.benchmarks.comparison.title.en} zh={c.benchmarks.comparison.title.zh} /></h3>
+          <p class="panel__note"><BiText en={c.benchmarks.comparison.note.en} zh={c.benchmarks.comparison.note.zh} /></p>
           <div class="legend">
             <span><i class="swatch swatch--specialist"></i><BiText en={c.benchmarks.comparison.series[0].label.en} zh={c.benchmarks.comparison.series[0].label.zh} /></span>
             <span><i class="swatch swatch--generalist"></i><BiText en={c.benchmarks.comparison.series[1].label.en} zh={c.benchmarks.comparison.series[1].label.zh} /></span>
             <span><i class="swatch swatch--previous"></i>{c.benchmarks.comparison.series[2].label.en}</span>
           </div>
-        </div>
-        <div class="bars">
-          {
-            c.benchmarks.comparison.rows.map((row) => (
-              <div class="bar-row">
-                <span class="bar-row__name">{row.benchmark}</span>
-                <div class="bar-row__bars">
-                  {(['specialist', 'generalist', 'previous'] as const).map((k) => (
-                    <div class={`bar bar--${k} ${row[k] === null ? 'bar--na' : ''}`} style={`--w: ${widthOf(row[k])}%`} title={`${row.benchmark} · ${k}: ${fmt(row[k])}`}>
-                      <span />
-                      <b>{fmt(row[k])}</b>
-                    </div>
-                  ))}
+          <div class="bars">
+            {
+              c.benchmarks.comparison.rows.map((row) => (
+                <div class="bar-row">
+                  <span class="bar-row__name">{row.benchmark}</span>
+                  <div class="bar-row__bars">
+                    {(['specialist', 'generalist', 'previous'] as const).map((k) => (
+                      <div class={`bar bar--${k} ${row[k] === null ? 'bar--na' : ''}`} style={`--w: ${widthOf(row[k])}%`} title={`${row.benchmark} · ${k}: ${fmt(row[k])}`}>
+                        <span />
+                        <b>{fmt(row[k])}</b>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            ))
-          }
-        </div>
-        <p class="panel__foot"><BiText en={c.benchmarks.comparison.footnote.en} zh={c.benchmarks.comparison.footnote.zh} /></p>
-      </article>
+              ))
+            }
+          </div>
+          <p class="panel__foot"><BiText en={c.benchmarks.comparison.footnote.en} zh={c.benchmarks.comparison.footnote.zh} /></p>
+        </article>
 
-      <div class="support reveal">
-        <article class="panel support__benchmarks">
+        <article class="panel">
           <h3><BiText en={c.benchmarks.supported.title.en} zh={c.benchmarks.supported.title.zh} /></h3>
           <p class="panel__note">
             <BiText
@@ -275,39 +272,40 @@ const ext = (href: string) => (href.startsWith('/') ? {} : { target: '_blank', r
               zh="每个基准都附带训练配方、策略服务入口与评测脚本。"
             />
           </p>
-          <div class="bench-list">
-            {
-              c.benchmarks.supported.items.map((b) => (
-                <span class={`bench ${b.done ? '' : 'bench--todo'}`}>
-                  <i class={b.done ? 'ti ti-circle-check-filled' : 'ti ti-circle-dashed'} aria-hidden="true" />
-                  {b.name}
-                </span>
-              ))
-            }
+          <div class="panel__group">
+            <span class="panel__group-title"><BiText en="Simulation & real robots" zh="仿真与真机" /></span>
+            <div class="bench-list">
+              {
+                c.benchmarks.supported.items.map((b) => (
+                  <span class={`bench ${b.done ? '' : 'bench--todo'}`}>
+                    <i class={b.done ? 'ti ti-circle-check-filled' : 'ti ti-circle-dashed'} aria-hidden="true" />
+                    {b.name}
+                  </span>
+                ))
+              }
+            </div>
+            <p class="panel__foot"><BiText en="Dashed items are in progress." zh="虚线项为进行中。" /></p>
           </div>
-          <p class="panel__foot"><BiText en="Dashed items are in progress." zh="虚线项为进行中。" /></p>
-        </article>
-        <div class="support__side">
-        <article class="panel">
-          <h3><BiText en="Robot embodiments" zh="机器人本体" /></h3>
-          <div class="bench-list bench-list--one">
-            {c.benchmarks.supported.embodiments.map((e) => <span class="bench"><i class="ti ti-point-filled" aria-hidden="true" />{e}</span>)}
+          <div class="panel__group">
+            <span class="panel__group-title"><BiText en="Robot embodiments" zh="机器人本体" /></span>
+            <div class="bench-list">
+              {c.benchmarks.supported.embodiments.map((e) => <span class="bench">{e}</span>)}
+            </div>
+          </div>
+          <div class="panel__group">
+            <span class="panel__group-title"><BiText en="Reports" zh="报告" /></span>
+            <div class="report-list">
+              {
+                c.benchmarks.supported.reports.map((r) => (
+                  <a href={r.href} target="_blank" rel="noopener noreferrer">
+                    <i class={r.icon} aria-hidden="true" />
+                    <BiText en={r.label.en} zh={r.label.zh} />
+                  </a>
+                ))
+              }
+            </div>
           </div>
         </article>
-        <article class="panel">
-          <h3><BiText en="Reports" zh="报告" /></h3>
-          <div class="report-list">
-            {
-              c.benchmarks.supported.reports.map((r) => (
-                <a href={r.href} target="_blank" rel="noopener noreferrer">
-                  <i class={r.icon} aria-hidden="true" />
-                  <BiText en={r.label.en} zh={r.label.zh} />
-                </a>
-              ))
-            }
-          </div>
-        </article>
-        </div>
       </div>
     </div>
   </section>
