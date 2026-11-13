@@ -606,8 +606,8 @@ html[data-locale='zh'] .hero__tagline {
 }
 .brick {
   display: grid;
-  grid-template-columns: 150px minmax(0, 1fr);
-  gap: 14px;
+  grid-template-columns: 92px minmax(0, 1fr);
+  gap: 16px;
   align-items: center;
   padding: 14px 16px 14px 18px;
   border-radius: 14px;
@@ -615,10 +615,10 @@ html[data-locale='zh'] .hero__tagline {
   border-left: 4px solid var(--brick);
   background: var(--brick-soft);
 }
+/* Number over name, so the label column stays narrow */
 .brick__label {
-  display: flex;
-  align-items: baseline;
-  gap: 8px;
+  display: grid;
+  gap: 2px;
   font-size: 12.5px;
   font-weight: 700;
   letter-spacing: 0.06em;
@@ -631,21 +631,19 @@ html[data-locale='zh'] .brick__label {
 }
 .brick__no {
   font-family: var(--font-mono);
-  font-size: 11.5px;
+  font-size: 11px;
   font-weight: 600;
   letter-spacing: 0;
-  opacity: 0.7;
+  opacity: 0.65;
 }
-/* Chips grow to fill each row so both edges of every brick line up */
 .brick__options {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
+  gap: 8px;
 }
 .chip {
-  flex: 1 1 auto;
   height: 32px;
-  padding: 0 11px;
+  padding: 0 14px;
   border-radius: 8px;
   border: 1px solid var(--line);
   background: var(--bg-elevated);
@@ -2161,6 +2159,11 @@ a.contributor-card:hover {
   .brick {
     grid-template-columns: 1fr;
     gap: 10px;
+  }
+  .brick__label {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
   }
   .container {
     width: calc(100% - 32px);
