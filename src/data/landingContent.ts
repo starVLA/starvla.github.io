@@ -398,7 +398,14 @@ export const landingContent = {
         { name: 'SO101', done: false },
         { name: 'RLBench', done: false },
       ],
-      embodiments: ['Single-arm', 'Bimanual', 'Humanoid', 'Mobile manipulation', 'Navigation'],
+      // each links to a typical sim benchmark for that embodiment
+      embodiments: [
+        { name: 'Single-arm', via: 'LIBERO', href: `${EXAMPLES_URL}/simBenchmarks/LIBERO` },
+        { name: 'Bimanual', via: 'RoboTwin 2.0', href: `${EXAMPLES_URL}/simBenchmarks/Robotwin` },
+        { name: 'Humanoid', via: 'RoboCasa-GR1', href: `${EXAMPLES_URL}/simBenchmarks/Robocasa_tabletop` },
+        { name: 'Mobile manipulation', via: 'BEHAVIOR-1K', href: `${EXAMPLES_URL}/simBenchmarks/Behavior` },
+        { name: 'Navigation', via: 'VLN-CE', href: `${EXAMPLES_URL}/simBenchmarks/VLN-CE` },
+      ],
       reports: [
         { icon: 'ti ti-gauge', label: { en: 'Training efficiency report', zh: '训练效率报告' }, href: 'https://github.com/starVLA/starVLA/issues/158' },
         { icon: 'ti ti-chart-line', label: { en: 'Training curves', zh: '训练曲线' }, href: 'https://github.com/starVLA/starVLA/issues/68' },

@@ -296,7 +296,14 @@ const ext = (href: string) => (href.startsWith('/') ? {} : { target: '_blank', r
           <div class="panel__group">
             <span class="panel__group-title"><BiText en="Robot embodiments" zh="机器人本体" /></span>
             <div class="bench-list">
-              {c.benchmarks.supported.embodiments.map((e) => <span class="bench">{e}</span>)}
+              {
+                c.benchmarks.supported.embodiments.map((e) => (
+                  <a class="bench bench--link" href={e.href} title={e.via} target="_blank" rel="noopener noreferrer">
+                    {e.name}
+                    <i class="ti ti-arrow-up-right" aria-hidden="true" />
+                  </a>
+                ))
+              }
             </div>
           </div>
           <div class="panel__group">
