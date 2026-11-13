@@ -826,15 +826,18 @@ a.stat:hover .stat__value {
 /* ------------------------------------------------------------------ */
 /* Architecture                                                        */
 /* ------------------------------------------------------------------ */
-/* The four layers as a stack of bands, each keyed by a block in its brick colour */
+/* The four layers side by side, each card keyed by a band in its brick colour. The cards share row tracks
+   (subgrid), so titles, bodies and tag rows line up even when one body runs a line longer. */
 .stack {
   display: grid;
-  gap: 12px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
 }
 .stack__layer {
   display: grid;
-  grid-template-columns: 104px minmax(0, 1.3fr) minmax(0, 1fr);
-  align-items: stretch;
+  grid-row: span 3;
+  grid-template-rows: subgrid;
+  row-gap: 0;
   border: 1px solid var(--line);
   border-radius: 18px;
   background: var(--bg-elevated);
@@ -844,13 +847,15 @@ a.stat:hover .stat__value {
 .stack__layer:hover {
   border-color: color-mix(in srgb, var(--brick) 40%, transparent);
   box-shadow: var(--shadow-md);
+  transform: translateY(-3px);
 }
+/* Icon on the left, number on the right */
 .stack__key {
   display: flex;
-  flex-direction: column;
+  flex-direction: row-reverse;
   align-items: center;
-  justify-content: center;
-  gap: 8px;
+  justify-content: space-between;
+  padding: 18px 22px;
   background: var(--brick-soft);
   color: var(--brick);
 }
@@ -864,26 +869,26 @@ a.stat:hover .stat__value {
   font-size: 26px;
 }
 .stack__text {
-  padding: 26px 32px;
+  padding: 22px 22px 16px;
 }
 .stack__text h3 {
-  margin: 0 0 6px;
-  font-size: 20px;
+  margin: 0 0 8px;
+  font-size: 18px;
   font-weight: 650;
   letter-spacing: -0.02em;
 }
 .stack__text p {
   margin: 0;
-  font-size: 14.5px;
+  font-size: 14px;
   line-height: 1.65;
   color: var(--ink-2);
 }
 .stack__tags {
   display: flex;
   flex-wrap: wrap;
-  align-content: center;
+  align-content: flex-start;
   gap: 6px;
-  padding: 24px 32px 24px 0;
+  padding: 0 22px 22px;
 }
 .tag {
   padding: 3px 10px;
@@ -2018,15 +2023,8 @@ a.contributor-card:hover {
     grid-template-columns: 1fr;
     align-items: start;
   }
-  .stack__layer {
-    grid-template-columns: 88px minmax(0, 1fr);
-  }
-  .stack__tags {
-    grid-column: 2;
-    padding: 0 28px 24px;
-  }
-  .stack__text {
-    padding: 24px 28px 14px;
+  .stack {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
   .principle-list,
   .variants {
@@ -2165,17 +2163,8 @@ a.contributor-card:hover {
   .stat__value {
     font-size: 28px;
   }
-  .stack__layer {
-    grid-template-columns: 64px minmax(0, 1fr);
-  }
-  .stack__key i {
-    font-size: 22px;
-  }
-  .stack__text {
-    padding: 20px 20px 12px;
-  }
-  .stack__tags {
-    padding: 0 20px 20px;
+  .stack {
+    grid-template-columns: 1fr;
   }
   .zoo__row {
     grid-template-columns: 1fr auto;
