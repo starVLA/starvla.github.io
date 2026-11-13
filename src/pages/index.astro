@@ -11,7 +11,9 @@ const fmt = (v: number | null) => (v === null ? '–' : `${v.toFixed(1)}%`);
 const ext = (href: string) => (href.startsWith('/') ? {} : { target: '_blank', rel: 'noopener noreferrer' });
 const community = c.research.community;
 const communityNames = community.periods.flatMap((p) => p.names);
-const communityRows = [0, 1, 2, 3].map((r) => communityNames.filter((_, i) => i % 4 === r));
+const communityRows = [0, 1, 2, 3, 4].map((r) => communityNames.filter((_, i) => i % 5 === r));
+// running total at the end of each period
+const communityGrowth = community.periods.map((p, i, all) => ({ until: p.until, total: all.slice(0, i + 1).reduce((n, q) => n + q.names.length, 0) }));
 ---
 
 <BaseLayout title={c.meta.title} description={c.meta.description}>
@@ -363,26 +365,36 @@ const communityRows = [0, 1, 2, 3].map((r) => communityNames.filter((_, i) => i 
           ))
         }
       </div>
-    </div>
-
-    <!-- Community projects scroll past in rows, alternating direction -->
-    <div class="community reveal">
-      <div class="container community__head">
-        <h3><BiText en={community.title.en.replace('{n}', `${communityNames.length}`)} zh={community.title.zh.replace('{n}', `${communityNames.length}`)} /></h3>
-        <p><BiText en={community.sub.en} zh={community.sub.zh} /></p>
-      </div>
-      <div class="community__rows">
-        {
-          communityRows.map((row, r) => (
-            <div class="community__row" style={`--dur: ${row.length * 4}s`} data-reverse={r % 2 === 1 ? '' : undefined}>
-              {[0, 1].map((copy) => (
-                <ul class="community__track" aria-hidden={copy === 1 ? 'true' : undefined}>
-                  {row.map((name) => <li>{name}</li>)}
-                </ul>
-              ))}
-            </div>
-          ))
-        }
+      <!-- Community projects: how many and how fast it grew, beside their names scrolling past -->
+      <div class="community panel reveal">
+        <div class="community__stat">
+          <p class="community__count"><b>{communityNames.length}</b> <BiText en={community.title.en} zh={community.title.zh} /></p>
+          <p class="panel__note"><BiText en={community.sub.en} zh={community.sub.zh} /></p>
+          <div class="community__growth">
+            {
+              communityGrowth.map((g) => (
+                <div class="community__bar" style={`--h: ${(g.total / communityNames.length).toFixed(3)}`}>
+                  <span>{g.total}</span>
+                  <i />
+                  <small><BiText en={g.until.en} zh={g.until.zh} /></small>
+                </div>
+              ))
+            }
+          </div>
+        </div>
+        <div class="community__rows">
+          {
+            communityRows.map((row, r) => (
+              <div class="community__row" style={`--dur: ${row.length * 5}s`} data-reverse={r % 2 === 1 ? '' : undefined}>
+                {[0, 1].map((copy) => (
+                  <ul class="community__track" aria-hidden={copy === 1 ? 'true' : undefined}>
+                    {row.map((name) => <li>{name}</li>)}
+                  </ul>
+                ))}
+              </div>
+            ))
+          }
+        </div>
       </div>
     </div>
   </section>
