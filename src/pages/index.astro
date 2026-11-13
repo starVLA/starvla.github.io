@@ -144,6 +144,10 @@ const ext = (href: string) => (href.startsWith('/') ? {} : { target: '_blank', r
         }
       </div>
 
+      <figure class="figure reveal">
+        <img src={c.architecture.figure.src} alt={c.architecture.figure.alt} loading="lazy" />
+        <figcaption><BiText en={c.architecture.figure.caption.en} zh={c.architecture.figure.caption.zh} /></figcaption>
+      </figure>
       <div class="principles reveal">
         <h3><BiText en={c.architecture.principles.title.en} zh={c.architecture.principles.title.zh} /></h3>
         <ul class="principle-list">
@@ -161,10 +165,6 @@ const ext = (href: string) => (href.startsWith('/') ? {} : { target: '_blank', r
         </ul>
       </div>
 
-      <figure class="figure reveal">
-        <img src={c.architecture.figure.src} alt={c.architecture.figure.alt} loading="lazy" />
-        <figcaption><BiText en={c.architecture.figure.caption.en} zh={c.architecture.figure.caption.zh} /></figcaption>
-      </figure>
       <figure class="figure figure--variants reveal">
         <VariantDefs />
         <div class="variants">

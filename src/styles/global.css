@@ -832,6 +832,7 @@ a.stat:hover .stat__value {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 16px;
+  margin-bottom: 40px;
 }
 .stack__layer {
   display: grid;
@@ -930,9 +931,6 @@ a.stat:hover .stat__value {
 }
 [data-theme='dark'] .figure figcaption {
   border-top: 0;
-}
-.figure + .figure {
-  margin-top: 24px;
 }
 /* The four reference frameworks, drawn in SVG (components/VariantDiagram.astro) rather than taken from the paper.
    Blue is the shared VLM, green the action head: the colours of layers 01 and 02 above. */
@@ -1103,9 +1101,9 @@ a.stat:hover .stat__value {
 [data-theme='dark'] .figure--variants figcaption {
   border-top: 1px solid var(--line);
 }
-/* Design principles: four columns under the stack, no card */
+/* Design principles: four columns between the framework figure and the variants, no card */
 .principles {
-  margin: 56px 0 64px;
+  margin: 48px 0;
   padding-top: 28px;
   border-top: 1px solid var(--line);
 }
