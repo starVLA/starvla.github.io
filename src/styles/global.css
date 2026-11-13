@@ -1029,6 +1029,84 @@ a.stat:hover .stat__value {
 .vf-tip--green {
   fill: var(--green);
 }
+/* The data flow, replayed while the figure is in view (index.astro). Each element starts at its own --at; the outputs
+   fade back out at the end of a pass, so the next one starts from the same frame. */
+/* A lit element turns its own colour, see-through. Both ends of the fill animation are plain colours: Chrome
+   interpolates a colour from color-mix() wrongly in fill (towards black). */
+.vf-bar {
+  --lit: var(--blue);
+}
+.vf-bar--head,
+.vf-head {
+  --lit: var(--green);
+}
+.vf-pulse {
+  fill: none;
+  stroke: color-mix(in srgb, var(--green) 45%, transparent);
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 100 100;
+  opacity: 0;
+}
+.vf-out {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .is-playing .vf-in {
+    animation: vf-in 0.5s ease-in-out var(--at, 0s);
+  }
+  .is-playing .vf-glow {
+    animation: vf-glow 0.7s ease-out var(--at);
+  }
+  .is-playing .vf-pulse {
+    animation: vf-pulse 0.8s ease-out var(--at);
+  }
+  .is-playing .vf-out {
+    animation:
+      vf-out 0.35s cubic-bezier(0.3, 1.5, 0.6, 1) var(--at) both,
+      vf-out-reset 0.5s ease-in 5.4s forwards;
+  }
+}
+@keyframes vf-in {
+  45% {
+    transform: translateY(-4px);
+  }
+}
+@keyframes vf-glow {
+  25% {
+    fill: var(--lit);
+    fill-opacity: 0.32;
+  }
+}
+/* A wide glow drawn along the link in the first 60%, then faded */
+@keyframes vf-pulse {
+  from {
+    stroke-dashoffset: 100;
+    opacity: 1;
+  }
+  60% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+    opacity: 0;
+  }
+}
+@keyframes vf-out {
+  from {
+    opacity: 0.15;
+    transform: scale(0.6);
+  }
+}
+@keyframes vf-out-reset {
+  to {
+    opacity: 0.15;
+    transform: scale(0.6);
+  }
+}
 .variant__name {
   display: flex;
   flex-wrap: wrap;

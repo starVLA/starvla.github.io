@@ -2,7 +2,12 @@
 // One reference framework as a small diagram. The VLM (shared, blue) is on the left with its layers stacked bottom to
 // top, so the top bar is its last layer; the action head (green: the part that differs) is on the right. Inputs sit
 // under the VLM and the action chunk comes out at the top right. What tells the four apart is how the head is wired to
-// the VLM. Arrowheads and the noise pattern are defined once on the page (VariantDefs.astro).
+// the VLM. Only FAST needs a VLM, since it writes the actions as text tokens; the other three also take a world model
+// as the backbone, hence VLM / WM. Arrowheads and the noise pattern are defined once on the page (VariantDefs.astro).
+//
+// The page plays the data flow through it on a loop (global.css, .variants.is-playing): the inputs go in, the VLM
+// layers light up bottom to top, a glow runs along each link and the actions come out. Every animated element starts at
+// its own --at, set below in seconds from the start of a pass.
 interface Props {
   kind: 'fast' | 'oft' | 'groot' | 'pi';
   label: string;
@@ -22,13 +27,56 @@ const inputs: Group[] = [
 ];
 if (kind === 'oft') inputs.push({ x: [96, 110, 124], cls: 'query', en: 'queries', zh: '动作 token' });
 const centre = (g: Group) => (g.x[0] + g.x[g.x.length - 1] + 12) / 2;
+
+const at = (t: number) => `--at: ${t.toFixed(2)}s`;
+const travel = 0.5; // how long the glow takes to run along a link
+const lit = bars.map((_, i) => 0.35 + (bars.length - 1 - i) * 0.2); // VLM layer i lights up
+const vlmDone = lit[0] + 0.2;
+
+// The green links, each with the moment its glow sets off, and the moment each output appears
+type Link = { d: string; cls?: string; at: number };
+const links: Link[] = [];
+let outAt: number[] = [];
+let mlpAt = 0;
+let ditLit: number[] = [];
+
+if (kind === 'fast') {
+  // the last layer writes one token, which is fed back to write the next
+  links.push({ d: `M134 ${mid(bars[0])} H158 V27 H180`, at: vlmDone });
+  outAt = outs.map((_, i) => vlmDone + travel + i * (travel + 0.1));
+  outs.slice(0, -1).forEach((x, i) =>
+    links.push({ d: `M${x + 9} 37 Q${(x + 9 + outs[i + 1] + 5) / 2} 46 ${outs[i + 1] + 5} 37.5`, cls: 'vf-link--hop', at: outAt[i] + 0.1 })
+  );
+}
+if (kind === 'oft') {
+  // the action tokens' last-layer states go through an MLP, every step at once
+  links.push({ d: `M134 ${mid(bars[0])} H180`, at: vlmDone });
+  mlpAt = vlmDone + travel;
+  outs.forEach((x) => links.push({ d: `M${x + 7} 76 V37`, at: mlpAt + 0.2 }));
+  outAt = outs.map(() => mlpAt + 0.2 + travel);
+}
+if (kind === 'groot') {
+  // every DiT layer cross-attends to the VLM's last layer
+  links.push({ d: `M134 ${mid(bars[0])} H160 V${mid(bars[3])}`, cls: 'vf-link--bare', at: vlmDone });
+  bars.forEach((y) => links.push({ d: `M160 ${mid(y)} H184`, at: vlmDone + 0.3 }));
+  ditLit = bars.map((_, i) => vlmDone + 0.3 + travel + (bars.length - 1 - i) * 0.2);
+}
+if (kind === 'pi') {
+  // DiT layer i cross-attends to VLM layer i
+  bars.forEach((y, i) => links.push({ d: `M134 ${mid(y)} H184`, at: lit[i] + 0.15 }));
+  ditLit = lit.map((t) => t + 0.15 + travel);
+}
+if (dit) {
+  links.push({ d: 'M211 54 V37', at: ditLit[0] + 0.2 });
+  outAt = outs.map(() => ditLit[0] + 0.2 + travel);
+}
 ---
 
 <svg class="vf" viewBox="0 0 260 226" role="img" aria-label={label}>
   <!-- the shared VLM -->
   <rect class="vf-vlm" x="12" y="56" width="134" height="110" rx="12"></rect>
-  <text class="vf-label" x="24" y="75">VLM</text>
-  {bars.map((y) => <rect class="vf-bar" x="24" y={y} width="110" height="12" rx="3.5" />)}
+  <text class="vf-label" x="24" y="75">{kind === 'fast' ? 'VLM' : 'VLM / WM'}</text>
+  {bars.map((y, i) => <rect class="vf-bar vf-glow" x="24" y={y} width="110" height="12" rx="3.5" style={at(lit[i])} />)}
   {kind === 'oft' && <rect class="vf-state" x="96" y={bars[0]} width="38" height="12" rx="3.5" />}
 
   <!-- inputs -->
@@ -37,7 +85,7 @@ const centre = (g: Group) => (g.x[0] + g.x[g.x.length - 1] + 12) / 2;
     inputs.map((g) => (
       <g>
         {g.x.map((x) => (
-          <rect class={`vf-tok vf-tok--${g.cls}`} x={x} y="182" width="12" height="12" rx="3" />
+          <rect class={`vf-tok vf-tok--${g.cls} vf-in`} x={x} y="182" width="12" height="12" rx="3" />
         ))}
         <text class="vf-note" data-locale-content="en" x={centre(g)} y="211" text-anchor="middle">{g.en}</text>
         <text class="vf-note" data-locale-content="zh" x={centre(g)} y="211" text-anchor="middle">{g.zh}</text>
@@ -49,31 +97,16 @@ const centre = (g: Group) => (g.x[0] + g.x[g.x.length - 1] + 12) / 2;
   <text class="vf-note" data-locale-content="en" x="211" y="12" text-anchor="middle">{kind === 'fast' ? 'FAST tokens' : 'actions'}</text>
   <text class="vf-note" data-locale-content="zh" x="211" y="12" text-anchor="middle">{kind === 'fast' ? 'FAST token' : '动作'}</text>
   {
-    outs.map((x) => (
-      <rect class={`vf-tok ${kind === 'fast' ? 'vf-tok--fast' : 'vf-tok--act'}`} x={x} y="20" width="14" height="14" rx="3.5" />
+    outs.map((x, i) => (
+      <rect class={`vf-tok ${kind === 'fast' ? 'vf-tok--fast' : 'vf-tok--act'} vf-out`} x={x} y="20" width="14" height="14" rx="3.5" style={at(outAt[i])} />
     ))
-  }
-
-  {
-    kind === 'fast' && (
-      <g>
-        {/* the last layer writes one token, which is fed back to write the next */}
-        <path class="vf-link" d={`M134 ${mid(bars[0])} H158 V27 H180`} />
-        {outs.slice(0, -1).map((x, i) => (
-          <path class="vf-link vf-link--hop" d={`M${x + 9} 37 Q${(x + 9 + outs[i + 1] + 5) / 2} 46 ${outs[i + 1] + 5} 37.5`} />
-        ))}
-      </g>
-    )
   }
 
   {
     kind === 'oft' && (
       <g>
-        {/* the action tokens' last-layer states go through an MLP, every step at once */}
-        <path class="vf-link" d={`M134 ${mid(bars[0])} H180`} />
-        <rect class="vf-head" x="183" y="78" width="56" height="24" rx="7" />
+        <rect class="vf-head vf-glow" x="183" y="78" width="56" height="24" rx="7" style={at(mlpAt)} />
         <text class="vf-label vf-label--sm" x="211" y="94.5" text-anchor="middle">MLP</text>
-        {outs.map((x) => <path class="vf-link" d={`M${x + 7} 76 V37`} />)}
       </g>
     )
   }
@@ -83,32 +116,16 @@ const centre = (g: Group) => (g.x[0] + g.x[g.x.length - 1] + 12) / 2;
       <g>
         <rect class="vf-head" x="174" y="56" width="74" height="110" rx="12" />
         <text class="vf-label" x="186" y="75">DiT</text>
-        {bars.map((y) => <rect class="vf-bar vf-bar--head" x="186" y={y} width="50" height="12" rx="3.5" />)}
-        {[191, 205, 219].map((x) => <rect class="vf-tok vf-tok--noise" x={x} y="182" width="12" height="12" rx="3" />)}
+        {bars.map((y, i) => <rect class="vf-bar vf-bar--head vf-glow" x="186" y={y} width="50" height="12" rx="3.5" style={at(ditLit[i])} />)}
+        {[191, 205, 219].map((x) => <rect class="vf-tok vf-tok--noise vf-in" x={x} y="182" width="12" height="12" rx="3" style={at(ditLit[3] - 0.5)} />)}
         <text class="vf-note" data-locale-content="en" x="211" y="211" text-anchor="middle">noise</text>
         <text class="vf-note" data-locale-content="zh" x="211" y="211" text-anchor="middle">噪声</text>
         <path class="vf-line" d="M211 179 V169" />
-        <path class="vf-link" d="M211 54 V37" />
       </g>
     )
   }
 
-  {
-    kind === 'groot' && (
-      <g>
-        {/* every DiT layer cross-attends to the VLM's last layer */}
-        <path class="vf-link vf-link--bare" d={`M134 ${mid(bars[0])} H160 V${mid(bars[3])}`} />
-        {bars.map((y) => <path class="vf-link" d={`M160 ${mid(y)} H184`} />)}
-      </g>
-    )
-  }
-
-  {
-    kind === 'pi' && (
-      <g>
-        {/* DiT layer i cross-attends to VLM layer i */}
-        {bars.map((y) => <path class="vf-link" d={`M134 ${mid(y)} H184`} />)}
-      </g>
-    )
-  }
+  <!-- the links, each over a wider glow that runs along it -->
+  {links.map((l) => <path class="vf-pulse" d={l.d} pathLength="100" style={at(l.at)} />)}
+  {links.map((l) => <path class={`vf-link ${l.cls ?? ''}`} d={l.d} />)}
 </svg>

@@ -711,6 +711,28 @@ const ext = (href: string) => (href.startsWith('/') ? {} : { target: '_blank', r
       ).observe(stage);
     });
 
+    /* ---------------- Framework diagrams ---------------- */
+    // Replay the data flow (about 6 s a pass, see .vf-out-reset in global.css) while the diagrams are in view.
+    const variants = document.querySelector('.variants');
+    let variantTimer;
+    const playVariants = () => {
+      variants.classList.remove('is-playing');
+      void variants.offsetWidth; // restart the CSS animations
+      variants.classList.add('is-playing');
+    };
+    new IntersectionObserver(
+      ([entry]) => {
+        clearInterval(variantTimer);
+        if (entry.isIntersecting) {
+          playVariants();
+          variantTimer = setInterval(playVariants, 6500);
+        } else {
+          variants.classList.remove('is-playing');
+        }
+      },
+      { threshold: 0.4 }
+    ).observe(variants);
+
     window.addEventListener('starvla:locale', () => {
       renderComposer();
       renderQuickStart();
