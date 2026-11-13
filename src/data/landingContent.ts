@@ -402,7 +402,7 @@ export const landingContent = {
       embodiments: [
         { name: 'Single-arm', via: 'LIBERO', href: `${EXAMPLES_URL}/simBenchmarks/LIBERO` },
         { name: 'Bimanual', via: 'RoboDojo', href: `${EXAMPLES_URL}/simBenchmarks/RoboDojo` },
-        { name: 'Humanoid', via: 'SIMPLE', href: 'https://github.com/physical-superintelligence-lab/SIMPLE' },
+        { name: 'Humanoid', via: 'RoboCasa-GR1', href: `${EXAMPLES_URL}/simBenchmarks/Robocasa_tabletop` },
         { name: 'Mobile manipulation', via: 'RoboCasa365', href: `${EXAMPLES_URL}/simBenchmarks/Robocasa_365` },
         { name: 'Navigation', via: 'VLN-CE', href: `${EXAMPLES_URL}/simBenchmarks/VLN-CE` },
       ],
