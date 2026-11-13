@@ -552,6 +552,8 @@ export const landingContent = {
       zh: '基于 StarVLA 构建、或为其补充训练/评测/部署工具的项目。',
     },
     items: [
+      { name: 'Qwen-VLA', desc: { en: 'Qwen Team generalist VLA: a Qwen3.5-4B backbone with a DiT flow-matching action head.', zh: 'Qwen 团队的通用 VLA：Qwen3.5-4B 骨干 + DiT flow-matching 动作头。' }, link: 'https://github.com/QwenLM/Qwen-VLA' },
+      { name: 'Meituan-Robotics-0', desc: { en: 'Meituan Robotics VLA foundation model for desktop manipulation, built on the StarVLA stack.', zh: '美团机器人面向桌面操作的 VLA 基座模型，基于 StarVLA 训练与部署栈。' }, link: 'https://meituan-robotics.github.io/Meituan-Robotics-0/' },
       { name: 'RLinf', desc: { en: 'RL post-training for StarVLA policies.', zh: '为 StarVLA 策略提供 RL 后训练。' }, link: 'https://rlinf.readthedocs.io/en/latest/rst_source/examples/embodied/starvla.html' },
       { name: 'vla-evaluation-harness', desc: { en: 'AllenAI Docker environments and accelerated large-scale evaluation.', zh: 'AllenAI 提供的 Docker 环境与大规模评测加速。' }, link: 'https://github.com/allenai/vla-evaluation-harness' },
       { name: 'NeuroVLA', desc: { en: 'Brain-like embodied intelligence for fluid robotic control.', zh: '面向灵巧机器人控制的脑启发式具身智能。' }, link: 'https://github.com/guoweiyu/NeuroVLA' },
