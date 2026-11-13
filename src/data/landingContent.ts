@@ -530,6 +530,12 @@ export const landingContent = {
         desc: { en: 'WM4A checkpoints: Cosmos-Predict2 / Wan2.2 backbones for action prediction.', zh: 'WM4A 检查点：以 Cosmos-Predict2 / Wan2.2 为骨干的动作预测模型。' },
         link: 'https://huggingface.co/collections/StarVLA/world-model-to-vla',
       },
+      {
+        name: 'RoboDojo',
+        kind: { en: 'Collection', zh: '模型合集' },
+        desc: { en: 'RoboDojo checkpoints: StarVLA-PI, -GR00T and -OFT on Qwen3-VL-4B.', zh: 'RoboDojo 检查点：基于 Qwen3-VL-4B 的 StarVLA-PI、-GR00T 与 -OFT。' },
+        link: 'https://huggingface.co/collections/StarVLA/robodojo',
+      },
     ],
   },
   news: {
