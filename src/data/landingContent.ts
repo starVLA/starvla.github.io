@@ -319,6 +319,34 @@ export const landingContent = {
         ],
       },
     ],
+    // Community projects built on StarVLA, by release date (Figure 2 of the StarVLA paper)
+    community: {
+      tag: { en: 'Community research', zh: '社区研究' },
+      title: { en: 'Research projects built on StarVLA', zh: '基于 StarVLA 的社区研究项目' },
+      span: { en: 'Oct 2025 – Sep 2026', zh: '2025.10 – 2026.09' },
+      periods: [
+        {
+          label: { en: 'Oct 2025 – Mar 2026', zh: '2025.10 – 2026.03' },
+          names: ['NoTVLA', 'PhysBrain', 'CLAP', 'TwinBrainVLA', 'LangForce', 'LaRA-VLA', 'VLA-TMEE', 'VLA-JEPA', 'ABot-M0', 'LDA-1B', 'TempoFit', 'DiT4DiT', 'VP-VLA', 'LaMP'],
+        },
+        {
+          label: { en: 'Apr – Jun 2026', zh: '2026.04 – 2026.06' },
+          names: [
+            'DriveDreamer-Policy', 'AssemLM', 'JoyAI-RA 0.1', 'CorridorVLA', 'ResVLA', 'LoHo-Manip', 'DiscreteRTC', 'Keystone', 'LoopVLA',
+            'Multi-view VLA', 'FrameSkip', 'IntentVLA', 'PhysBrain 1.0', 'Afford-VLA', 'Lngram', 'Rethink VLA Init.', 'FineVLA', 'OneVLA',
+            'PHASER', 'SPARC', 'Beyond English', 'LaWAM', 'EventVLA', 'Action Prior Learning', 'LA4VLA',
+          ],
+        },
+        {
+          label: { en: 'Jul – Sep 2026', zh: '2026.07 – 2026.09' },
+          names: [
+            'WALA', 'Anchor-Align', 'FoMoVLA', 'JoyNexus', 'HiFi-UMI', 'TurboVLA', 'W²-VLA', 'SLIM', 'StellaVLA', 'DeepInsight II', 'FabriMAE',
+            'Latent Action Study', 'GlanceWAM', 'VLAct', 'Temporal Forcing', 'TacPAC', 'LayerRoute', 'EffVLA', 'SCULPT-VLA', 'ActiveArena',
+            'THAW-VLA', 'CoRe-WAM',
+          ],
+        },
+      ],
+    },
   },
   benchmarks: {
     title: { en: 'Simple recipes, strong baselines', zh: '简单配方，强力基线' },

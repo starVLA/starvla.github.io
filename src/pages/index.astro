@@ -9,6 +9,8 @@ const maxBar = 100;
 const widthOf = (v: number | null) => (v === null ? 0 : (v / maxBar) * 100);
 const fmt = (v: number | null) => (v === null ? '–' : `${v.toFixed(1)}%`);
 const ext = (href: string) => (href.startsWith('/') ? {} : { target: '_blank', rel: 'noopener noreferrer' });
+const community = c.research.community;
+const communityCount = community.periods.reduce((n, p) => n + p.names.length, 0);
 ---
 
 <BaseLayout title={c.meta.title} description={c.meta.description}>
@@ -359,6 +361,27 @@ const ext = (href: string) => (href.startsWith('/') ? {} : { target: '_blank', r
             </article>
           ))
         }
+        <article class="paper paper--community">
+          <div class="paper__meta">
+            <span class="paper__tag"><BiText en={community.tag.en} zh={community.tag.zh} /></span>
+            <span class="paper__venue">
+              <BiText en={`${communityCount} projects · ${community.span.en}`} zh={`${communityCount} 个项目 · ${community.span.zh}`} />
+            </span>
+          </div>
+          <div class="paper__main">
+            <h3><BiText en={community.title.en} zh={community.title.zh} /></h3>
+            {
+              community.periods.map((p) => (
+                <div class="panel__group">
+                  <span class="panel__group-title"><BiText en={p.label.en} zh={p.label.zh} /></span>
+                  <div class="bench-list">
+                    {p.names.map((name) => <span class="bench">{name}</span>)}
+                  </div>
+                </div>
+              ))
+            }
+          </div>
+        </article>
       </div>
     </div>
   </section>
