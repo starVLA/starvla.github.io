@@ -268,20 +268,27 @@ const ext = (href: string) => (href.startsWith('/') ? {} : { target: '_blank', r
           <h3><BiText en={c.benchmarks.supported.title.en} zh={c.benchmarks.supported.title.zh} /></h3>
           <p class="panel__note">
             <BiText
-              en="Every benchmark ships with a training recipe, a policy-server entry point and an evaluation script."
-              zh="每个基准都附带训练配方、策略服务入口与评测脚本。"
+              en="Every benchmark ships with a training recipe, a policy-server entry point and an evaluation script. Click one to open its example."
+              zh="每个基准都附带训练配方、策略服务入口与评测脚本，点击即可打开对应示例。"
             />
           </p>
           <div class="panel__group">
             <span class="panel__group-title"><BiText en="Simulation & real robots" zh="仿真与真机" /></span>
             <div class="bench-list">
               {
-                c.benchmarks.supported.items.map((b) => (
-                  <span class={`bench ${b.done ? '' : 'bench--todo'}`}>
-                    <i class={b.done ? 'ti ti-circle-check-filled' : 'ti ti-circle-dashed'} aria-hidden="true" />
-                    {b.name}
-                  </span>
-                ))
+                c.benchmarks.supported.items.map((b) =>
+                  b.done ? (
+                    <a class="bench bench--link" href={b.href} target="_blank" rel="noopener noreferrer">
+                      {b.name}
+                      <i class="ti ti-arrow-up-right" aria-hidden="true" />
+                    </a>
+                  ) : (
+                    <span class="bench bench--todo">
+                      <i class="ti ti-circle-dashed" aria-hidden="true" />
+                      {b.name}
+                    </span>
+                  )
+                )
               }
             </div>
             <p class="panel__foot"><BiText en="Dashed items are in progress." zh="虚线项为进行中。" /></p>

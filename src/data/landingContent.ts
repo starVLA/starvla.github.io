@@ -9,6 +9,7 @@ const GITHUB_URL = 'https://github.com/starVLA/starVLA';
 const GITHUB_REPO = 'starVLA/starVLA';
 const GITHUB_REPO_API = `https://api.github.com/repos/${GITHUB_REPO}`;
 const HF_URL = 'https://huggingface.co/StarVLA';
+const EXAMPLES_URL = `${GITHUB_URL}/tree/starVLA_dev/examples`;
 const ARXIV_URL = 'https://arxiv.org/abs/2604.05014';
 
 export const landingContent = {
@@ -378,22 +379,22 @@ export const landingContent = {
     supported: {
       title: { en: 'Integrated benchmarks', zh: '已集成基准' },
       items: [
-        { name: 'LIBERO', done: true },
-        { name: 'LIBERO-Plus', done: true },
-        { name: 'SimplerEnv', done: true },
-        { name: 'RoboTwin 2.0', done: true },
-        { name: 'RoboCasa-GR1', done: true },
-        { name: 'RoboCasa365', done: true },
-        { name: 'BEHAVIOR-1K', done: true },
-        { name: 'CALVIN', done: true },
-        { name: 'DOMINO', done: true },
-        { name: 'RoboDojo', done: true },
-        { name: 'VLA-Arena', done: true },
-        { name: 'MetaWorld', done: true },
-        { name: 'VLN-CE', done: true },
-        { name: 'Franka (real)', done: true },
-        { name: 'RoboChallenge (real)', done: true },
-        { name: 'Unitree G1 (real)', done: true },
+        { name: 'LIBERO', done: true, href: `${EXAMPLES_URL}/simBenchmarks/LIBERO` },
+        { name: 'LIBERO-Plus', done: true, href: `${EXAMPLES_URL}/simBenchmarks/LIBERO-plus` },
+        { name: 'SimplerEnv', done: true, href: `${EXAMPLES_URL}/simBenchmarks/SimplerEnv` },
+        { name: 'RoboTwin 2.0', done: true, href: `${EXAMPLES_URL}/simBenchmarks/Robotwin` },
+        { name: 'RoboCasa-GR1', done: true, href: `${EXAMPLES_URL}/simBenchmarks/Robocasa_tabletop` },
+        { name: 'RoboCasa365', done: true, href: `${EXAMPLES_URL}/simBenchmarks/Robocasa_365` },
+        { name: 'BEHAVIOR-1K', done: true, href: `${EXAMPLES_URL}/simBenchmarks/Behavior` },
+        { name: 'CALVIN', done: true, href: `${EXAMPLES_URL}/simBenchmarks/calvin` },
+        { name: 'DOMINO', done: true, href: `${EXAMPLES_URL}/simBenchmarks/DOMINO` },
+        { name: 'RoboDojo', done: true, href: `${EXAMPLES_URL}/simBenchmarks/RoboDojo` },
+        { name: 'VLA-Arena', done: true, href: `${EXAMPLES_URL}/simBenchmarks/VLA-Arena` },
+        { name: 'MetaWorld', done: true, href: `${EXAMPLES_URL}/simBenchmarks/MetaWorld` },
+        { name: 'VLN-CE', done: true, href: `${EXAMPLES_URL}/simBenchmarks/VLN-CE` },
+        { name: 'Franka (real)', done: true, href: `${EXAMPLES_URL}/realRobots/Franka` },
+        { name: 'RoboChallenge (real)', done: true, href: `${EXAMPLES_URL}/realRobots/RoboChallenge_table30v2` },
+        { name: 'Unitree G1 (real)', done: true, href: `${EXAMPLES_URL}/realRobots/UnitreeG1_WholeBody` },
         { name: 'SO101', done: false },
         { name: 'RLBench', done: false },
       ],
@@ -515,16 +516,13 @@ export const landingContent = {
         link: 'https://huggingface.co/StarVLA/Qwen3-VL-4B-Instruct-Action',
       },
       {
-        name: 'Qwen2.5-VL-3B-Instruct-Action',
-        kind: { en: 'Action-ready backbone', zh: '动作化骨干' },
-        desc: { en: 'Extended vocabulary with fast tokens for discrete action modeling.', zh: '扩展 fast token 词表，用于离散动作建模。' },
-        link: 'https://huggingface.co/StarVLA/Qwen2.5-VL-3B-Instruct-Action',
-      },
-      {
-        name: 'Qwen3VL-GR00T-Bridge-RT-1',
+        name: 'Qwen3-VL-30B-A3B-OFT-Bridge-RT1',
         kind: { en: 'Checkpoint', zh: '检查点' },
-        desc: { en: 'Bridge + Fractal checkpoint for SimplerEnv-style evaluation.', zh: '用于 SimplerEnv 评测的 Bridge + Fractal 检查点。' },
-        link: 'https://huggingface.co/StarVLA/Qwen3VL-GR00T-Bridge-RT-1',
+        desc: {
+          en: 'StarVLA-OFT on the Qwen3-VL-30B-A3B MoE (3B active), trained on Bridge + RT-1; 47.9% on SimplerEnv WidowX.',
+          zh: '以 Qwen3-VL-30B-A3B MoE（激活 3B）为骨干的 StarVLA-OFT，在 Bridge + RT-1 上训练；SimplerEnv WidowX 47.9%。',
+        },
+        link: 'https://huggingface.co/StarVLA/Qwen3-VL-30B-A3B-OFT-Bridge-RT1',
       },
       {
         name: 'world-model-to-vla',
