@@ -563,17 +563,19 @@ html[data-locale='zh'] .hero__tagline {
 
 /* Composer: the four layers on the left, the config they add up to on the right, the training command under it.
    Each layer is a tinted brick in the paper figure's colours, label on the left and options on the right; the chosen
-   option is filled with the layer colour. The config lines a pick changed light up briefly. */
-/* Layers and config split the text column evenly; the layers stay compact and the config lines rarely wrap */
+   option is filled with the layer colour, and each config line carries the colour of the layer that sets it.
+   The config lines a pick changed light up briefly. The heading spans both columns, so the bricks and the config
+   card start and end on the same lines. */
 .composer {
   margin-top: 52px;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: 24px 22px;
+  padding: 30px 32px 32px;
   border-radius: 20px;
   border: 1px solid var(--line);
   background: var(--bg-elevated);
   box-shadow: 0 40px 90px -50px rgba(32, 56, 100, 0.42), 0 2px 8px rgba(14, 26, 51, 0.04);
-  overflow: hidden;
 }
 [data-theme='dark'] .composer {
   box-shadow: 0 40px 90px -50px rgba(0, 0, 0, 0.9);
@@ -581,11 +583,8 @@ html[data-locale='zh'] .hero__tagline {
 .composer > * {
   min-width: 0;
 }
-.composer__controls {
-  padding: 30px 34px 34px;
-}
 .composer__head {
-  margin-bottom: 28px;
+  grid-column: 1 / -1;
 }
 .composer__title {
   margin: 0;
@@ -599,14 +598,17 @@ html[data-locale='zh'] .hero__tagline {
   line-height: 1.55;
   color: var(--ink-3);
 }
+/* The bricks share one label column, as wide as the longest label */
 .composer__layers {
   display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
   gap: 12px;
 }
 .brick {
+  grid-column: 1 / -1;
   display: grid;
-  grid-template-columns: 96px minmax(0, 1fr);
-  gap: 14px;
+  grid-template-columns: subgrid;
+  gap: 18px;
   align-items: center;
   padding: 14px 16px 14px 18px;
   border-radius: 14px;
@@ -614,10 +616,7 @@ html[data-locale='zh'] .hero__tagline {
   border-left: 4px solid var(--brick);
   background: var(--brick-soft);
 }
-/* Number over name, so the label column stays narrow */
 .brick__label {
-  display: grid;
-  gap: 2px;
   font-size: 12.5px;
   font-weight: 700;
   letter-spacing: 0.06em;
@@ -627,13 +626,6 @@ html[data-locale='zh'] .hero__tagline {
 html[data-locale='zh'] .brick__label {
   font-size: 14px;
   letter-spacing: 0.04em;
-}
-.brick__no {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0;
-  opacity: 0.65;
 }
 /* Chips grow to fill each row so both edges of every brick line up */
 .brick__options {
@@ -674,9 +666,16 @@ html[data-locale='zh'] .brick__label {
   color: #0b1220;
 }
 
+/* The layer colours of the dark theme, which read on the dark card in either theme */
 .composer__output {
+  --blue: #8eaeee;
+  --green: #5fcf9f;
+  --amber: #f0b45a;
+  --purple: #b7a1f3;
   display: flex;
   flex-direction: column;
+  border-radius: 14px;
+  overflow: hidden;
   background: var(--code-bg);
   color: #dfe6f3;
 }
@@ -724,6 +723,9 @@ html[data-locale='zh'] .brick__label {
   border-radius: 5px;
   counter-increment: ln;
 }
+.composer__code .ln[class*='tone--'] {
+  box-shadow: inset 3px 0 0 var(--brick);
+}
 .composer__code .ln::before {
   content: counter(ln);
   display: inline-block;
@@ -739,11 +741,12 @@ html[data-locale='zh'] .brick__label {
 .composer__code .c { color: #5d6d8b; }
 .composer__code .ln.is-changed,
 .composer__run.is-changed {
+  --lit: color-mix(in srgb, var(--brick, #8faadc) 24%, transparent);
   animation: line-lit 1.6s ease-out;
 }
 @keyframes line-lit {
-  from { background-color: rgba(143, 170, 220, 0.2); }
-  to { background-color: rgba(143, 170, 220, 0); }
+  from { background-color: var(--lit); }
+  to { background-color: transparent; }
 }
 .composer__run {
   display: flex;
@@ -2003,8 +2006,6 @@ a.contributor-card:hover {
 @media (max-width: 1000px) {
   .composer {
     grid-template-columns: 1fr;
-  }
-  .composer__controls {
     padding: 28px 28px 32px;
   }
 }
@@ -2114,13 +2115,8 @@ a.contributor-card:hover {
   }
   .composer {
     margin-top: 56px;
-    border-radius: 18px;
-  }
-  .composer__controls {
     padding: 22px 18px 26px;
-  }
-  .composer__head {
-    margin-bottom: 22px;
+    border-radius: 18px;
   }
   .chip {
     padding: 0 10px;
@@ -2151,14 +2147,12 @@ a.contributor-card:hover {
 }
 
 @media (max-width: 560px) {
+  .composer__layers,
   .brick {
     grid-template-columns: 1fr;
-    gap: 10px;
   }
-  .brick__label {
-    display: flex;
-    align-items: baseline;
-    gap: 8px;
+  .brick {
+    gap: 10px;
   }
   .container {
     width: calc(100% - 32px);

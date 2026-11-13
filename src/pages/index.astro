@@ -50,33 +50,30 @@ const ext = (href: string) => (href.startsWith('/') ? {} : { target: '_blank', r
     <div class="container">
       <!-- Composer: pick one option per layer; the config and the training command on the right follow -->
       <div class="composer" aria-labelledby="composerTitle">
-        <div class="composer__controls">
-          <div class="composer__head">
-            <h2 class="composer__title" id="composerTitle"><BiText en={c.composer.title.en} zh={c.composer.title.zh} /></h2>
-            <p class="composer__hint"><BiText en={c.composer.hint.en} zh={c.composer.hint.zh} /></p>
-          </div>
-          <div class="composer__layers" id="composer">
-            {
-              c.composer.layers.map((layer, li) => (
-                <div class={`brick brick--${layer.tone}`} data-layer={layer.key}>
-                  <div class="brick__label" id={`layer-${layer.key}`}>
-                    <span class="brick__no">{String(li + 1).padStart(2, '0')}</span>
-                    <BiText en={layer.label.en} zh={layer.label.zh} />
-                  </div>
-                  <div class="brick__options" role="group" aria-labelledby={`layer-${layer.key}`}>
-                    {layer.options.map((opt, oi) => {
-                      const on = oi === (layer.key === 'head' ? 1 : 0);
-                      return (
-                        <button class={`chip ${on ? 'is-active' : ''}`} type="button" data-option={opt.key} aria-pressed={on ? 'true' : 'false'}>
-                          {opt.name}
-                        </button>
-                      );
-                    })}
-                  </div>
+        <div class="composer__head">
+          <h2 class="composer__title" id="composerTitle"><BiText en={c.composer.title.en} zh={c.composer.title.zh} /></h2>
+          <p class="composer__hint"><BiText en={c.composer.hint.en} zh={c.composer.hint.zh} /></p>
+        </div>
+        <div class="composer__layers" id="composer">
+          {
+            c.composer.layers.map((layer) => (
+              <div class={`brick brick--${layer.tone}`} data-layer={layer.key}>
+                <div class="brick__label" id={`layer-${layer.key}`}>
+                  <BiText en={layer.label.en} zh={layer.label.zh} />
                 </div>
-              ))
-            }
-          </div>
+                <div class="brick__options" role="group" aria-labelledby={`layer-${layer.key}`}>
+                  {layer.options.map((opt, oi) => {
+                    const on = oi === (layer.key === 'head' ? 1 : 0);
+                    return (
+                      <button class={`chip ${on ? 'is-active' : ''}`} type="button" data-option={opt.key} aria-pressed={on ? 'true' : 'false'}>
+                        {opt.name}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            ))
+          }
         </div>
         <div class="composer__output">
           <div class="composer__output-head">
@@ -564,6 +561,8 @@ const ext = (href: string) => (href.startsWith('/') ? {} : { target: '_blank', r
     const selection = { backbone: 'qwen3vl', head: 'oft', recipe: 'sft', benchmark: 'libero' };
     const optionOf = (layerKey, optKey) =>
       composer.layers.find((l) => l.key === layerKey).options.find((o) => o.key === optKey);
+    // each config line is marked in the colour of the layer that sets it
+    const toneOf = (layerKey) => composer.layers.find((l) => l.key === layerKey).tone;
 
     // lit: mark what this render changed (a pick does; a language switch does not)
     function renderComposer(lit = false) {
@@ -575,16 +574,19 @@ const ext = (href: string) => (href.startsWith('/') ? {} : { target: '_blank', r
 
       const comment = `# ${backbone.name} × ${head.name} × ${recipe.name} → ${bench.name}`;
       const lines = [
-        `<span class="c">${esc(comment)}</span>`,
-        `<span class="k">framework</span>: <span class="s">${esc(framework)}</span>`,
-        `<span class="k">backbone</span>:`,
-        `  <span class="k">${backbone.world ? 'world_model' : 'vlm'}</span>: <span class="s">${esc(backbone.id)}</span>`,
-        `<span class="k">action_head</span>: <span class="s">${esc(head.suffix.toLowerCase())}</span>  <span class="c"># ${esc(isZh() ? head.desc.zh : head.desc.en)}</span>`,
-        `<span class="k">recipe</span>: <span class="s">${esc(recipe.id)}</span>`,
-        `<span class="k">benchmark</span>: <span class="s">${esc(bench.id)}</span>`,
-      ];
+        [`<span class="c">${esc(comment)}</span>`],
+        [`<span class="k">framework</span>: <span class="s">${esc(framework)}</span>`],
+        [`<span class="k">backbone</span>:`, 'backbone'],
+        [`  <span class="k">${backbone.world ? 'world_model' : 'vlm'}</span>: <span class="s">${esc(backbone.id)}</span>`, 'backbone'],
+        [`<span class="k">action_head</span>: <span class="s">${esc(head.suffix.toLowerCase())}</span>  <span class="c"># ${esc(isZh() ? head.desc.zh : head.desc.en)}</span>`, 'head'],
+        [`<span class="k">recipe</span>: <span class="s">${esc(recipe.id)}</span>`, 'recipe'],
+        [`<span class="k">benchmark</span>: <span class="s">${esc(bench.id)}</span>`, 'benchmark'],
+      ].map(([text, layer]) => ({ text, tone: layer && toneOf(layer) }));
       composerCode.innerHTML = lines
-        .map((line, i) => `<span class="ln${lit && line !== shownLines[i] ? ' is-changed' : ''}">${line}</span>`)
+        .map(({ text, tone }, i) => {
+          const cls = `ln${tone ? ` tone--${tone}` : ''}${lit && text !== shownLines[i]?.text ? ' is-changed' : ''}`;
+          return `<span class="${cls}">${text}</span>`;
+        })
         .join('\n');
       shownLines = lines;
 
