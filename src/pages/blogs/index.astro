@@ -1,0 +1,55 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import BiText from '../../components/BiText.astro';
+import BlogCard from '../../components/BlogCard.astro';
+import { blogs } from '../../data/blogs';
+---
+
+<BaseLayout
+  title="Blogs | StarVLA"
+  description="Research, experiments, and engineering from the StarVLA community."
+  path="/blogs/"
+  schemaType="CollectionPage"
+>
+  <section class="blog-index">
+    <div class="container">
+      <header class="blog-index__head">
+        <span class="eyebrow">StarVLA</span>
+        <h1 class="section-title"><BiText en="Blogs" zh="博客" /></h1>
+        <p class="section-lead">
+          <BiText
+            en="Research, experiments, and engineering from the StarVLA community."
+            zh="来自 StarVLA 社区的研究进展、实验记录与技术分享。"
+          />
+        </p>
+      </header>
+
+      <div class="blog-index__list">
+        {blogs.map((post, index) => <BlogCard post={post} eager={index === 0} />)}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .blog-index {
+    padding: 80px 0 112px;
+    min-height: calc(100svh - var(--nav-h) - 170px);
+  }
+  .blog-index__head {
+    max-width: 800px;
+    margin-bottom: 48px;
+  }
+  .blog-index__list {
+    display: grid;
+    gap: 28px;
+  }
+  @media (max-width: 600px) {
+    .blog-index {
+      padding: 52px 0 72px;
+    }
+    .blog-index__head {
+      margin-bottom: 32px;
+    }
+  }
+</style>

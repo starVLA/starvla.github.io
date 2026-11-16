@@ -7,9 +7,10 @@ interface Props {
   title: string;
   description: string;
   path?: string;
+  schemaType?: 'SoftwareSourceCode' | 'CollectionPage';
 }
 
-const { title, description, path = '/' } = Astro.props;
+const { title, description, path = '/', schemaType = 'SoftwareSourceCode' } = Astro.props;
 const siteUrl = 'https://starvla.github.io';
 const canonical = `${siteUrl}${path}`;
 const ogImage = `${siteUrl}/assets/starvla-overview.webp`;
@@ -46,15 +47,17 @@ const { links } = landingContent;
       type="application/ld+json"
       set:html={JSON.stringify({
         '@context': 'https://schema.org',
-        '@type': 'SoftwareSourceCode',
-        name: 'StarVLA',
+        '@type': schemaType,
+        name: schemaType === 'SoftwareSourceCode' ? 'StarVLA' : title,
         description,
-        url: siteUrl,
-        codeRepository: links.github,
-        programmingLanguage: 'Python',
-        applicationCategory: 'Robotics, Embodied AI',
-        license: links.license,
-        citation: links.arxiv,
+        url: canonical,
+        ...(schemaType === 'SoftwareSourceCode' ? {
+          codeRepository: links.github,
+          programmingLanguage: 'Python',
+          applicationCategory: 'Robotics, Embodied AI',
+          license: links.license,
+          citation: links.arxiv,
+        } : {}),
         author: { '@type': 'Organization', name: 'StarVLA Community', url: 'https://github.com/starVLA' },
       })}
     />
@@ -107,6 +110,9 @@ const { links } = landingContent;
                 </a>
               ))
             }
+            <a class:list={['nav-link', { 'is-active': path.startsWith('/blogs/') }]} href="/blogs/" aria-current={path === '/blogs/' ? 'page' : undefined}>
+              <BiText en="Blogs" zh="博客" />
+            </a>
             <a class="nav-link" href="/contributor">
               <BiText en="Contributors" zh="贡献者" />
             </a>
@@ -150,6 +156,7 @@ const { links } = landingContent;
             <a href={links.docs} target="_blank" rel="noopener noreferrer">Docs</a>
             <a href={links.huggingFace} target="_blank" rel="noopener noreferrer">Hugging Face</a>
             <a href={links.arxiv} target="_blank" rel="noopener noreferrer">arXiv</a>
+            <a href="/blogs/"><BiText en="Blogs" zh="博客" /></a>
             <a href="/contributor"><BiText en="Contributors" zh="贡献者" /></a>
           </div>
         </div>
