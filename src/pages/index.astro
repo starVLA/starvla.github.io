@@ -1,6 +1,8 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import BiText from '../components/BiText.astro';
+import BlogCard from '../components/BlogCard.astro';
+import { blogs } from '../data/blogs';
 import VariantDefs from '../components/VariantDefs.astro';
 import VariantDiagram from '../components/VariantDiagram.astro';
 import { landingContent as c } from '../data/landingContent';
@@ -500,6 +502,23 @@ const communityGrowth = community.periods.map((p, i, all) => ({ until: p.until, 
           ))
         }
       </div>
+    </div>
+  </section>
+
+  <section id="blogs" class="section">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">StarVLA</span>
+        <h2 class="section-title"><BiText en="Blogs" zh="博客" /></h2>
+        <p class="section-lead"><BiText en="Research, experiments and engineering from the StarVLA team." zh="来自 StarVLA 团队的研究进展、实验与技术分享。" /></p>
+      </div>
+      <div class="home-blog-list">
+        {blogs.slice(0, 3).map((post) => <BlogCard post={post} heading="h3" />)}
+      </div>
+      <a class="more-link" href="/blogs/">
+        <BiText en="All posts" zh="全部文章" />
+        <i class="ti ti-arrow-right" aria-hidden="true"></i>
+      </a>
     </div>
   </section>
 
