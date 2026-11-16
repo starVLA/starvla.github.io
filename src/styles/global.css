@@ -217,10 +217,6 @@ html[data-locale='zh'] [data-locale-content='zh'] {
   border-bottom: 1px solid var(--line);
 }
 
-.home-blog-list {
-  display: grid;
-  gap: 28px;
-}
 .top-nav__inner {
   height: 100%;
   display: flex;

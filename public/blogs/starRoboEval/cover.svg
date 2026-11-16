@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-labelledby="title desc">
-  <title id="title">starBenchServer: one native policy across 14 robot benchmarks</title>
-  <desc id="desc">GPT-6-Astra connects through starBenchServer to tabletop, bimanual, mobile, humanoid and navigation benchmarks.</desc>
+  <title id="title">starRoboEval: one native policy across 14 robot benchmarks</title>
+  <desc id="desc">GPT-6-Astra connects through starRoboEval to tabletop, bimanual, mobile, humanoid and navigation benchmarks.</desc>
   <defs>
     <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="1" fill="#203864" opacity=".07"/></pattern>
   </defs>
@@ -9,7 +9,7 @@
   <g font-family="Arial, Helvetica, sans-serif">
     <rect x="64" y="57" width="9" height="23" rx="2" fill="#8faadc"/>
     <text x="88" y="76" font-size="19" letter-spacing="2" fill="#526587">STARVLA / BLOGS</text>
-    <text x="64" y="152" font-size="36" font-weight="700" fill="#3352a3">starBenchServer</text>
+    <text x="64" y="152" font-size="36" font-weight="700" fill="#3352a3">starRoboEval</text>
     <text x="64" y="222" font-size="56" font-weight="700" letter-spacing="-1.8" fill="#0e1a33">One native policy.</text>
     <text x="64" y="286" font-size="56" font-weight="700" letter-spacing="-1.8" fill="#0e1a33">14 robot benchmarks.</text>
 
@@ -27,7 +27,7 @@
     <text x="193" y="479" text-anchor="middle" font-size="29" font-weight="700" fill="#203864">GPT-6-Astra</text>
     <text x="193" y="515" text-anchor="middle" font-size="22" fill="#66738c">Native policy</text>
     <rect x="415" y="424" width="312" height="130" rx="19" fill="#203864"/>
-    <text x="571" y="478" text-anchor="middle" font-size="32" font-weight="700" fill="#fff">starBenchServer</text>
+    <text x="571" y="478" text-anchor="middle" font-size="32" font-weight="700" fill="#fff">starRoboEval</text>
     <text x="571" y="516" text-anchor="middle" font-size="22" fill="#d9e4fa">Benchmark services</text>
 
     <g fill="#fff" stroke="#d5deed" stroke-width="1.5">

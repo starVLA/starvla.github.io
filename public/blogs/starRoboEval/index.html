@@ -3,25 +3,60 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="starBenchServer runs each embodied benchmark as an isolated service and evaluates GPT-6-Astra's direct control across 14 simulation benchmarks with one frozen, task-agnostic prompt.">
-<title>What Does GPT-6-Astra Score When Nothing Is Tailored to a Benchmark? · starBenchServer</title>
+<meta name="description" content="starRoboEval runs each embodied benchmark as an isolated service and evaluates GPT-6-Astra's direct control across 14 simulation benchmarks with one frozen, task-agnostic prompt.">
+<title>What Does GPT-6-Astra Score When Nothing Is Tailored to a Benchmark? · starRoboEval</title>
 <!-- StarVLA article metadata -->
-<meta name="author" content="StarVLA team">
+<meta name="author" content="StarVLA Community">
+<meta name="citation_title" content="What Does GPT-6-Astra Score When Nothing Is Tailored to a Benchmark?">
+<meta name="citation_author" content="StarVLA Community">
+<meta name="citation_publication_date" content="2026">
+<script type="application/ld+json" id="article-structured-data">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://starvla.github.io/blogs/starRoboEval/#article",
+  "url": "https://starvla.github.io/blogs/starRoboEval/",
+  "mainEntityOfPage": "https://starvla.github.io/blogs/starRoboEval/",
+  "headline": "What Does GPT-6-Astra Score When Nothing Is Tailored to a Benchmark?",
+  "description": "starRoboEval runs each embodied benchmark as an isolated service and evaluates GPT-6-Astra's direct control across 14 simulation benchmarks with one frozen, task-agnostic prompt.",
+  "abstract": "Frontier models such as GPT-6-Astra have shown that they can control robots, and many groups now use simulated benchmarks to explore how far they can go. But unless the evaluation setup rules it out, a score on an embodied benchmark can blend what the model can do, what the harness around it does, and what an agent could learn from simulator state within its reach. In this post, we set out to measure the model more directly. First, we built starRoboEval, which runs each benchmark as a separate service, and for every result we report, we held the agent to camera images, robot state and actions, with nothing else to work with. Second, we set up the Native GPT-6-Astra Policy, which uses one generic setup and one prompt with nothing tailored to any benchmark. Finally, we evaluate this policy broadly on 14 embodied benchmarks, from tabletop manipulation and household tasks to humanoids and navigation. It scores well below the published reference result on 11 of the 12 benchmarks that have one, for example 34.5% against 99.9% on LIBERO and 20.0% against 68.9% on RoboDojo; navigation on VLN-CE is the exception. The gap shows how far the model starts from those numbers when nothing is tailored to a benchmark; together, the results give a snapshot of GPT-6-Astra on its own across all 14 embodied benchmarks.",
+  "inLanguage": "en",
+  "author": {
+    "@type": "Organization",
+    "name": "StarVLA Community",
+    "url": "https://github.com/starVLA"
+  },
+  "image": "https://starvla.github.io/blogs/starRoboEval/cover.png",
+  "isAccessibleForFree": true,
+  "citation": [
+    "https://arxiv.org/abs/2510.11660",
+    "https://arxiv.org/abs/2608.17209",
+    "https://arxiv.org/abs/2503.21969",
+    "https://arxiv.org/abs/2601.20334",
+    "https://robodojo-benchmark.com/leaderboard",
+    "https://arxiv.org/abs/2610.01939",
+    "https://arxiv.org/abs/2610.28259",
+    "https://arxiv.org/abs/2610.22471",
+    "https://arxiv.org/abs/2607.26148",
+    "https://arxiv.org/abs/2610.14018"
+  ]
+}
+</script>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-<link rel="canonical" href="https://starvla.github.io/blogs/starbenchserver/">
+<link rel="canonical" href="https://starvla.github.io/blogs/starRoboEval/">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="StarVLA">
-<meta property="og:title" content="What Does GPT-6-Astra Score When Nothing Is Tailored to a Benchmark? · starBenchServer">
-<meta property="og:description" content="starBenchServer runs each embodied benchmark as an isolated service and evaluates GPT-6-Astra&#x27;s direct control across 14 simulation benchmarks with one frozen, task-agnostic prompt.">
-<meta property="og:url" content="https://starvla.github.io/blogs/starbenchserver/">
-<meta property="og:image" content="https://starvla.github.io/blogs/starbenchserver/cover.png">
+<meta property="og:title" content="What Does GPT-6-Astra Score When Nothing Is Tailored to a Benchmark? · starRoboEval">
+<meta property="og:description" content="starRoboEval runs each embodied benchmark as an isolated service and evaluates GPT-6-Astra&#x27;s direct control across 14 simulation benchmarks with one frozen, task-agnostic prompt.">
+<meta property="og:url" content="https://starvla.github.io/blogs/starRoboEval/">
+<meta property="og:image" content="https://starvla.github.io/blogs/starRoboEval/cover.png">
 <meta property="og:image:width" content="1280">
 <meta property="og:image:height" content="720">
-<meta property="og:image:alt" content="starBenchServer: one native policy across 14 robot benchmarks">
+<meta property="og:image:alt" content="starRoboEval: one native policy across 14 robot benchmarks">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="What Does GPT-6-Astra Score When Nothing Is Tailored to a Benchmark? · starBenchServer">
-<meta name="twitter:description" content="starBenchServer runs each embodied benchmark as an isolated service and evaluates GPT-6-Astra&#x27;s direct control across 14 simulation benchmarks with one frozen, task-agnostic prompt.">
-<meta name="twitter:image" content="https://starvla.github.io/blogs/starbenchserver/cover.png">
+<meta name="twitter:title" content="What Does GPT-6-Astra Score When Nothing Is Tailored to a Benchmark? · starRoboEval">
+<meta name="twitter:description" content="starRoboEval runs each embodied benchmark as an isolated service and evaluates GPT-6-Astra&#x27;s direct control across 14 simulation benchmarks with one frozen, task-agnostic prompt.">
+<meta name="twitter:image" content="https://starvla.github.io/blogs/starRoboEval/cover.png">
 <!-- /StarVLA article metadata -->
 <!-- StarVLA saved theme preference; system colors remain the default. -->
 <script id="starvla-blog-theme">
@@ -114,7 +149,8 @@
   header.doc { padding: 72px 0 8px; }
   .kicker { font-size: 13px; color: var(--muted); letter-spacing: .03em; text-transform: uppercase; margin-bottom: 14px; }
   h1 { margin: 0 0 24px; text-align: center; }
-  h1 .headline { display: block; max-width: 900px; margin: 0 auto; font-size: clamp(32px, 4.6vw, 46px); line-height: 1.15; font-weight: 800; letter-spacing: -.03em; text-wrap: balance; }
+  h1 .headline { display: block; width: min(1000px, calc(100vw - 56px)); position: relative; left: 50%; transform: translateX(-50%); font-size: clamp(32px, 4.6vw, 46px); line-height: 1.15; font-weight: 800; letter-spacing: -.03em; text-wrap: balance; }
+  @media (min-width: 1000px) { h1 .headline-line { display: block; white-space: nowrap; } }
   h1 .tagline { display: block; margin-top: 16px; font-size: clamp(16px, 2vw, 19px); line-height: 1.4; font-weight: 500; letter-spacing: -.005em; color: var(--text-2); }
   header.doc .byline { justify-content: center; }
   .subtitle { font-size: 20px; color: var(--text-2); line-height: 1.5; margin: 0 0 22px; letter-spacing: -.005em; }
@@ -144,6 +180,9 @@
   figure.fig.bare > .body { border: 0; background: none; padding: 0; }
   figcaption { font-size: 14px; color: var(--muted); line-height: 1.6; margin-top: 12px; }
   figcaption b { color: var(--text); font-weight: 600; }
+  .recordings-caption .caption-instruction { display: block; }
+  .citation-bibtex { margin: 16px 0; padding: 18px 20px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); color: var(--text-2); font-size: 13px; line-height: 1.65; white-space: pre-wrap; overflow-wrap: anywhere; }
+  .citation-bibtex code { padding: 0; background: none; font-size: inherit; }
 
   .teaser { display: grid; grid-template-columns: 1.35fr 1fr 1fr; gap: 6px; }
   .teaser .v { position: relative; border-radius: 6px; overflow: hidden; background: #000; aspect-ratio: 4 / 3; }
@@ -522,7 +561,7 @@
   <span class="starvla-blog-divider" aria-hidden="true"></span>
   <a class="starvla-blog-parent" href="/blogs/">Blogs</a>
   <span class="starvla-blog-separator" aria-hidden="true">/</span>
-  <span class="starvla-blog-post" aria-current="page">starBenchServer</span>
+  <span class="starvla-blog-post" aria-current="page">starRoboEval</span>
 </nav>
 <!-- /StarVLA article navigation -->
 
@@ -531,27 +570,27 @@
 
 <main>
 <header class="doc">
-  <h1><span class="headline">What Does GPT-6-Astra Score When Nothing Is Tailored to a Benchmark?</span><span class="tagline">A Direct Test Across 14 Embodied Benchmarks</span></h1>
-  <div class="byline"><span><b>starVLA team</b></span><span>Method: <a href="#policy">Native GPT-6-Astra Policy</a></span><span><a href="#compare">14 simulation benchmarks</a></span><span>Code: coming soon</span></div>
+  <h1><span class="headline"><span class="headline-line">What Does GPT-6-Astra Score</span> <span class="headline-line">When Nothing Is Tailored to a Benchmark?</span></span><span class="tagline">A Direct Test Across 14 Embodied Benchmarks</span></h1>
+  <div class="byline"><span><b>StarVLA Community</b></span><span>Method: <a href="#policy">Native GPT-6-Astra Policy</a></span><span><a href="#compare">14 simulation benchmarks</a></span><span>Code: <a href="https://github.com/starVLA/starRoboEval">starRoboEval</a></span></div>
 
   <figure class="fig bare wide">
     <div class="body strip-wrap">
       <div class="strip" id="strip" aria-label="Evaluation recordings on all 14 benchmarks"></div>
       <button class="strip-nav l" id="strip-l" aria-label="Scroll left">‹</button><button class="strip-nav r" id="strip-r" aria-label="Scroll right">›</button>
     </div>
-    <figcaption><b>Figure 1.</b> One recording from each of the 14 benchmarks, all from the Native GPT-6-Astra Policy. Drag to browse; click a tile to replay it with its decisions.</figcaption>
+    <figcaption class="recordings-caption"><span><b>Figure 1.</b> One recording from each of the 14 benchmarks, all from the Native GPT-6-Astra Policy.</span> <span class="caption-instruction">Drag to browse; click a tile to replay it with its decisions.</span></figcaption>
   </figure>
 
   <div class="abstract">
     <div class="h">ABSTRACT</div>
-    <p>Frontier models such as GPT-6-Astra have shown that they can control robots, and many groups now use simulated benchmarks to explore how far they can go. But unless the evaluation setup rules it out, a score on an embodied benchmark can blend what the model can do, what the harness around it does, and what an agent could learn from simulator state within its reach. In this post, we set out to measure the model more directly. First, we built starBenchServer, which runs each benchmark as a separate service, and for every result we report, we held the agent to camera images, robot state and actions, with nothing else to work with. Second, we set up the Native GPT-6-Astra Policy, which uses one generic setup and one prompt with nothing tailored to any benchmark. Finally, we evaluate this policy broadly on 14 embodied benchmarks, from tabletop manipulation and household tasks to humanoids and navigation. It scores well below the published reference result on 11 of the 12 benchmarks that have one, for example 34.5% against 99.9% on LIBERO and 20.0% against 68.9% on RoboDojo; navigation on VLN-CE is the exception. The gap shows how far the model starts from those numbers when nothing is tailored to a benchmark; together, the results give a snapshot of GPT-6-Astra on its own across all 14 embodied benchmarks.</p>
+    <p>Frontier models such as GPT-6-Astra have shown that they can control robots, and many groups now use simulated benchmarks to explore how far they can go. But unless the evaluation setup rules it out, a score on an embodied benchmark can blend what the model can do, what the harness around it does, and what an agent could learn from simulator state within its reach. In this post, we set out to measure the model more directly. First, we built starRoboEval, which runs each benchmark as a separate service, and for every result we report, we held the agent to camera images, robot state and actions, with nothing else to work with. Second, we set up the Native GPT-6-Astra Policy, which uses one generic setup and one prompt with nothing tailored to any benchmark. Finally, we evaluate this policy broadly on 14 embodied benchmarks, from tabletop manipulation and household tasks to humanoids and navigation. It scores well below the published reference result on 11 of the 12 benchmarks that have one, for example 34.5% against 99.9% on LIBERO and 20.0% against 68.9% on RoboDojo; navigation on VLN-CE is the exception. The gap shows how far the model starts from those numbers when nothing is tailored to a benchmark; together, the results give a snapshot of GPT-6-Astra on its own across all 14 embodied benchmarks.</p>
   </div>
 </header>
 
 <!-- ============ 1 ============ -->
 <section id="service">
   <h2><span class="no">1</span>Benchmarks as services</h2>
-  <p class="lead">In most evaluation setups, the policy and the simulator run side by side, often in the same process. That is convenient, but it puts the agent right next to everything that defines the task: the scene layout, where the objects are, how success is scored. We pull the two apart with starBenchServer: each benchmark runs as its own service, on its own machine, isolated from the agent.</p>
+  <p class="lead">In most evaluation setups, the policy and the simulator run side by side, often in the same process. That is convenient, but it puts the agent right next to everything that defines the task: the scene layout, where the objects are, how success is scored. We pull the two apart with starRoboEval: each benchmark runs as its own service, on its own machine, isolated from the agent.</p>
   <p>Each turn, the agent sends a short sequence of actions; the service checks them, runs them in the simulator and returns the next camera images and robot state. That is the whole interface. For every result in this post, we held the agent to it: nothing else from the benchmark reached the agent.</p>
 
   <figure class="fig wide">
@@ -635,7 +674,7 @@
 
   <h3 id="why">Why isolation matters</h3>
   <p>Early on, before we isolated the simulator, we watched an agent do something sensible and troubling. Before its first move, it opened the simulator's layout file, counted the objects in the scene and noted roughly where each one was. Then it planned. Nothing in its instructions said not to. It was simply using what was within reach.</p>
-  <p>That is the problem with running the simulator next to the agent. The scene configuration, the assets, even the scoring code sit in the same workspace as the agent. An agent that reads them may still finish the task, but the score no longer says much about whether it can see and act. So rather than asking agents to look away, we think evaluations should take the shortcut off the table: keep the simulator isolated from the agent, so that a score can only come from what the agent sees and does, as on a real robot. That is what starBenchServer is built for.</p>
+  <p>That is the problem with running the simulator next to the agent. The scene configuration, the assets, even the scoring code sit in the same workspace as the agent. An agent that reads them may still finish the task, but the score no longer says much about whether it can see and act. So rather than asking agents to look away, we think evaluations should take the shortcut off the table: keep the simulator isolated from the agent, so that a score can only come from what the agent sees and does, as on a real robot. That is what starRoboEval is built for.</p>
   <figure class="fig">
     <div class="body">
       <div class="tabs" role="tablist" aria-label="Switch evaluation structure">
@@ -654,8 +693,8 @@
   <p>Robot agents are increasingly built to improve themselves. In a recursive self-improvement (RSI) loop, the agent studies its failures, rewrites its own prompts, tools and skills, and tries again, often with a person in the loop who decides which failures matter and which fixes to keep. Pointed at one benchmark, such a loop learns that benchmark: its scenes, its tasks and where its scorer is strict. The agent does much of this on its own, since every fix it writes answers a failure it saw there; the people steering it add what they notice. These adaptations become part of the agent method being evaluated.</p>
   <p>Diversity makes this kind of fitting visible. Robots, scenes and tasks change from one benchmark to the next, so an adaptation that pays off on one slice stands out against the rest. An agent run unchanged across many benchmarks cannot quietly lean toward one of them: what it gains on one slice has to hold up on the others. Because such a loop fits whatever it is pointed at, we want to point it at as many benchmarks as we can. Services make this cheap: each new benchmark is just one more service, so we plan to keep adding them.</p>
   <figure class="fig wide">
-    <div class="body hubfig"><svg id="hub" class="hub" viewBox="0 0 1000 470" role="img" aria-label="Agentic policies connect to starBenchServer, which connects 14 benchmarks as services"></svg><button class="pbtn hub-replay" id="hub-replay">Replay</button></div>
-    <figcaption><b>Figure 4.</b> starBenchServer sits between policies and benchmarks. Lit items appear in this post; dimmed items mark planned extensions. Future real-robot adapters will connect hardware through the same observation-and-action interface.</figcaption>
+    <div class="body hubfig"><svg id="hub" class="hub" viewBox="0 0 1000 470" role="img" aria-label="Agentic policies connect to starRoboEval, which connects 14 benchmarks as services"></svg><button class="pbtn hub-replay" id="hub-replay">Replay</button></div>
+    <figcaption><b>Figure 4.</b> starRoboEval sits between policies and benchmarks. Lit items appear in this post; dimmed items mark planned extensions. Future real-robot adapters will connect hardware through the same observation-and-action interface.</figcaption>
   </figure>
 </section>
 
@@ -783,13 +822,36 @@ rsi-bench serve --benchmark simpler_env \
   <p>Some paths lie outside the service. An agent's own setup can look things up on the open web, including a benchmark's public source code, and a user can hand it extra information. The benchmark side cannot prevent this. These are choices of the method, so they should be declared with its scores. In our runs, we turned off the agent's web search and its shell had no network access; its workspace held only its own notes and the observations it received.</p>
 </section>
 
+<section id="citation" aria-labelledby="citation-heading">
+  <h2 id="citation-heading">Citation</h2>
+  <p>If you use starRoboEval or its evaluation results, please cite this report:</p>
+  <pre class="citation-bibtex"><code>@misc{starvla2026starroboeval,
+  author = {{StarVLA Community}},
+  title = {What Does {GPT-6-Astra} Score When Nothing Is Tailored to a Benchmark?},
+  year = {2026},
+  url = {https://starvla.github.io/blogs/starRoboEval/}
+}</code></pre>
+  <p><a href="citation.bib" download>Download BibTeX</a> · <a href="https://github.com/starVLA/starRoboEval">Project code</a></p>
+</section>
+
 <section id="references" aria-labelledby="references-title">
   <h2 id="references-title">References</h2>
-  <ol id="refs" class="refs" role="list"></ol>
+  <ol id="refs" class="refs" role="list">
+    <li id="ref-1"><span class="ref-number" aria-hidden="true">[1]</span><cite>ManiAgent: An Agentic Framework for General Robotic Manipulation</cite>. Yi Yang et al. <a href="https://arxiv.org/abs/2510.11660">arxiv.org/abs/2510.11660</a>.</li>
+    <li id="ref-2"><span class="ref-number" aria-hidden="true">[2]</span><cite>Teach and Grow: An Agent-Centered Architecture for General Robot Learning</cite>. Chang Nie, Zhe Liu, and Hesheng Wang. <a href="https://arxiv.org/abs/2608.17209">arxiv.org/abs/2608.17209</a>.</li>
+    <li id="ref-3"><span class="ref-number" aria-hidden="true">[3]</span><cite>Robotic Long-Horizon Manipulation with Progressive In-Context Code Generation and Episodic Feedback</cite>. Yuan Meng et al. <a href="https://arxiv.org/abs/2503.21969">arxiv.org/abs/2503.21969</a>.</li>
+    <li id="ref-4"><span class="ref-number" aria-hidden="true">[4]</span><cite>Demonstration-Free Robotic Control via LLM Agents</cite>. Brian Y. Tsui, Alan Y. Fang, and Tiffany J. Hwu. <a href="https://arxiv.org/abs/2601.20334">arxiv.org/abs/2601.20334</a>.</li>
+    <li id="ref-5"><span class="ref-number" aria-hidden="true">[5]</span><cite>RoboDojo Sim Leaderboard (agent track)</cite>. Qoo Tech, Q0-Preview entry, accessed 2026-11-12. <a href="https://robodojo-benchmark.com/leaderboard">robodojo-benchmark.com/leaderboard</a>.</li>
+    <li id="ref-6"><span class="ref-number" aria-hidden="true">[6]</span><cite>Fewer Tokens, Better Action: GPT-6 Astra Robot Agents with 14% Higher Success Rate but 65% Fewer Tokens</cite>. Ruiyang Si et al. <a href="https://arxiv.org/abs/2610.01939">arxiv.org/abs/2610.01939</a>.</li>
+    <li id="ref-7"><span class="ref-number" aria-hidden="true">[7]</span><cite>Large Multimodal Models for Direct Robot Control: GPT-6 as a Beginning</cite>. Youwei Zhou et al. <a href="https://arxiv.org/abs/2610.28259">arxiv.org/abs/2610.28259</a>.</li>
+    <li id="ref-8"><span class="ref-number" aria-hidden="true">[8]</span><cite>Has GPT-6-Astra Achieved Embodied Intelligence?</cite> SenseNova et al. <a href="https://arxiv.org/abs/2610.22471">arxiv.org/abs/2610.22471</a>.</li>
+    <li id="ref-9"><span class="ref-number" aria-hidden="true">[9]</span><cite>Embodied Agents Take Control: Minimal-Interface Zero-Shot Agents Rival Industrial-Scale Policies in Vision-and-Language Navigation</cite>. Jian Zhou et al. <a href="https://arxiv.org/abs/2607.26148">arxiv.org/abs/2607.26148</a>.</li>
+    <li id="ref-10"><span class="ref-number" aria-hidden="true">[10]</span><cite>RoboHarness: A Simple Harness Outperforms VLA and World Action Models</cite>. Bince Qu, Wei Chen, and Bo Zhang. <a href="https://arxiv.org/abs/2610.14018">arxiv.org/abs/2610.14018</a>.</li>
+  </ol>
 </section>
 
 <div class="notes">
-  <p>starBenchServer derives from <a href="https://github.com/starVLA/starVLA">StarVLA</a> and keeps its MIT license.</p>
+  <p>starRoboEval derives from <a href="https://github.com/starVLA/starVLA">StarVLA</a> and keeps its MIT license.</p>
 </div>
 </main>
 </div>
@@ -1081,7 +1143,7 @@ const observeAuto = v => { if (autoIO) autoIO.observe(v); else v.controls = true
 })();
 
 
-/* Figure 4: policies -> starBenchServer -> benchmarks, animated plug-in */
+/* Figure 4: policies -> starRoboEval -> benchmarks, animated plug-in */
 (() => {
   const svg = document.getElementById("hub"); if (!svg) return;
   const NS = "http://www.w3.org/2000/svg";
@@ -1127,7 +1189,7 @@ const observeAuto = v => { if (autoIO) autoIO.observe(v); else v.controls = true
     chips.push(g);
   });
   mk("rect", { class: "core", x: HUB.x, y: HUB.y, width: HUB.w, height: HUB.h, rx: 16 });
-  mk("text", { class: "core-t", x: HUB.x + HUB.w / 2, y: HUB.y + HUB.h / 2 + 7, "text-anchor": "middle" }, svg, "starBenchServer");
+  mk("text", { class: "core-t", x: HUB.x + HUB.w / 2, y: HUB.y + HUB.h / 2 + 7, "text-anchor": "middle" }, svg, "starRoboEval");
   const num = document.createElementNS(NS, "text");
   const pulses = [];
   let timers = [], run = 0;
