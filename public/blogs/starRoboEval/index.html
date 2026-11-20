@@ -180,7 +180,6 @@
   figure.fig.bare > .body { border: 0; background: none; padding: 0; }
   figcaption { font-size: 14px; color: var(--muted); line-height: 1.6; margin-top: 12px; }
   figcaption b { color: var(--text); font-weight: 600; }
-  .recordings-caption .caption-instruction { display: block; }
   .citation-bibtex { margin: 16px 0; padding: 18px 20px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); color: var(--text-2); font-size: 13px; line-height: 1.65; white-space: pre-wrap; overflow-wrap: anywhere; }
   .citation-bibtex code { padding: 0; background: none; font-size: inherit; }
 
@@ -197,6 +196,8 @@
   .scroll-x { overflow-x: auto; }
 
   /* ---------- service diagram ---------- */
+  .svc-figure { container-type: inline-size; }
+  figure.svc-figure > .body { padding: 1.8cqw; border-radius: 1cqw; -webkit-text-size-adjust: none; text-size-adjust: none; }
   svg.svc { width: 100%; height: auto; display: block; font-family: inherit; }
   svg.svc .panel { fill: var(--bg); stroke: var(--line); stroke-width: 1.5; }
   svg.svc .agent-band { fill: var(--accent); }
@@ -226,15 +227,17 @@
   svg.svc .pill.blk rect { fill: var(--bad); }
   svg.svc .xmark { stroke: var(--bad); stroke-width: 3.5; stroke-linecap: round; opacity: 0; transition: opacity .15s; }
   svg.svc .xmark.on { opacity: 1; }
-  .svc-status { display: flex; align-items: center; gap: 14px; margin-top: 12px; font-size: 14px; min-height: 26px; }
-  .svc-status .phase { flex: 1; color: var(--text-2); }
+  /* Match the SVG's scale across the 1000px-wide figure, including its footer. */
+  .svc-status { display: flex; align-items: center; gap: 1.4cqw; margin-top: 1.2cqw; font-size: 1.4cqw; min-height: 2.6cqw; }
+  .svc-status .phase { flex: 1; min-width: 0; color: var(--text-2); }
   .svc-status .phase b { color: var(--text); }
-  .svc-status .ctr { font-variant-numeric: tabular-nums; color: var(--muted); font-size: 13px; white-space: nowrap; }
-  .svc-steps { display: flex; gap: 6px; }
-  .svc-steps i { width: 26px; height: 4px; border-radius: 4px; background: var(--line); display: block; }
+  .svc-status code { border-radius: .4cqw; }
+  .svc-status .ctr { font-variant-numeric: tabular-nums; color: var(--muted); font-size: 1.3cqw; white-space: nowrap; }
+  .svc-steps { display: flex; gap: .6cqw; flex: none; }
+  .svc-steps i { width: 2.6cqw; height: .4cqw; border-radius: .4cqw; background: var(--line); display: block; }
   .svc-steps i.on { background: var(--accent); }
-  .svc-par { font-size: 13px; color: var(--muted); margin-top: 6px; display: flex; gap: 8px; align-items: center; }
-  .svc-par i { width: 8px; height: 8px; border-radius: 50%; background: var(--bad); flex: none; }
+  .svc-par { font-size: 1.3cqw; color: var(--muted); margin-top: .6cqw; display: flex; gap: .8cqw; align-items: center; }
+  .svc-par i { width: .8cqw; height: .8cqw; border-radius: 50%; background: var(--bad); flex: none; }
 
   .seeit { display: grid; grid-template-columns: 1fr 1fr; font-size: 14.5px; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
   .seeit > div { padding: 14px 18px; }
@@ -446,8 +449,8 @@
   .cbar .fill { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 0 4px 4px 0; }
   .cbar .fill.ours { background: var(--accent); }
   .cbar .fill.ref { background: var(--ref); }
-  .cbar .fill.gap { background: color-mix(in srgb, var(--bad) 16%, transparent); transform: scaleX(0); transform-origin: left; }
-  .cmp-in .cbar .fill.gap { animation: gap-grow .7s cubic-bezier(.2, .7, .2, 1) var(--d, 0ms) both; }
+  .cbar .fill.gap { background: color-mix(in srgb, var(--bad) 16%, transparent); transform: scaleX(0); transform-origin: right; }
+  .cmp-in .cbar .fill.gap { animation: gap-grow .7s cubic-bezier(.4, 0, 1, 1) var(--d, 0ms) both; }
   @keyframes gap-grow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
   @media (prefers-reduced-motion: reduce) { .cmp-in .cbar .fill.gap { animation: none; transform: none; } }
   .cbar .none { flex: 0 0 50%; height: 12px; border: 1px dashed var(--line); border-radius: 3px; }
@@ -578,7 +581,7 @@
       <div class="strip" id="strip" aria-label="Evaluation recordings on all 14 benchmarks"></div>
       <button class="strip-nav l" id="strip-l" aria-label="Scroll left">‹</button><button class="strip-nav r" id="strip-r" aria-label="Scroll right">›</button>
     </div>
-    <figcaption class="recordings-caption"><span><b>Figure 1.</b> One recording from each of the 14 benchmarks, all from the Native GPT-6-Astra Policy.</span> <span class="caption-instruction">Drag to browse; click a tile to replay it with its decisions.</span></figcaption>
+    <figcaption class="recordings-caption"><b>Figure 1.</b> One recording from each of the 14 benchmarks, all from the Native GPT-6-Astra Policy. Drag to browse; click a tile to replay it with its decisions.</figcaption>
   </figure>
 
   <div class="abstract">
@@ -593,7 +596,7 @@
   <p class="lead">In most evaluation setups, the policy and the simulator run side by side, often in the same process. That is convenient, but it puts the agent right next to everything that defines the task: the scene layout, where the objects are, how success is scored. We pull the two apart with starRoboEval: each benchmark runs as its own service, on its own machine, isolated from the agent.</p>
   <p>Each turn, the agent sends a short sequence of actions; the service checks them, runs them in the simulator and returns the next camera images and robot state. That is the whole interface. For every result in this post, we held the agent to it: nothing else from the benchmark reached the agent.</p>
 
-  <figure class="fig wide">
+  <figure class="fig wide svc-figure">
     <div class="body">
       <svg class="svc" id="svc" viewBox="0 0 960 400" role="img" aria-labelledby="svc-t">
         <title id="svc-t">The interface between the agent and the Bench Server carries only observations and actions; it has no call for reading simulator files.</title>
@@ -688,7 +691,7 @@
     <figcaption><b>Figure 3.</b> The same agent with and without isolation. Reconstructed from a real RoboDojo layout file, not a raw log.</figcaption>
   </figure>
 
-  <h3 id="diversity">Why diversity matters</h3>
+  <h3 id="diversity">Why broad evaluation matters</h3>
   <p>In our runs, isolation kept the simulator out of reach. Isolation alone does not stop an agent from fitting one test. A single benchmark covers one slice of robotics, with its own robots, scenes and tasks, and an agent can be tuned until it does well on that slice.</p>
   <p>Robot agents are increasingly built to improve themselves. In a recursive self-improvement (RSI) loop, the agent studies its failures, rewrites its own prompts, tools and skills, and tries again, often with a person in the loop who decides which failures matter and which fixes to keep. Pointed at one benchmark, such a loop learns that benchmark: its scenes, its tasks and where its scorer is strict. The agent does much of this on its own, since every fix it writes answers a failure it saw there; the people steering it add what they notice. These adaptations become part of the agent method being evaluated.</p>
   <p>Diversity makes this kind of fitting visible. Robots, scenes and tasks change from one benchmark to the next, so an adaptation that pays off on one slice stands out against the rest. An agent run unchanged across many benchmarks cannot quietly lean toward one of them: what it gains on one slice has to hold up on the others. Because such a loop fits whatever it is pointed at, we want to point it at as many benchmarks as we can. Services make this cheap: each new benchmark is just one more service, so we plan to keep adding them.</p>
@@ -708,7 +711,7 @@
       <div><b>The model sees</b><span>the task instruction, camera RGB and robot state. Nothing else.</span></div>
       <div><b>The model outputs</b><span>the benchmark's own numeric actions, a few at a time, chosen by the model.</span></div>
       <div><b>No specific harness</b><span>one generic setup for every benchmark, never tuned to its failure modes; no demonstrations and no task-specific prompts.</span></div>
-      <div><b>Why</b><span>it is the baseline: what a general model does before anything is built for a particular benchmark.</span></div>
+      <div><b>No internet access</b><span>no web search or shell network access, and no model predictive control (MPC); the model chooses actions directly from its observations.</span></div>
     </div>
     <details class="prompt in-box"><summary>Prompt excerpt (verbatim)</summary>
 <pre>You are the autonomous direct-control policy for one robot episode. Choose
@@ -792,6 +795,7 @@ scores, layouts/seeds, native assets, evaluator files or other episodes.</pre></
 <section id="your-agent">
   <h2><span class="no">6</span>Evaluate your agent</h2>
   <p>If you have an agent, with or without a harness, you can run it against the same services. Your agent decides how it plans, which models it uses and what it remembers; the benchmark decides what happens when an action runs. You do not need a copy of the simulator.</p>
+  <p>For a first run, start with a single SimplerEnv episode. Your agent can use a coding agent client or connect to a model API. The benchmark service handles robot execution and scoring.</p>
   <ol class="rules">
     <li><b>Start a benchmark service.</b> Install the benchmark's simulator and assets following its setup guide, then launch its server with a fixed configuration, seed and output directory.
 <pre class="code">rsi-bench list
